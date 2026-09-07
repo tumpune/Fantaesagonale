@@ -29,7 +29,7 @@ export default function CampaignCountdown({ size = 'md' }: { size?: 'md' | 'lg' 
             {dayNumber}
             <span className="text-base font-semibold text-white/40"> / {CAMPAIGN_TOTAL_DAYS}</span>
           </div>
-          <div className="text-[0.7rem] uppercase tracking-wider text-white/50 mt-2">
+          <div className="mt-2 text-xs uppercase tracking-wider text-white/50">
             Giorno della challenge
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function CampaignCountdown({ size = 'md' }: { size?: 'md' | 'lg' 
           <div className={`${numberClass} font-extrabold leading-none ${gradientText}`}>
             {daysRemaining}
           </div>
-          <div className="text-[0.7rem] uppercase tracking-wider text-white/50 mt-2">
+          <div className="mt-2 text-xs uppercase tracking-wider text-white/50">
             Giorni al 21 luglio 2030
           </div>
         </div>

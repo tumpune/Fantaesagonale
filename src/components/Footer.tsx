@@ -11,59 +11,85 @@ const SOCIALS = [
   { label: 'Canale WhatsApp', Icon: MessageCircle },
 ]
 
+const COLUMNS = [
+  {
+    title: 'Sito',
+    links: [
+      { label: 'Home', to: '/' },
+      { label: 'Chi Siamo', to: '/chi-siamo' },
+      { label: 'Tornei & Giochi', to: '/tornei-giochi' },
+      { label: 'Sponsor', to: '/sponsor' },
+    ],
+  },
+  {
+    title: 'Community',
+    links: [
+      { label: 'Blog', to: '/blog' },
+      { label: 'Contatti', to: '/contatti' },
+      { label: 'Area Soci', to: '/area-soci' },
+      { label: 'Italia Campione 2030', to: '/italia-campione-2030' },
+    ],
+  },
+]
+
+const linkClass =
+  'text-white/60 transition-colors hover:text-brand-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow rounded'
+
 export default function Footer() {
   return (
-    <footer className="bg-brand-soft border-t border-white/[0.06] px-6 pt-14 pb-6">
-      <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+    <footer className="border-t border-white/[0.06] bg-brand-soft px-5 pb-6 pt-12 sm:px-8 sm:pt-14 lg:px-12">
+      <div className="mx-auto max-w-6xl">
+        <div className="mb-10 grid grid-cols-2 gap-8 md:grid-cols-4">
           <div className="col-span-2 md:col-span-1">
-            <div className="flex items-center gap-3 mb-4">
+            <div className="mb-4 flex items-center gap-3">
               <img
                 src={asset('img/logo-trasparente.png')}
                 alt=""
-                className="w-11 h-11 object-contain"
+                width={44}
+                height={44}
+                className="h-10 w-10 object-contain sm:h-11 sm:w-11"
               />
-              <span className="text-2xl font-playfair italic text-white">FantaEsagonale</span>
+              <span className="font-playfair text-xl italic text-white sm:text-2xl">
+                FantaEsagonale
+              </span>
             </div>
-            <p className="text-white/60 text-sm mb-4 max-w-[280px]">
+            <p className="mb-4 max-w-[280px] text-sm text-white/60">
               Associazione di promozione sociale a Grammichele e dintorni. Dal 2023 trasmettiamo
               ottimismo attraverso sport, giochi e sfide vere.
             </p>
-            <div className="flex flex-wrap gap-2">
+            {/* Icone non cliccabili: gli indirizzi dei profili non sono ancora
+                stati forniti e un href="#" simulerebbe un collegamento che non c'e'. */}
+            <ul className="flex flex-wrap gap-2">
               {SOCIALS.map(({ label, Icon }) => (
-                <a
+                <li
                   key={label}
-                  href="#"
-                  aria-label={label}
-                  className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/70 hover:text-brand-yellow hover:border-brand-yellow transition-colors"
+                  title={`${label} — link in arrivo`}
+                  className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/50"
                 >
-                  <Icon size={16} />
-                </a>
+                  <Icon size={16} aria-hidden="true" />
+                  <span className="sr-only">{label} — link in arrivo</span>
+                </li>
               ))}
+            </ul>
+          </div>
+
+          {COLUMNS.map((column) => (
+            <div key={column.title}>
+              <h2 className="mb-4 text-xs uppercase tracking-wider text-white/50">{column.title}</h2>
+              <ul className="space-y-2.5 text-sm">
+                {column.links.map((link) => (
+                  <li key={link.to}>
+                    <Link to={link.to} className={linkClass}>
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
             </div>
-          </div>
+          ))}
 
           <div>
-            <h4 className="text-xs uppercase tracking-wider text-white/50 mb-4">Sito</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><Link to="/" className="text-white/60 hover:text-brand-yellow transition-colors">Home</Link></li>
-              <li><Link to="/chi-siamo" className="text-white/60 hover:text-brand-yellow transition-colors">Chi Siamo</Link></li>
-              <li><Link to="/tornei-giochi" className="text-white/60 hover:text-brand-yellow transition-colors">Tornei &amp; Giochi</Link></li>
-              <li><Link to="/sponsor" className="text-white/60 hover:text-brand-yellow transition-colors">Sponsor</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-xs uppercase tracking-wider text-white/50 mb-4">Community</h4>
-            <ul className="space-y-2.5 text-sm">
-              <li><Link to="/blog" className="text-white/60 hover:text-brand-yellow transition-colors">Blog</Link></li>
-              <li><Link to="/contatti" className="text-white/60 hover:text-brand-yellow transition-colors">Contatti</Link></li>
-              <li><Link to="/area-soci" className="text-white/60 hover:text-brand-yellow transition-colors">Area Soci</Link></li>
-            </ul>
-          </div>
-
-          <div>
-            <h4 className="text-xs uppercase tracking-wider text-white/50 mb-4">Contatti</h4>
+            <h2 className="mb-4 text-xs uppercase tracking-wider text-white/50">Contatti</h2>
             <ul className="space-y-2.5 text-sm text-white/60">
               <li className="italic text-white/40">Email da definire</li>
               <li className="italic text-white/40">Tel/WhatsApp da definire</li>
@@ -72,8 +98,8 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-white/[0.06] pt-5 flex flex-wrap justify-between gap-2 text-xs text-white/40">
-          <span>&copy; 2026 FantaEsagonale. Tutti i diritti riservati.</span>
+        <div className="flex flex-wrap justify-between gap-2 border-t border-white/[0.06] pt-5 text-xs text-white/40">
+          <span>&copy; {new Date().getFullYear()} FantaEsagonale. Tutti i diritti riservati.</span>
           <span>Sito in fase di sviluppo — contenuti in corso di definizione</span>
         </div>
       </div>

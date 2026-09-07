@@ -14,6 +14,10 @@ export const BG_IMAGE_2 = HERO_PHOTO
 export const HERO_BASE_FILTER = 'grayscale(1) brightness(0.38) contrast(1.05)'
 export const HERO_REVEAL_FILTER = 'saturate(1.18) brightness(1.04)'
 
+// Senza cursore lo spotlight non si attiva mai: su touch la foto va mostrata
+// gia' a colori, altrimenti resterebbe in bianco e nero per sempre.
+export const HERO_TOUCH_FILTER = 'saturate(1.1) brightness(0.62)'
+
 export const CAMPAIGN_START = new Date(2026, 2, 31)
 export const CAMPAIGN_END = new Date(2030, 6, 21)
 export const CAMPAIGN_TOTAL_DAYS = 1572

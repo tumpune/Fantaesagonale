@@ -11,7 +11,13 @@ export default {
           card: '#1c1c1c',
           yellow: '#fcd70c',
           red: '#e61a1a',
+          redDark: '#c41414',
         },
+      },
+      screens: {
+        // Molti Android stanno sotto i 375px: senza questo breakpoint l'unica
+        // alternativa e' dimensionare tutto sul caso peggiore.
+        xs: '400px',
       },
     },
   },

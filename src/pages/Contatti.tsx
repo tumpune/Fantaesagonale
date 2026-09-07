@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { AtSign, Hash, MapPin, MessageCircle, Phone, Send } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
-import { PageHero } from '../components/ui'
+import { PageHero, Section, btnPrimary } from '../components/ui'
 
 const inputClass =
-  'w-full px-4 py-3 rounded-xl bg-brand-soft border border-white/15 text-white text-sm outline-none transition-colors focus:border-brand-yellow'
+  'w-full rounded-xl border border-white/15 bg-brand-soft px-4 py-3 text-sm text-white transition-colors focus:border-brand-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow'
+
+const labelClass = 'mb-2 block text-sm font-semibold text-white/70'
 
 type ContactItem = {
   Icon: LucideIcon
@@ -27,7 +29,12 @@ const CONTACTS: ContactItem[] = [
     text: 'Instagram / Facebook / TikTok / YouTube — link da inserire',
     todo: true,
   },
-  { Icon: Send, title: 'Canale Telegram', text: 'Foto delle attività — link da inserire', todo: true },
+  {
+    Icon: Send,
+    title: 'Canale Telegram',
+    text: 'Foto delle attività — link da inserire',
+    todo: true,
+  },
   {
     Icon: MessageCircle,
     title: 'Canale WhatsApp',
@@ -43,7 +50,7 @@ export default function Contatti() {
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setFeedback(
-      'Grazie! Il tuo messaggio è stato preparato. Il form è collegato a un semplice invio locale: per la messa online serve collegarlo a un servizio email o backend.',
+      'Grazie! Il modulo non è ancora collegato a un servizio di invio, quindi il messaggio non parte: nel frattempo puoi scriverci sui canali social.',
     )
     e.currentTarget.reset()
   }
@@ -55,40 +62,59 @@ export default function Contatti() {
         possibile.
       </PageHero>
 
-      <section className="py-20 px-6 bg-brand-soft">
-        <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-10 items-start">
-          <div className="bg-brand-card border border-white/[0.08] rounded-2xl p-8 md:p-10">
-            <form onSubmit={handleSubmit}>
+      <Section alt>
+        <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-10">
+          <div className="rounded-2xl border border-white/[0.08] bg-brand-card p-6 sm:p-8 lg:p-10">
+            <form onSubmit={handleSubmit} noValidate={false}>
               <div className="mb-5">
-                <label htmlFor="nome" className="block text-sm font-semibold text-white/60 mb-2">
+                <label htmlFor="nome" className={labelClass}>
                   Nome
                 </label>
-                <input id="nome" name="nome" type="text" required className={inputClass} />
+                <input
+                  id="nome"
+                  name="nome"
+                  type="text"
+                  required
+                  autoComplete="name"
+                  className={inputClass}
+                />
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-5">
+              <div className="grid gap-x-5 sm:grid-cols-2">
                 <div className="mb-5">
-                  <label htmlFor="email" className="block text-sm font-semibold text-white/60 mb-2">
+                  <label htmlFor="email" className={labelClass}>
                     Email
                   </label>
-                  <input id="email" name="email" type="email" required className={inputClass} />
+                  <input
+                    id="email"
+                    name="email"
+                    type="email"
+                    required
+                    autoComplete="email"
+                    inputMode="email"
+                    className={inputClass}
+                  />
                 </div>
                 <div className="mb-5">
-                  <label
-                    htmlFor="telefono"
-                    className="block text-sm font-semibold text-white/60 mb-2"
-                  >
-                    Telefono (opzionale)
+                  <label htmlFor="telefono" className={labelClass}>
+                    Telefono <span className="font-normal text-white/40">(opzionale)</span>
                   </label>
-                  <input id="telefono" name="telefono" type="tel" className={inputClass} />
+                  <input
+                    id="telefono"
+                    name="telefono"
+                    type="tel"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    className={inputClass}
+                  />
                 </div>
               </div>
 
               <div className="mb-5">
-                <label htmlFor="oggetto" className="block text-sm font-semibold text-white/60 mb-2">
+                <label htmlFor="oggetto" className={labelClass}>
                   Oggetto
                 </label>
-                <select id="oggetto" name="oggetto" className={inputClass}>
+                <select id="oggetto" name="oggetto" className={inputClass} defaultValue="Info generali">
                   <option>Info generali</option>
                   <option>Iscrizione torneo</option>
                   <option>Sponsorizzazione</option>
@@ -97,10 +123,7 @@ export default function Contatti() {
               </div>
 
               <div className="mb-6">
-                <label
-                  htmlFor="messaggio"
-                  className="block text-sm font-semibold text-white/60 mb-2"
-                >
+                <label htmlFor="messaggio" className={labelClass}>
                   Messaggio
                 </label>
                 <textarea
@@ -112,45 +135,48 @@ export default function Contatti() {
                 />
               </div>
 
-              <button
-                type="submit"
-                className="w-full rounded-full px-7 py-3.5 text-sm font-semibold text-black bg-gradient-to-r from-brand-yellow to-brand-red transition-all hover:-translate-y-0.5 hover:shadow-lg hover:shadow-brand-red/30"
-              >
+              <button type="submit" className={`${btnPrimary} w-full text-center`}>
                 Invia messaggio
               </button>
 
-              {feedback && (
-                <div className="mt-5 rounded-xl bg-brand-yellow/10 text-brand-yellow text-sm px-4 py-3.5">
-                  {feedback}
-                </div>
-              )}
+              {/* aria-live: chi usa uno screen reader deve sentire l'esito senza
+                  doversi spostare manualmente sul messaggio. */}
+              <div aria-live="polite">
+                {feedback && (
+                  <p className="mt-5 rounded-xl bg-brand-yellow/10 px-4 py-3.5 text-sm text-brand-yellow">
+                    {feedback}
+                  </p>
+                )}
+              </div>
 
-              <p className="text-xs text-white/35 mt-4 text-center">
-                Form da collegare a un servizio email o backend prima della pubblicazione.
+              <p className="mt-4 text-center text-xs text-white/40">
+                Modulo da collegare a un servizio email o backend prima della pubblicazione.
               </p>
             </form>
           </div>
 
-          <div className="grid gap-4">
+          <ul className="grid gap-4">
             {CONTACTS.map(({ Icon, title, text, todo }) => (
-              <div
+              <li
                 key={title}
-                className="flex gap-4 items-start bg-brand-card border border-white/[0.06] rounded-xl p-5"
+                className="flex items-start gap-4 rounded-xl border border-white/[0.06] bg-brand-card p-4 sm:p-5"
               >
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-r from-brand-yellow to-brand-red text-black flex items-center justify-center shrink-0">
-                  <Icon size={18} />
-                </div>
-                <div>
-                  <h4 className="text-white font-semibold text-sm mb-1">{title}</h4>
-                  <p className={`text-sm ${todo ? 'italic text-white/40' : 'text-white/60'}`}>
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-brand-yellow to-brand-red text-black">
+                  <Icon size={18} aria-hidden="true" />
+                </span>
+                <span className="min-w-0">
+                  <span className="mb-1 block text-sm font-semibold text-white">{title}</span>
+                  <span
+                    className={`block text-sm break-words ${todo ? 'italic text-white/40' : 'text-white/60'}`}
+                  >
                     {text}
-                  </p>
-                </div>
-              </div>
+                  </span>
+                </span>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
-      </section>
+      </Section>
     </>
   )
 }
