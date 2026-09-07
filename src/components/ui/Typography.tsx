@@ -1,6 +1,8 @@
-import type { ReactNode } from 'react'
+import { useRef, type ReactNode } from 'react'
+import { m, useScroll, useTransform } from 'motion/react'
 import Reveal from '../motion/Reveal'
 import SplitText from '../motion/SplitText'
+import { useReducedMotion } from '../../hooks/useMediaQuery'
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
@@ -66,16 +68,33 @@ export function PageHero({
   size?: 'page' | 'home'
 }) {
   const home = size === 'home'
+  const ref = useRef<HTMLElement>(null)
+  const reduced = useReducedMotion()
+
+  // Il contenuto si allontana e sbiadisce mentre la testata esce dallo
+  // schermo: lo scorrimento diventa un movimento in profondita' invece di un
+  // semplice slittamento del blocco verso l'alto.
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ['start start', 'end start'],
+  })
+  const y = useTransform(scrollYProgress, [0, 1], [0, 90])
+  const opacity = useTransform(scrollYProgress, [0, 0.75], [1, 0])
+  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.96])
 
   return (
     <section
+      ref={ref}
       className={`relative flex flex-col px-5 sm:px-8 lg:px-12 bg-[radial-gradient(circle_at_20%_20%,rgba(252,215,12,0.12),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(230,26,26,0.14),transparent_50%)] ${
         home
           ? 'min-h-[38rem] justify-center pb-20 pt-32 sm:min-h-[44rem] sm:pb-16 sm:pt-40'
           : 'pb-14 pt-28 sm:pb-16 sm:pt-36'
       }`}
     >
-      <div className="mx-auto w-full max-w-6xl">
+      <m.div
+        style={reduced ? undefined : { y, opacity, scale }}
+        className="mx-auto w-full max-w-6xl"
+      >
         <Reveal variant="fade">
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
@@ -112,7 +131,7 @@ export function PageHero({
         )}
 
         {footer && <div className="mt-12 border-t border-white/10 pt-7 sm:mt-16">{footer}</div>}
-      </div>
+      </m.div>
     </section>
   )
 }

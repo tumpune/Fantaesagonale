@@ -1,10 +1,13 @@
 import { useEffect } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
+import { LazyMotion } from 'motion/react'
+import { funzionalitaMovimento } from '../../lib/motionFeatures'
 import Nav from './Nav'
 import Footer from './Footer'
 import ChatWidget from './ChatWidget'
 import CustomCursor from '../motion/CustomCursor'
 import ScrollProgress from '../motion/ScrollProgress'
+import SmoothScroll from '../motion/SmoothScroll'
 import { PAGE_TITLES, TITOLO_NON_TROVATA } from '../../content/navigazione'
 
 export default function Layout() {
@@ -18,24 +21,27 @@ export default function Layout() {
   }, [pathname])
 
   return (
-    <div className="min-h-screen bg-brand-black tracking-[-0.02em]">
-      <a href="#contenuto" className="skip-link">
-        Salta al contenuto
-      </a>
+    <LazyMotion features={funzionalitaMovimento} strict>
+      <div className="min-h-screen bg-brand-black tracking-[-0.02em]">
+        <a href="#contenuto" className="skip-link">
+          Salta al contenuto
+        </a>
 
-      <ScrollProgress />
-      <CustomCursor />
+        <SmoothScroll />
+        <ScrollProgress />
+        <CustomCursor />
 
-      {/* La key sul pathname rimonta sipario e contenuto a ogni cambio rotta,
-          cosi' l'animazione di ingresso riparte invece di scattare una volta. */}
-      <div key={`curtain-${pathname}`} className="curtain" aria-hidden="true" />
+        {/* La key sul pathname rimonta sipario e contenuto a ogni cambio rotta,
+            cosi' l'animazione di ingresso riparte invece di scattare una volta. */}
+        <div key={`curtain-${pathname}`} className="curtain" aria-hidden="true" />
 
-      <Nav />
-      <main id="contenuto" key={pathname} className="page-transition">
-        <Outlet />
-      </main>
-      <Footer />
-      <ChatWidget />
-    </div>
+        <Nav />
+        <main id="contenuto" key={pathname} className="page-transition">
+          <Outlet />
+        </main>
+        <Footer />
+        <ChatWidget />
+      </div>
+    </LazyMotion>
   )
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { asset } from '../../lib/constants'
 import { NAV_LINKS } from '../../content/navigazione'
@@ -7,9 +7,31 @@ import { focusRing } from '../ui/styles'
 export default function Nav() {
   const [open, setOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [indicatore, setIndicatore] = useState({ left: 0, width: 0 })
+  const pillRef = useRef<HTMLDivElement>(null)
   const { pathname } = useLocation()
 
   useEffect(() => setOpen(false), [pathname])
+
+  // Misura la voce attiva a ogni cambio pagina e al ridimensionamento: le
+  // larghezze dipendono dal testo, quindi non si possono fissare a priori.
+  useEffect(() => {
+    const misura = () => {
+      const contenitore = pillRef.current
+      const attivo = contenitore?.querySelector<HTMLElement>('[data-attivo]')
+      if (!contenitore || !attivo) {
+        setIndicatore({ left: 0, width: 0 })
+        return
+      }
+      setIndicatore({
+        left: attivo.offsetLeft,
+        width: attivo.offsetWidth,
+      })
+    }
+    misura()
+    window.addEventListener('resize', misura)
+    return () => window.removeEventListener('resize', misura)
+  }, [pathname])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24)
@@ -61,18 +83,34 @@ export default function Nav() {
           </span>
         </Link>
 
-        <div className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/25 bg-white/15 px-2 py-2 backdrop-blur-md lg:flex">
+        <div
+          ref={pillRef}
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/25 bg-white/15 px-2 py-2 backdrop-blur-md lg:flex"
+        >
+          {/* Un solo indicatore che scivola fra le voci: posizione e larghezza
+              sono misurate sulla voce attiva, l'interpolazione la fa il CSS.
+              Le animazioni di layout della libreria darebbero lo stesso
+              risultato al prezzo di 13,6 KB compressi. */}
+          <span
+            aria-hidden="true"
+            className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-white/25 transition-[transform,width,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            style={{
+              height: 'calc(100% - 1rem)',
+              width: indicatore.width,
+              transform: `translate3d(${indicatore.left}px, -50%, 0)`,
+              opacity: indicatore.width ? 1 : 0,
+            }}
+          />
           {NAV_LINKS.map((link) => {
             const active = pathname === link.to
             return (
               <Link
                 key={link.to}
                 to={link.to}
+                data-attivo={active || undefined}
                 aria-current={active ? 'page' : undefined}
-                className={`press rounded-full px-4 py-1.5 text-sm font-medium ${focusRing} ${
-                  active
-                    ? 'bg-white/20 text-white'
-                    : 'text-white/80 hover:bg-white/20 hover:text-white'
+                className={`relative z-10 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${focusRing} ${
+                  active ? 'text-white' : 'text-white/80 hover:text-white'
                 }`}
               >
                 {link.label}
