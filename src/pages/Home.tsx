@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
-import { Megaphone, Mic, Target, Trophy } from 'lucide-react'
-import Hero from '../components/Hero'
+import Hero from '../components/hero/Hero'
 import CampaignCountdown from '../components/CampaignCountdown'
+import Reveal from '../components/motion/Reveal'
+import { useInView } from '../hooks/useInView'
+import { useCountUp } from '../hooks/useCountUp'
+import { HOME_FEATURES, STATS } from '../content/sezioni'
 import {
   ArticleCard,
   CtaBanner,
@@ -15,12 +18,38 @@ import {
   gradientText,
 } from '../components/ui'
 
-const STATS = [
-  { value: '2023', label: 'anno di fondazione' },
-  { value: '205', label: 'squadre iscritte al fantacalcio 2025-26' },
-  { value: '3ª', label: 'edizione del Fantacalcio al Listone' },
-  { value: '20.000€', label: 'montepremi totale 2025-26' },
-]
+function Stat({
+  value,
+  display,
+  suffix,
+  label,
+}: {
+  value: number
+  display?: string
+  suffix?: string
+  label: string
+}) {
+  // Soglia bassa: la cifra ferma a zero mentre entra in vista sembrerebbe
+  // un dato mancante, non un'animazione in attesa.
+  const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.1 })
+  const counted = useCountUp(value, inView)
+  // Alcune cifre hanno una forma propria (20.000€, 2023): si animano comunque,
+  // ma a fine corsa mostrano il testo formattato invece del numero grezzo.
+  const done = counted === value
+
+  return (
+    <div ref={ref}>
+      <dt className="sr-only">{label}</dt>
+      <dd>
+        <span className={`block text-3xl font-extrabold sm:text-4xl md:text-5xl ${gradientText}`}>
+          {done && display ? display : counted.toLocaleString('it-IT')}
+          {suffix}
+        </span>
+        <span className="mt-2 block text-sm text-white/60">{label}</span>
+      </dd>
+    </div>
+  )
+}
 
 export default function Home() {
   return (
@@ -34,19 +63,13 @@ export default function Home() {
           subtitle="Quattro anime, un'unica community."
         />
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          <FeatureCard Icon={Trophy} title="Fantacalcio al Listone">
-            Stagione 2025-2026, 3ª edizione: 205 squadre iscritte e 20.000€ di montepremi. Novità:
-            Survivor Soccer.
-          </FeatureCard>
-          <FeatureCard Icon={Target} title="Giochi & Tornei">
-            Freccette, beer pong, cornhole e sfide sportive per tutti.
-          </FeatureCard>
-          <FeatureCard Icon={Mic} title="Eventi & Intrattenimento">
-            Interviste, sondaggi e contenuti pensati per la community.
-          </FeatureCard>
-          <FeatureCard Icon={Megaphone} title="FantADSico">
-            Diamo visibilità reale alle aziende locali con campagne social su misura.
-          </FeatureCard>
+          {HOME_FEATURES.map((feature, i) => (
+            <Reveal key={feature.title} delay={i * 90}>
+              <FeatureCard Icon={feature.Icon} title={feature.title}>
+                {feature.text}
+              </FeatureCard>
+            </Reveal>
+          ))}
         </div>
       </Section>
 
@@ -54,17 +77,7 @@ export default function Home() {
         <SectionHead eyebrow="In numeri" title="FantaEsagonale in cifre" />
         <dl className="grid grid-cols-2 gap-6 text-center lg:grid-cols-4">
           {STATS.map((stat) => (
-            <div key={stat.label}>
-              <dt className="sr-only">{stat.label}</dt>
-              <dd>
-                <span
-                  className={`block text-3xl font-extrabold sm:text-4xl md:text-5xl ${gradientText}`}
-                >
-                  {stat.value}
-                </span>
-                <span className="mt-2 block text-sm text-white/60">{stat.label}</span>
-              </dd>
-            </div>
+            <Stat key={stat.label} {...stat} />
           ))}
         </dl>
       </Section>
@@ -78,7 +91,7 @@ export default function Home() {
 
       <Section alt>
         <div className="grid items-center gap-8 rounded-2xl border border-brand-yellow/25 bg-brand-card p-6 sm:p-10 lg:grid-cols-[1.3fr_1fr] lg:gap-10 lg:p-12">
-          <div>
+          <Reveal variant="left">
             <span className="mb-4 inline-block rounded-full bg-gradient-to-r from-brand-yellow to-brand-red px-3.5 py-1.5 text-xs font-bold uppercase tracking-wider text-black">
               Progetto speciale
             </span>
@@ -94,8 +107,10 @@ export default function Home() {
             <Link to="/italia-campione-2030" className={btnPrimary}>
               Scopri il progetto
             </Link>
-          </div>
-          <CampaignCountdown />
+          </Reveal>
+          <Reveal variant="right" delay={120}>
+            <CampaignCountdown />
+          </Reveal>
         </div>
       </Section>
 
@@ -103,23 +118,25 @@ export default function Home() {
         <SectionHead eyebrow="I nostri sponsor" title="Aziende che credono in noi" />
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-5">
           {Array.from({ length: 5 }).map((_, i) => (
-            <PlaceholderBox key={i} className="h-20 sm:h-24">
-              Logo sponsor {i + 1}
-            </PlaceholderBox>
+            <Reveal key={i} variant="scale" delay={i * 70}>
+              <PlaceholderBox className="h-20 sm:h-24">Logo sponsor {i + 1}</PlaceholderBox>
+            </Reveal>
           ))}
         </div>
-        <div className="mt-9 text-center">
+        <Reveal className="mt-9 text-center" delay={160}>
           <Link to="/sponsor" className={btnSecondary}>
             Scopri le sponsorizzazioni
           </Link>
-        </div>
+        </Reveal>
       </Section>
 
       <Section alt>
         <SectionHead eyebrow="Dal blog" title="News & Storie" />
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {['Tornei', 'Interviste', 'Sponsor'].map((tag) => (
-            <ArticleCard key={tag} tag={tag} />
+          {['Tornei', 'Interviste', 'Sponsor'].map((tag, i) => (
+            <Reveal key={tag} delay={i * 90}>
+              <ArticleCard tag={tag} />
+            </Reveal>
           ))}
         </div>
       </Section>

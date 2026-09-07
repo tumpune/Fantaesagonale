@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import Reveal from '../components/motion/Reveal'
+import { VALUES } from '../content/sezioni'
 import {
   Card,
   CtaBanner,
@@ -9,16 +11,6 @@ import {
   SectionHead,
   btnPrimary,
 } from '../components/ui'
-
-const VALUES = [
-  { title: 'Community', text: 'Costruiamo occasioni di incontro reali tra le persone.' },
-  {
-    title: 'Competizione sana',
-    text: 'La sfida come motore di divertimento, con premi veri in palio.',
-  },
-  { title: 'Territorio', text: 'Vicini alle persone e alle aziende di Grammichele e dintorni.' },
-  { title: 'Ottimismo', text: 'Crediamo nel valore del tempo libero e dello svago, senza tabù.' },
-]
 
 export default function ChiSiamo() {
   return (
@@ -32,7 +24,7 @@ export default function ChiSiamo() {
 
       <Section alt>
         <div className="grid gap-8 lg:grid-cols-2 lg:gap-10">
-          <div>
+          <Reveal variant="left">
             <h2 className="mb-4 text-xl font-extrabold tracking-[-0.03em] text-white sm:text-2xl md:text-3xl">
               Da sponsor ad associazione
             </h2>
@@ -45,8 +37,8 @@ export default function ChiSiamo() {
               <strong className="font-semibold text-white">FantADSico</strong>, il nostro programma
               di sponsorizzazione digitale.
             </p>
-          </div>
-          <div>
+          </Reveal>
+          <Reveal variant="right" delay={120}>
             <h2 className="mb-4 text-xl font-extrabold tracking-[-0.03em] text-white sm:text-2xl md:text-3xl">
               Sfide vere, premi veri
             </h2>
@@ -55,7 +47,7 @@ export default function ChiSiamo() {
               premi in denaro e riconoscimenti concreti — coppe e oggetti — per rendere ogni sfida
               speciale.
             </p>
-          </div>
+          </Reveal>
         </div>
       </Section>
 
@@ -70,11 +62,13 @@ export default function ChiSiamo() {
       <Section alt>
         <SectionHead eyebrow="I nostri valori" title="Cosa ci guida" align="left" />
         <ul className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {VALUES.map((value) => (
-            <li key={value.title} className="border-l-[3px] border-brand-red py-1.5 pl-5">
-              <h3 className="mb-1.5 font-bold text-white">{value.title}</h3>
-              <p className="text-sm text-white/60">{value.text}</p>
-            </li>
+          {VALUES.map((value, i) => (
+            <Reveal key={value.title} as="li" delay={i * 90}>
+              <div className="border-l-[3px] border-brand-red py-1.5 pl-5 transition-all duration-300 hover:border-brand-yellow hover:pl-6">
+                <h3 className="mb-1.5 font-bold text-white">{value.title}</h3>
+                <p className="text-sm text-white/60">{value.text}</p>
+              </div>
+            </Reveal>
           ))}
         </ul>
       </Section>
@@ -88,22 +82,28 @@ export default function ChiSiamo() {
         />
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {Array.from({ length: 3 }).map((_, i) => (
-            <Card key={i}>
-              <PlaceholderBox className="mb-5 h-36">Video / post in arrivo</PlaceholderBox>
-              <h3 className="mb-2 text-base font-bold text-white sm:text-lg">Highlight in arrivo</h3>
-              <p className="text-sm italic text-white/35">
-                Contenuti social da selezionare e caricare.
-              </p>
-            </Card>
+            <Reveal key={i} delay={i * 90}>
+              <Card>
+                <PlaceholderBox className="mb-5 h-36">Video / post in arrivo</PlaceholderBox>
+                <h3 className="mb-2 text-base font-bold text-white sm:text-lg">
+                  Highlight in arrivo
+                </h3>
+                <p className="text-sm italic text-white/35">
+                  Contenuti social da selezionare e caricare.
+                </p>
+              </Card>
+            </Reveal>
           ))}
         </div>
       </Section>
 
       <Section alt>
         <SectionHead eyebrow="Dove siamo" title="Grammichele" align="left" />
-        <PlaceholderBox className="h-48 sm:h-56">
-          Mappa / indirizzo (da confermare)
-        </PlaceholderBox>
+        <Reveal variant="scale">
+          <PlaceholderBox className="h-48 sm:h-56">
+            Mappa / indirizzo (da confermare)
+          </PlaceholderBox>
+        </Reveal>
       </Section>
 
       <CtaBanner

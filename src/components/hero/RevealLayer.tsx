@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { SPOTLIGHT_R } from '../lib/constants'
+import { SPOTLIGHT_R } from '../../lib/constants'
 
 type RevealLayerProps = {
   image: string

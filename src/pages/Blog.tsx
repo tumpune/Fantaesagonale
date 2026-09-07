@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import Reveal from '../components/motion/Reveal'
 import { ArticleCard, CtaBanner, PageHero, Section, btnPrimary } from '../components/ui'
 
 const POSTS = ['Tornei', 'Interviste', 'Sponsor', 'Eventi', 'Tornei', 'Interviste']
@@ -13,7 +14,9 @@ export default function Blog() {
       <Section>
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
           {POSTS.map((tag, i) => (
-            <ArticleCard key={`${tag}-${i}`} tag={tag} />
+            <Reveal key={`${tag}-${i}`} delay={(i % 3) * 90}>
+              <ArticleCard tag={tag} />
+            </Reveal>
           ))}
         </div>
       </Section>

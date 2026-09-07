@@ -1,39 +1,9 @@
 import { Link } from 'react-router-dom'
-import { Facebook, Instagram, MessageCircle, Music2, Send, Youtube } from 'lucide-react'
-import { asset } from '../lib/constants'
+import { asset } from '../../lib/constants'
+import { FOOTER_COLUMNS, SOCIALS } from '../../content/navigazione'
+import { focusRing } from '../ui/styles'
 
-const SOCIALS = [
-  { label: 'Instagram', Icon: Instagram },
-  { label: 'Facebook', Icon: Facebook },
-  { label: 'TikTok', Icon: Music2 },
-  { label: 'YouTube', Icon: Youtube },
-  { label: 'Canale Telegram', Icon: Send },
-  { label: 'Canale WhatsApp', Icon: MessageCircle },
-]
-
-const COLUMNS = [
-  {
-    title: 'Sito',
-    links: [
-      { label: 'Home', to: '/' },
-      { label: 'Chi Siamo', to: '/chi-siamo' },
-      { label: 'Tornei & Giochi', to: '/tornei-giochi' },
-      { label: 'Sponsor', to: '/sponsor' },
-    ],
-  },
-  {
-    title: 'Community',
-    links: [
-      { label: 'Blog', to: '/blog' },
-      { label: 'Contatti', to: '/contatti' },
-      { label: 'Area Soci', to: '/area-soci' },
-      { label: 'Italia Campione 2030', to: '/italia-campione-2030' },
-    ],
-  },
-]
-
-const linkClass =
-  'text-white/60 transition-colors hover:text-brand-yellow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow rounded'
+const linkClass = `link-underline inline-block text-white/60 transition-colors hover:text-brand-yellow ${focusRing}`
 
 export default function Footer() {
   return (
@@ -57,23 +27,37 @@ export default function Footer() {
               Associazione di promozione sociale a Grammichele e dintorni. Dal 2023 trasmettiamo
               ottimismo attraverso sport, giochi e sfide vere.
             </p>
-            {/* Icone non cliccabili: gli indirizzi dei profili non sono ancora
-                stati forniti e un href="#" simulerebbe un collegamento che non c'e'. */}
             <ul className="flex flex-wrap gap-2">
-              {SOCIALS.map(({ label, Icon }) => (
-                <li
-                  key={label}
-                  title={`${label} — link in arrivo`}
-                  className="flex h-8 w-8 items-center justify-center rounded-full border border-white/15 text-white/50"
-                >
-                  <Icon size={16} aria-hidden="true" />
-                  <span className="sr-only">{label} — link in arrivo</span>
-                </li>
-              ))}
+              {SOCIALS.map(({ label, Icon, url }) =>
+                url ? (
+                  <li key={label}>
+                    <a
+                      href={url}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={label}
+                      className={`press flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/70 hover:border-brand-yellow hover:text-brand-yellow ${focusRing}`}
+                    >
+                      <Icon size={16} aria-hidden="true" />
+                    </a>
+                  </li>
+                ) : (
+                  // Senza indirizzo l'icona non e' cliccabile: un href="#"
+                  // simulerebbe un collegamento inesistente.
+                  <li
+                    key={label}
+                    title={`${label} — link in arrivo`}
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/15 text-white/50 transition-colors hover:border-white/30"
+                  >
+                    <Icon size={16} aria-hidden="true" />
+                    <span className="sr-only">{label} — link in arrivo</span>
+                  </li>
+                ),
+              )}
             </ul>
           </div>
 
-          {COLUMNS.map((column) => (
+          {FOOTER_COLUMNS.map((column) => (
             <div key={column.title}>
               <h2 className="mb-4 text-xs uppercase tracking-wider text-white/50">{column.title}</h2>
               <ul className="space-y-2.5 text-sm">

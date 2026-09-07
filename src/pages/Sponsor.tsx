@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import { Globe, Megaphone, TrendingUp, Video } from 'lucide-react'
+import Reveal from '../components/motion/Reveal'
+import { SPONSOR_OFFERS } from '../content/sezioni'
 import {
   CtaBanner,
   FeatureCard,
@@ -22,9 +23,11 @@ export default function Sponsor() {
 
       <div className="px-5 pb-2 sm:px-8 lg:px-12">
         <div className="mx-auto max-w-6xl">
-          <Link to="/contatti" className={btnPrimary}>
-            Diventa sponsor
-          </Link>
+          <Reveal variant="fade" delay={320}>
+            <Link to="/contatti" className={btnPrimary}>
+              Diventa sponsor
+            </Link>
+          </Reveal>
         </div>
       </div>
 
@@ -43,20 +46,13 @@ export default function Sponsor() {
       <Section alt>
         <SectionHead eyebrow="Cosa offriamo" title="Un pacchetto di visibilità su misura" />
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
-          <FeatureCard Icon={Video} title="Video & contenuti social">
-            Video pubblicitari e contenuti social dedicati alla tua azienda su Instagram, TikTok,
-            Facebook e YouTube.
-          </FeatureCard>
-          <FeatureCard Icon={Megaphone} title="Visibilità agli eventi">
-            Presenza durante tornei, fantacalcio al listone ed eventi organizzati da FantaEsagonale.
-          </FeatureCard>
-          <FeatureCard Icon={TrendingUp} title="Risultati concreti">
-            Il focus è la crescita reale della tua visibilità digitale, non un contributo a fondo
-            perduto.
-          </FeatureCard>
-          <FeatureCard Icon={Globe} title="Presenza sul sito">
-            Il tuo logo e i tuoi materiali di comunicazione sul nostro sito.
-          </FeatureCard>
+          {SPONSOR_OFFERS.map((offer, i) => (
+            <Reveal key={offer.title} delay={i * 90}>
+              <FeatureCard Icon={offer.Icon} title={offer.title}>
+                {offer.text}
+              </FeatureCard>
+            </Reveal>
+          ))}
         </div>
       </Section>
 
@@ -64,9 +60,9 @@ export default function Sponsor() {
         <SectionHead eyebrow="I nostri sponsor" title="Le aziende che ci sostengono" />
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
           {Array.from({ length: 6 }).map((_, i) => (
-            <PlaceholderBox key={i} className="h-20 sm:h-24">
-              Logo da inserire
-            </PlaceholderBox>
+            <Reveal key={i} variant="scale" delay={i * 70}>
+              <PlaceholderBox className="h-20 sm:h-24">Logo da inserire</PlaceholderBox>
+            </Reveal>
           ))}
         </div>
       </Section>

@@ -49,6 +49,253 @@
   }
 }
 
+/* ==========================================================================
+   Ingressi allo scorrimento
+   Lo stato iniziale e' qui e non in JavaScript: cosi' il contenuto parte gia'
+   nella posizione giusta senza un fotogramma di sfarfallio al primo render.
+   ========================================================================== */
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  transform: translateY(28px);
+}
+.reveal-left {
+  transform: translateX(-28px);
+}
+.reveal-right {
+  transform: translateX(28px);
+}
+.reveal-scale {
+  transform: scale(0.94);
+}
+.reveal-fade {
+  transform: none;
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* Su schermi stretti lo scostamento laterale iniziale sporgerebbe dal
+   contenitore, allargando la pagina: li' l'ingresso diventa verticale. */
+@media (max-width: 640px) {
+  .reveal-left,
+  .reveal-right {
+    transform: translateY(24px);
+  }
+}
+
+/* ==========================================================================
+   Transizione di pagina
+   ========================================================================== */
+
+@keyframes pageIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-transition {
+  animation: pageIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ==========================================================================
+   Interazioni: pulsanti, schede, link
+   ========================================================================== */
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-120%);
+  }
+  100% {
+    transform: translateX(220%);
+  }
+}
+
+/* Riflesso che attraversa il pulsante al passaggio del mouse. L'elemento
+   interno e' generato qui per non sporcare ogni pulsante nel markup. */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.btn-shine::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.45), transparent);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+.btn-shine:hover::after,
+.btn-shine:focus-visible::after {
+  animation: shimmer 0.85s ease-out;
+}
+
+.press {
+  transition:
+    transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.25s ease,
+    background-color 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease;
+}
+
+.press:active {
+  transform: scale(0.96);
+}
+
+/* Sottolineatura che cresce dal centro sui link testuali. */
+.link-underline {
+  position: relative;
+}
+
+.link-underline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  border-radius: 2px;
+  background: theme('colors.brand.yellow');
+  transform: translateX(-50%);
+  transition: width 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.link-underline:hover::after,
+.link-underline:focus-visible::after {
+  width: 100%;
+}
+
+/* La scheda si solleva e l'icona reagisce insieme, invece che ognuna per conto
+   proprio: il movimento risulta un gesto solo. */
+.card-hover {
+  transition:
+    transform 0.35s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 40px -18px rgba(0, 0, 0, 0.8);
+}
+
+.card-hover .card-icon {
+  transition:
+    transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+    box-shadow 0.35s ease;
+}
+
+.card-hover:hover .card-icon {
+  transform: scale(1.08) rotate(-4deg);
+  box-shadow: 0 10px 24px -8px rgba(230, 26, 26, 0.6);
+}
+
+/* ==========================================================================
+   Menu mobile
+   ========================================================================== */
+
+@keyframes menuIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes menuItemIn {
+  0% {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.menu-panel {
+  animation: menuIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.menu-item {
+  animation: menuItemIn 0.34s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Le due barrette ruotano fino a formare una X, invece di sostituire l'icona
+   di colpo: il cambio di stato resta leggibile. */
+.burger-line {
+  transition:
+    transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.2s ease;
+  transform-origin: center;
+}
+
+.burger[data-open='true'] .burger-top {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.burger[data-open='true'] .burger-mid {
+  opacity: 0;
+  transform: scaleX(0.3);
+}
+
+.burger[data-open='true'] .burger-bottom {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+/* ==========================================================================
+   Elementi in attesa di contenuto
+   ========================================================================== */
+
+@keyframes placeholderSweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.placeholder-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.placeholder-shimmer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.045), transparent);
+  animation: placeholderSweep 2.6s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Hero
+   ========================================================================== */
+
 @keyframes heroReveal {
   0% {
     opacity: 0;
@@ -82,6 +329,18 @@
   }
 }
 
+@keyframes scrollHint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.55;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+
 .hero-anim {
   opacity: 0;
   animation-fill-mode: forwards;
@@ -102,9 +361,25 @@
   animation: heroZoom 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+.scroll-hint {
+  animation: scrollHint 2.2s ease-in-out infinite;
+}
+
+/* ==========================================================================
+   Riduzione del movimento
+   Un unico blocco che disattiva tutto: ogni animazione aggiunta sopra e'
+   coperta automaticamente, senza doversene ricordare caso per caso.
+   ========================================================================== */
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 
   .hero-anim,
@@ -119,5 +394,6 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

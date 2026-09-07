@@ -19,3 +19,8 @@ export function useMediaQuery(query: string) {
 // Lo spotlight segue il cursore: su touch non esiste, quindi la hero resterebbe
 // permanentemente desaturata. Serve a scegliere la variante a colori.
 export const usePointerFine = () => useMediaQuery('(hover: hover) and (pointer: fine)')
+
+// Chi ha attivato la riduzione del movimento nel sistema operativo non deve
+// ricevere animazioni: vanno disattivate anche quelle guidate da JavaScript,
+// che il CSS non puo' intercettare.
+export const useReducedMotion = () => useMediaQuery('(prefers-reduced-motion: reduce)')

@@ -1,14 +1,16 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { ChevronDown } from 'lucide-react'
 import RevealLayer from './RevealLayer'
-import { usePointerFine } from '../lib/useMediaQuery'
+import { usePointerFine } from '../../hooks/useMediaQuery'
+import { btnDanger } from '../ui/styles'
 import {
   BG_IMAGE_1,
   BG_IMAGE_2,
   HERO_BASE_FILTER,
   HERO_REVEAL_FILTER,
   HERO_TOUCH_FILTER,
-} from '../lib/constants'
+} from '../../lib/constants'
 
 export default function Hero() {
   const pointerFine = usePointerFine()
@@ -73,9 +75,6 @@ export default function Hero() {
           versione desaturata sia dove lo spotlight la illumina a colori. */}
       <div className="absolute inset-0 z-40 pointer-events-none bg-gradient-to-b from-black/75 via-black/25 to-black/85" />
 
-      {/* Il contenuto e' in flusso normale con justify-between invece che in
-          posizionamento assoluto a percentuali fisse: cosi' si adatta a
-          qualsiasi altezza di schermo senza sovrapposizioni. */}
       {/* pb generoso da sm in su: li' la colonna destra e' allineata all'angolo
           inferiore destro, dove sta il pulsante fisso della chat. */}
       <div className="relative z-50 flex h-[100svh] min-h-[34rem] flex-col justify-between px-5 pb-8 pt-24 sm:px-8 sm:pb-24 sm:pt-32 lg:px-12">
@@ -111,14 +110,20 @@ export default function Hero() {
               Fantacalcio al Listone, tornei di calcio, freccette, beer pong e cornhole: nella
               stagione 2025-2026 sono 205 le squadre iscritte, con 20.000€ di montepremi in palio.
             </p>
-            <Link
-              to="/tornei-giochi"
-              className="rounded-full bg-brand-red px-7 py-3 text-sm font-semibold text-white transition-all hover:bg-brand-redDark hover:shadow-lg hover:shadow-brand-red/30 active:scale-95"
-            >
+            <Link to="/tornei-giochi" className={btnDanger}>
               Scopri i tornei
             </Link>
           </div>
         </div>
+      </div>
+
+      <div
+        className="pointer-events-none absolute bottom-3 left-1/2 z-50 hidden -translate-x-1/2 flex-col items-center gap-1 text-white/60 hero-anim hero-fade lg:flex"
+        style={{ animationDelay: '1.2s' }}
+        aria-hidden="true"
+      >
+        <span className="text-xs uppercase tracking-[0.2em]">Scorri</span>
+        <ChevronDown size={18} className="scroll-hint" />
       </div>
     </section>
   )
