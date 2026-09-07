@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import Reveal from '../motion/Reveal'
+import SplitText from '../motion/SplitText'
 
 export function Eyebrow({ children }: { children: ReactNode }) {
   return (
@@ -30,7 +31,9 @@ export function SectionHead({
     >
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white mb-3 tracking-[-0.03em] text-balance">
-        {title}
+        {/* Solo i titoli testuali vengono divisi in parole: se arriva markup
+            composto lo si rende com'e', senza tentare di analizzarlo. */}
+        {typeof title === 'string' ? <SplitText text={title} step={55} /> : title}
       </h2>
       {subtitle && <p className="text-white/60 text-sm sm:text-base text-pretty">{subtitle}</p>}
     </Reveal>
@@ -55,22 +58,18 @@ export function PageHero({
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
         <h1 className="text-white leading-[0.95] mb-5 sm:mb-6 text-balance">
-          <Reveal as="span" variant="up" delay={80} className="block">
-            <span
-              className="block font-playfair italic font-normal text-3xl sm:text-5xl md:text-6xl"
-              style={{ letterSpacing: '-0.05em' }}
-            >
-              {titleItalic}
-            </span>
-          </Reveal>
-          <Reveal as="span" variant="up" delay={170} className="block">
-            <span
-              className="block font-normal text-3xl sm:text-5xl md:text-6xl -mt-1"
-              style={{ letterSpacing: '-0.06em' }}
-            >
-              {title}
-            </span>
-          </Reveal>
+          <SplitText
+            text={titleItalic}
+            immediate
+            delay={120}
+            className="block font-playfair italic font-normal text-3xl sm:text-5xl md:text-6xl"
+          />
+          <SplitText
+            text={title}
+            immediate
+            delay={280}
+            className="block font-normal text-3xl sm:text-5xl md:text-6xl -mt-1"
+          />
         </h1>
         {children && (
           <Reveal variant="up" delay={260}>

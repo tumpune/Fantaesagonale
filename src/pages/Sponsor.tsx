@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Reveal from '../components/motion/Reveal'
+import Marquee from '../components/motion/Marquee'
 import { SPONSOR_OFFERS } from '../content/sezioni'
 import {
   CtaBanner,
@@ -66,6 +67,21 @@ export default function Sponsor() {
           ))}
         </div>
       </Section>
+
+      {/* Scorrimento continuo: una vetrina che non si ferma comunica una
+          collaborazione viva meglio di una griglia immobile. */}
+      <div className="border-y border-white/10 bg-brand-soft py-6">
+        <Marquee speed={26} reverse>
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span
+              key={i}
+              className="mx-3 flex h-16 w-40 items-center justify-center rounded-xl border border-dashed border-white/15 text-xs text-white/35"
+            >
+              Logo sponsor
+            </span>
+          ))}
+        </Marquee>
+      </div>
 
       <CtaBanner
         title="Vuoi diventare sponsor?"

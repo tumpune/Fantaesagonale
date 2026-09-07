@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import type { LucideIcon } from 'lucide-react'
+import TiltCard from '../motion/TiltCard'
 import { PlaceholderBox } from './Placeholder'
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
@@ -22,13 +23,15 @@ export function FeatureCard({
   children: ReactNode
 }) {
   return (
-    <Card>
-      <div className="card-icon w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-r from-brand-yellow to-brand-red text-black flex items-center justify-center mb-4 sm:mb-5">
-        <Icon size={24} aria-hidden="true" />
-      </div>
-      <h3 className="text-base sm:text-lg font-bold text-white mb-2.5">{title}</h3>
-      <div className="text-sm text-white/60 text-pretty">{children}</div>
-    </Card>
+    <TiltCard>
+      <Card>
+        <div className="card-icon w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-r from-brand-yellow to-brand-red text-black flex items-center justify-center mb-4 sm:mb-5">
+          <Icon size={24} aria-hidden="true" />
+        </div>
+        <h3 className="text-base sm:text-lg font-bold text-white mb-2.5">{title}</h3>
+        <div className="text-sm text-white/60 text-pretty">{children}</div>
+      </Card>
+    </TiltCard>
   )
 }
 

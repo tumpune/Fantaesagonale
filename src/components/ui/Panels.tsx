@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import Reveal from '../motion/Reveal'
+import Magnetic from '../motion/Magnetic'
 import { Eyebrow } from './Typography'
 
 /** Riquadro in evidenza, usato per missione, manifesto e presentazione FantADSico. */
@@ -36,7 +37,7 @@ export function CtaBanner({ title, action }: { title: string; action: ReactNode 
         <h2 className="mx-auto mb-6 max-w-2xl text-xl font-extrabold tracking-[-0.03em] text-white sm:text-2xl md:text-3xl text-balance">
           {title}
         </h2>
-        {action}
+        <Magnetic>{action}</Magnetic>
       </Reveal>
     </section>
   )

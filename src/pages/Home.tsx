@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import Hero from '../components/hero/Hero'
 import CampaignCountdown from '../components/CampaignCountdown'
 import Reveal from '../components/motion/Reveal'
+import Marquee from '../components/motion/Marquee'
+import Parallax from '../components/motion/Parallax'
 import { useInView } from '../hooks/useInView'
 import { useCountUp } from '../hooks/useCountUp'
 import { HOME_FEATURES, STATS } from '../content/sezioni'
@@ -56,6 +58,23 @@ export default function Home() {
     <>
       <Hero />
 
+      {/* Nastro d'insegna: da' ritmo subito sotto la hero e riassume in una
+          riga tutto quello che l'associazione organizza. */}
+      <div className="border-y border-brand-yellow/20 bg-gradient-to-r from-brand-yellow/[0.07] via-brand-red/[0.07] to-brand-yellow/[0.07] py-5">
+        <Marquee speed={32}>
+          {['Fantacalcio al Listone', 'Survivor Soccer', 'Tornei di calcio', 'Freccette', 'Beer Pong', 'Cornhole', 'FantADSico', 'Italia Campione 2030'].map(
+            (voce) => (
+              <span key={voce} className="flex items-center">
+                <span className="px-6 text-lg font-extrabold uppercase tracking-tight text-white/85 sm:px-8 sm:text-2xl">
+                  {voce}
+                </span>
+                <span className="h-2 w-2 rounded-full bg-gradient-to-r from-brand-yellow to-brand-red" />
+              </span>
+            ),
+          )}
+        </Marquee>
+      </div>
+
       <Section>
         <SectionHead
           eyebrow="Cosa facciamo"
@@ -109,7 +128,9 @@ export default function Home() {
             </Link>
           </Reveal>
           <Reveal variant="right" delay={120}>
-            <CampaignCountdown />
+            <Parallax speed={0.08}>
+              <CampaignCountdown />
+            </Parallax>
           </Reveal>
         </div>
       </Section>

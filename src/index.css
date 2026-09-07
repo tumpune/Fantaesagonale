@@ -366,6 +366,276 @@
 }
 
 /* ==========================================================================
+   Cursore personalizzato
+   Il puntatore di sistema viene nascosto solo se il cursore su misura e'
+   effettivamente presente nel DOM: cosi' su touch, o con movimento ridotto,
+   resta quello normale invece di sparire lasciando l'utente senza riferimento.
+   ========================================================================== */
+
+html:has(.cursor-dot),
+html:has(.cursor-dot) a,
+html:has(.cursor-dot) button {
+  cursor: none;
+}
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 300;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.cursor-dot.is-active,
+.cursor-ring.is-active {
+  opacity: 1;
+}
+
+.cursor-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: theme('colors.brand.yellow');
+}
+
+.cursor-ring {
+  width: 34px;
+  height: 34px;
+  border: 1.5px solid rgba(252, 215, 12, 0.75);
+  border-radius: 50%;
+  transition:
+    opacity 0.3s ease,
+    width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.28s ease,
+    border-color 0.28s ease;
+}
+
+.cursor-ring.is-hovering {
+  width: 58px;
+  height: 58px;
+  background: rgba(252, 215, 12, 0.12);
+  border-color: theme('colors.brand.yellow');
+}
+
+.cursor-ring.is-pressed {
+  width: 26px;
+  height: 26px;
+  background: rgba(230, 26, 26, 0.25);
+  border-color: theme('colors.brand.red');
+}
+
+/* ==========================================================================
+   Schede con inclinazione tridimensionale
+   ========================================================================== */
+
+.tilt {
+  perspective: 900px;
+}
+
+.tilt-inner {
+  position: relative;
+  border-radius: 1rem;
+  transform-style: preserve-3d;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.tilt-active .tilt-inner {
+  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+}
+
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: var(--glare-opacity, 0);
+  transition: opacity 0.35s ease;
+  background: radial-gradient(
+    340px circle at var(--glare-x, 50%) var(--glare-y, 50%),
+    rgba(252, 215, 12, 0.16),
+    transparent 60%
+  );
+}
+
+/* ==========================================================================
+   Titoli rivelati parola per parola
+   ========================================================================== */
+
+.split-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+}
+
+.split-word {
+  display: inline-block;
+  transform: translateY(110%) rotate(4deg);
+  opacity: 0;
+  transition:
+    transform 0.85s cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 0.6s ease;
+}
+
+.split-word.is-visible {
+  transform: translateY(0) rotate(0);
+  opacity: 1;
+}
+
+/* ==========================================================================
+   Nastro scorrevole
+   ========================================================================== */
+
+@keyframes marqueeSlide {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.marquee {
+  overflow: hidden;
+  width: 100%;
+  /* Sfuma i bordi invece di tagliare il testo di netto. */
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation-name: marqueeSlide;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+.marquee-group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Barra di avanzamento della lettura
+   ========================================================================== */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 150;
+  pointer-events: none;
+}
+
+.scroll-progress-bar {
+  height: 100%;
+  width: 100%;
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  background: linear-gradient(
+    90deg,
+    theme('colors.brand.yellow'),
+    theme('colors.brand.red')
+  );
+}
+
+@keyframes progressGrow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Dove il browser le supporta, la barra e' mossa dal compositore invece che da
+   JavaScript a ogni scorrimento: scorre piu' fluida e non occupa il thread. */
+@supports (animation-timeline: scroll()) {
+  .scroll-progress-bar {
+    animation: progressGrow linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+/* ==========================================================================
+   Sipario fra una pagina e l'altra
+   ========================================================================== */
+
+@keyframes curtainSweep {
+  0% {
+    transform: scaleY(1);
+    transform-origin: top;
+  }
+  100% {
+    transform: scaleY(0);
+    transform-origin: top;
+  }
+}
+
+.curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  background: linear-gradient(
+    120deg,
+    theme('colors.brand.black'),
+    #1a1206 45%,
+    theme('colors.brand.black')
+  );
+  animation: curtainSweep 0.75s cubic-bezier(0.76, 0, 0.24, 1) both;
+}
+
+/* ==========================================================================
+   Grana
+   Una texture appena percettibile toglie l'aspetto piatto ai fondi scuri.
+   ========================================================================== */
+
+.grain {
+  position: fixed;
+  inset: -50%;
+  z-index: 250;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grainShift 8s steps(10) infinite;
+}
+
+@keyframes grainShift {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  10% {
+    transform: translate(-5%, -10%);
+  }
+  30% {
+    transform: translate(3%, -15%);
+  }
+  50% {
+    transform: translate(-10%, 5%);
+  }
+  70% {
+    transform: translate(9%, -5%);
+  }
+  90% {
+    transform: translate(-3%, 10%);
+  }
+}
+
+/* ==========================================================================
    Riduzione del movimento
    Un unico blocco che disattiva tutto: ogni animazione aggiunta sopra e'
    coperta automaticamente, senza doversene ricordare caso per caso.
@@ -386,6 +656,25 @@
   .hero-zoom {
     animation: none;
     opacity: 1;
+  }
+
+  .split-word {
+    transform: none;
+    opacity: 1;
+    transition: none;
+  }
+
+  .marquee-track,
+  .grain {
+    animation: none;
+  }
+
+  .curtain {
+    display: none;
+  }
+
+  .tilt-inner {
+    transform: none;
   }
 
   *,

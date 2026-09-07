@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ChevronDown } from 'lucide-react'
 import RevealLayer from './RevealLayer'
+import SplitText from '../motion/SplitText'
+import Magnetic from '../motion/Magnetic'
 import { usePointerFine } from '../../hooks/useMediaQuery'
 import { btnDanger } from '../ui/styles'
 import {
@@ -79,18 +81,18 @@ export default function Hero() {
           inferiore destro, dove sta il pulsante fisso della chat. */}
       <div className="relative z-50 flex h-[100svh] min-h-[34rem] flex-col justify-between px-5 pb-8 pt-24 sm:px-8 sm:pb-24 sm:pt-32 lg:px-12">
         <h1 className="text-center text-white leading-[0.95] text-balance">
-          <span
-            className="block font-playfair italic font-normal text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl hero-anim hero-reveal"
-            style={{ letterSpacing: '-0.05em', animationDelay: '0.25s' }}
-          >
-            Il divertimento
-          </span>
-          <span
-            className="block font-normal text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl -mt-1 hero-anim hero-reveal"
-            style={{ letterSpacing: '-0.06em', animationDelay: '0.42s' }}
-          >
-            diventa competizione
-          </span>
+          <SplitText
+            text="Il divertimento"
+            immediate
+            delay={250}
+            className="block font-playfair italic font-normal text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+          />
+          <SplitText
+            text="diventa competizione"
+            immediate
+            delay={480}
+            className="block font-normal text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl -mt-1"
+          />
         </h1>
 
         <div className="grid gap-6 sm:grid-cols-2 sm:items-end sm:gap-10">
@@ -110,9 +112,11 @@ export default function Hero() {
               Fantacalcio al Listone, tornei di calcio, freccette, beer pong e cornhole: nella
               stagione 2025-2026 sono 205 le squadre iscritte, con 20.000€ di montepremi in palio.
             </p>
-            <Link to="/tornei-giochi" className={btnDanger}>
-              Scopri i tornei
-            </Link>
+            <Magnetic>
+              <Link to="/tornei-giochi" className={btnDanger}>
+                Scopri i tornei
+              </Link>
+            </Magnetic>
           </div>
         </div>
       </div>
