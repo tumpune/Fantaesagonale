@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Area Soci — FantaEsagonale</title>
+  <meta name="description" content="Accesso riservato ai soci FantaEsagonale: classifiche, regolamenti, comunicazioni interne e gestione tornei." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="logo">Fanta<span>Esagonale</span></a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="chi-siamo.html">Chi Siamo</a></li>
+        <li><a href="tornei-giochi.html">Tornei &amp; Giochi</a></li>
+        <li><a href="sponsor.html">Sponsor</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="contatti.html">Contatti</a></li>
+        <li><a href="area-soci.html" class="nav-cta active">Area Soci</a></li>
+      </ul>
+      <button class="nav-toggle" aria-label="Apri menu"><span></span><span></span><span></span></button>
+    </nav>
+  </header>
+
+  <div class="login-wrap">
+    <div class="login-card">
+      <h1>Area Soci</h1>
+      <p class="sub">Accesso riservato ai soci FantaEsagonale.</p>
+      <form id="login-form">
+        <div class="form-row">
+          <label for="utente">Email o username</label>
+          <input type="text" id="utente" name="utente" required />
+        </div>
+        <div class="form-row">
+          <label for="password">Password / codice</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">Accedi</button>
+        <div id="login-feedback" class="form-feedback"></div>
+      </form>
+      <div class="login-links">
+        <a href="#">Password dimenticata?</a>
+        <a href="contatti.html">Richiedi accesso</a>
+      </div>
+    </div>
+  </div>
+
+  <section class="section-alt member-preview">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow">Cosa trovi nell'Area Soci</span>
+        <h2>Contenuti riservati ai membri</h2>
+        <p class="placeholder">Da definire nel dettaglio insieme al cliente.</p>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="icon">📊</div>
+          <h3>Classifiche fantacalcio</h3>
+          <p>Classifiche aggiornate del Fantacalcio al Listone.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📄</div>
+          <h3>Regolamenti e documenti</h3>
+          <p>Regolamenti ufficiali e documentazione dei tornei.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📌</div>
+          <h3>Bacheca interna</h3>
+          <p>Comunicazioni interne per tutti i soci.</p>
+        </div>
+        <div class="card">
+          <div class="icon">📝</div>
+          <h3>Gestione tornei</h3>
+          <p>Iscrizione e gestione della partecipazione ai tornei.</p>
+        </div>
+        <div class="card">
+          <div class="icon">✉️</div>
+          <h3>Newsletter dedicata</h3>
+          <p class="placeholder">Eventuale, da valutare con il cliente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom:14px;">Fanta<span>Esagonale</span></div>
+          <p>Associazione di promozione sociale a Grammichele e dintorni. Dal 2023 trasmettiamo ottimismo attraverso sport, giochi e sfide vere.</p>
+          <div class="social-icons">
+            <a href="#" aria-label="Instagram">IG</a>
+            <a href="#" aria-label="Facebook">FB</a>
+            <a href="#" aria-label="TikTok">TT</a>
+            <a href="#" aria-label="YouTube">YT</a>
+            <a href="#" aria-label="Canale Telegram">TG</a>
+            <a href="#" aria-label="Canale WhatsApp">WA</a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Sito</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="chi-siamo.html">Chi Siamo</a></li>
+            <li><a href="tornei-giochi.html">Tornei &amp; Giochi</a></li>
+            <li><a href="sponsor.html">Sponsor</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Community</h4>
+          <ul>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="contatti.html">Contatti</a></li>
+            <li><a href="area-soci.html">Area Soci</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contatti</h4>
+          <ul>
+            <li class="placeholder">Email da definire</li>
+            <li class="placeholder">Tel/WhatsApp da definire</li>
+            <li>Grammichele</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>&copy; 2026 FantaEsagonale. Tutti i diritti riservati.</span>
+        <span>Sito in fase di sviluppo — contenuti in corso di definizione</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="chat-widget" class="chat-widget" aria-label="Chat">💬</button>
+  <script src="js/main.js"></script>
+</body>
+</html>
