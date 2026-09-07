@@ -16,8 +16,8 @@ export function useMediaQuery(query: string) {
   return matches
 }
 
-// Lo spotlight segue il cursore: su touch non esiste, quindi la hero resterebbe
-// permanentemente desaturata. Serve a scegliere la variante a colori.
+// Distingue i dispositivi con un vero puntatore: gli effetti che inseguono il
+// cursore non hanno senso su touch e li' vanno sostituiti o disattivati.
 export const usePointerFine = () => useMediaQuery('(hover: hover) and (pointer: fine)')
 
 // Chi ha attivato la riduzione del movimento nel sistema operativo non deve
