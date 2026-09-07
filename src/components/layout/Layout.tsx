@@ -25,7 +25,6 @@ export default function Layout() {
 
       <ScrollProgress />
       <CustomCursor />
-      <div className="grain" aria-hidden="true" />
 
       {/* La key sul pathname rimonta sipario e contenuto a ogni cambio rotta,
           cosi' l'animazione di ingresso riparte invece di scattare una volta. */}
