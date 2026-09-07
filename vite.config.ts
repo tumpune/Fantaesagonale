@@ -1,15 +1,15 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-// Il sito vive sotto https://tumpune.github.io/Fantaesagonale/, quindi serve il
-// base path, che deve corrispondere al nome del repository maiuscole comprese:
-// i percorsi di GitHub Pages sono case-sensitive. È applicato anche in dev e
-// preview, così l'ambiente locale si comporta come la produzione (con un base
-// condizionale un asset rotto in sottocartella si vedrebbe solo una volta
-// online). Da cambiare se il repository viene rinominato o si usa un dominio.
+// Su Vercel (e su un dominio custom) il sito sta sulla radice, su GitHub Pages
+// vive invece in una sottocartella col nome del repository. Il base path arriva
+// quindi da VITE_BASE, che il workflow di Pages imposta a /Fantaesagonale/
+// (maiuscole comprese: i percorsi di Pages sono case-sensitive). Senza questa
+// distinzione l'HTML chiede gli asset a un percorso inesistente e la pagina
+// resta bianca.
 export default defineConfig({
   plugins: [react()],
-  base: '/Fantaesagonale/',
+  base: process.env.VITE_BASE ?? '/',
   server: {
     port: 5173,
   },
