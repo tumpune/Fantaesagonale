@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
-import Hero from '../components/hero/Hero'
+import StatsRow from '../components/hero/StatsRow'
+import Magnetic from '../components/motion/Magnetic'
 import CampaignCountdown from '../components/CampaignCountdown'
 import Reveal from '../components/motion/Reveal'
 import Marquee from '../components/motion/Marquee'
@@ -12,6 +13,7 @@ import {
   CtaBanner,
   FeatureCard,
   HighlightPanel,
+  PageHero,
   PlaceholderBox,
   Section,
   SectionHead,
@@ -56,7 +58,30 @@ function Stat({
 export default function Home() {
   return (
     <>
-      <Hero />
+      <PageHero
+        size="home"
+        eyebrow="Grammichele · dal 2023"
+        titleItalic="Il divertimento"
+        title="diventa competizione"
+        actions={
+          <>
+            <Magnetic>
+              <Link to="/tornei-giochi" className={btnPrimary}>
+                Scopri i tornei
+              </Link>
+            </Magnetic>
+            <Magnetic>
+              <Link to="/sponsor" className={btnSecondary}>
+                Diventa sponsor
+              </Link>
+            </Magnetic>
+          </>
+        }
+        footer={<StatsRow />}
+      >
+        Associazione di promozione sociale a Grammichele. Fantacalcio al Listone, tornei, freccette,
+        beer pong e cornhole: sfide vere, con premi veri.
+      </PageHero>
 
       {/* Nastro d'insegna: da' ritmo subito sotto la hero e riassume in una
           riga tutto quello che l'associazione organizza. */}

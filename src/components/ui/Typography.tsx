@@ -40,42 +40,78 @@ export function SectionHead({
   )
 }
 
+/**
+ * Testata comune a tutte le pagine, home compresa.
+ *
+ * La home usava un componente tutto suo, con un fondo animato che non
+ * compariva da nessun'altra parte: il sito sembrava due progetti diversi
+ * accostati. Qui la differenza fra home e pagine interne e' solo di scala,
+ * mentre fondo, tipografia e spaziature restano gli stessi.
+ */
 export function PageHero({
   eyebrow,
   titleItalic,
   title,
   children,
+  actions,
+  footer,
+  size = 'page',
 }: {
   eyebrow: string
   titleItalic: string
   title: string
   children?: ReactNode
+  actions?: ReactNode
+  footer?: ReactNode
+  size?: 'page' | 'home'
 }) {
+  const home = size === 'home'
+
   return (
-    <section className="px-5 pb-14 pt-28 sm:px-8 sm:pb-16 sm:pt-36 lg:px-12 bg-[radial-gradient(circle_at_20%_20%,rgba(252,215,12,0.12),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(230,26,26,0.14),transparent_50%)]">
-      <div className="mx-auto max-w-6xl">
+    <section
+      className={`relative flex flex-col px-5 sm:px-8 lg:px-12 bg-[radial-gradient(circle_at_20%_20%,rgba(252,215,12,0.12),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(230,26,26,0.14),transparent_50%)] ${
+        home
+          ? 'min-h-[38rem] justify-center pb-20 pt-32 sm:min-h-[44rem] sm:pb-16 sm:pt-40'
+          : 'pb-14 pt-28 sm:pb-16 sm:pt-36'
+      }`}
+    >
+      <div className="mx-auto w-full max-w-6xl">
         <Reveal variant="fade">
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
+
         <h1 className="text-white leading-[0.95] mb-5 sm:mb-6 text-balance">
           <SplitText
             text={titleItalic}
             immediate
             delay={120}
-            className="block font-playfair italic font-normal text-3xl sm:text-5xl md:text-6xl"
+            className={`block font-playfair italic font-normal ${
+              home ? 'text-4xl sm:text-6xl md:text-7xl' : 'text-3xl sm:text-5xl md:text-6xl'
+            }`}
           />
           <SplitText
             text={title}
             immediate
             delay={280}
-            className="block font-normal text-3xl sm:text-5xl md:text-6xl -mt-1"
+            className={`block font-normal -mt-1 ${
+              home ? 'text-4xl sm:text-6xl md:text-7xl' : 'text-3xl sm:text-5xl md:text-6xl'
+            }`}
           />
         </h1>
+
         {children && (
-          <Reveal variant="up" delay={260}>
+          <Reveal delay={260}>
             <p className="text-white/60 text-base sm:text-lg max-w-2xl text-pretty">{children}</p>
           </Reveal>
         )}
+
+        {actions && (
+          <Reveal delay={360} className="mt-8 flex flex-wrap gap-3">
+            {actions}
+          </Reveal>
+        )}
+
+        {footer && <div className="mt-12 border-t border-white/10 pt-7 sm:mt-16">{footer}</div>}
       </div>
     </section>
   )

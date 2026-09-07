@@ -28,6 +28,19 @@ import type { ReactNode } from 'react'
  * si aggiorna un numero o una descrizione senza entrare nel markup.
  * `value` e' numerico dove la cifra viene animata al conteggio.
  */
+/** Dati in evidenza sotto la testata della home. */
+export const HERO_STATS: {
+  valore: number
+  suffisso?: string
+  etichetta: string
+  grezzo?: boolean
+}[] = [
+  { valore: 205, etichetta: 'squadre iscritte' },
+  { valore: 20, suffisso: 'mila €', etichetta: 'di montepremi' },
+  { valore: 3, suffisso: 'ª', etichetta: 'edizione del Listone' },
+  { valore: 2023, grezzo: true, etichetta: 'dalla fondazione' },
+]
+
 export const STATS: { value: number; suffix?: string; display?: string; label: string }[] = [
   { value: 2023, display: '2023', label: 'anno di fondazione' },
   { value: 205, label: 'squadre iscritte al fantacalcio 2025-26' },

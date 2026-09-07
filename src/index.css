@@ -487,69 +487,6 @@ html:has(.cursor-dot) button {
 }
 
 /* ==========================================================================
-   Parola che ruota
-   ========================================================================== */
-
-.rotating {
-  position: relative;
-  display: inline-block;
-  vertical-align: bottom;
-}
-
-/* Riserva lo spazio della parola piu' lunga: senza, la riga cambierebbe
-   larghezza a ogni sostituzione trascinando il testo intorno.
-   Resta nel flusso e conserva la propria altezza: azzerandola il contenitore
-   collasserebbe e la parola, posizionata in modo assoluto, sparirebbe. */
-.rotating-spacer {
-  display: block;
-  visibility: hidden;
-}
-
-.rotating-viewport {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.rotating-word {
-  display: inline-block;
-  will-change: transform, opacity;
-}
-
-.rotating-word.is-entering {
-  animation: rotatingIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.rotating-word.is-leaving {
-  animation: rotatingOut 0.42s cubic-bezier(0.7, 0, 0.84, 0) both;
-}
-
-@keyframes rotatingIn {
-  from {
-    transform: translateY(105%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-@keyframes rotatingOut {
-  from {
-    transform: translateY(0);
-    opacity: 1;
-  }
-  to {
-    transform: translateY(-105%);
-    opacity: 0;
-  }
-}
-
-/* ==========================================================================
    Nastro scorrevole
    ========================================================================== */
 
@@ -692,13 +629,6 @@ html:has(.cursor-dot) button {
 
   .marquee-track {
     animation: none;
-  }
-
-  .rotating-word.is-entering,
-  .rotating-word.is-leaving {
-    animation: none;
-    transform: none;
-    opacity: 1;
   }
 
   .curtain {
