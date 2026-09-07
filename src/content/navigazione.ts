@@ -55,3 +55,5 @@ export const PAGE_TITLES: Record<string, string> = {
   '/area-soci': 'Area Soci — FantaEsagonale',
   '/italia-campione-2030': 'Italia Campione 2030 — FantaEsagonale',
 }
+
+export const TITOLO_NON_TROVATA = 'Pagina non trovata — FantaEsagonale'

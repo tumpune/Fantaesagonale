@@ -8,6 +8,7 @@ import Blog from './pages/Blog'
 import Contatti from './pages/Contatti'
 import AreaSoci from './pages/AreaSoci'
 import ItaliaCampione2030 from './pages/ItaliaCampione2030'
+import NonTrovata from './pages/NonTrovata'
 
 export default function App() {
   return (
@@ -21,6 +22,7 @@ export default function App() {
         <Route path="/contatti" element={<Contatti />} />
         <Route path="/area-soci" element={<AreaSoci />} />
         <Route path="/italia-campione-2030" element={<ItaliaCampione2030 />} />
+        <Route path="*" element={<NonTrovata />} />
       </Route>
     </Routes>
   )
