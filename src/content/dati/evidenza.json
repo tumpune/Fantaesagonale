@@ -1,0 +1,35 @@
+{
+  "iniziative": [
+    {
+      "titolo": "Stagione 2026-2027",
+      "testo": "Si aprono le iscrizioni al fantacalcio a listone. Non perdere la nuova edizione.",
+      "etichetta": "Scopri come partecipare",
+      "ramo": "fantacalcio",
+      "dal": "2027-05-01",
+      "priorita": 1
+    },
+    {
+      "titolo": "Italia Campione 2030",
+      "testo": "Un video al giorno fino alla finale dei Mondiali. La challenge è in corso.",
+      "etichetta": "Segui la challenge",
+      "ramo": "italia-campione-2030",
+      "dal": "2026-03-31",
+      "al": "2030-07-21",
+      "priorita": 2
+    },
+    {
+      "titolo": "Stai organizzando il matrimonio?",
+      "testo": "Porta FantaMaritati alla tua festa: gli invitati non guardano, partecipano.",
+      "etichetta": "Richiedi informazioni",
+      "ramo": "fantamaritati",
+      "priorita": 3
+    },
+    {
+      "titolo": "Fai crescere la tua attività",
+      "testo": "Campagne sponsor e digital marketing su misura con FantADSico.",
+      "etichetta": "Richiedi un preventivo",
+      "ramo": "fantadsico",
+      "priorita": 4
+    }
+  ]
+}

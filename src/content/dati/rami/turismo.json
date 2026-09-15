@@ -1,0 +1,36 @@
+{
+  "ordine": 7,
+  "slug": "turismo",
+  "alias": [
+    "territorio"
+  ],
+  "nome": "Turismo e territorio",
+  "breve": "Promozione del territorio",
+  "tema": "centrale",
+  "stato": "in-progetto",
+  "occhiello": "Turismo e territorio",
+  "titolo": "Raccontare il territorio a chi arriva",
+  "intro": "Progetti di promozione turistica e territoriale per far scoprire Grammichele e i suoi dintorni, collegati anche alla futura sede fisica dell'associazione.",
+  "perChi": "Visitatori e turisti interessati alle esperienze locali, alla cultura del territorio e alle occasioni d'incontro.",
+  "offerta": [
+    {
+      "titolo": "Promozione turistica",
+      "testo": "Iniziative per far conoscere il territorio a chi viene da fuori."
+    },
+    {
+      "titolo": "Esperienze locali",
+      "testo": "Occasioni per vivere la cultura, i luoghi e la comunità."
+    }
+  ],
+  "nota": "Il progetto è in fase di sviluppo.",
+  "faq": [
+    {
+      "domanda": "Il progetto è già attivo?",
+      "risposta": "È in fase di sviluppo. Se sei una realtà del territorio e vuoi collaborare, scrivici."
+    }
+  ],
+  "cta": {
+    "etichetta": "Collabora con noi"
+  },
+  "icona": "map-pinned"
+}

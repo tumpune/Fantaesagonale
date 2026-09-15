@@ -39,9 +39,15 @@ export function Testimonianze({
   }
 
   return (
-    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    // Flex centrato invece di una griglia: con una o due testimonianze le
+    // schede restano al centro invece di addossarsi a sinistra.
+    <div className="flex flex-wrap justify-center gap-6">
       {voci.map((v, i) => (
-        <Reveal key={`${v.autore}-${i}`} delay={i * 80}>
+        <Reveal
+          key={`${v.autore}-${i}`}
+          delay={i * 80}
+          className="w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
+        >
           <figure className="h-full rounded-2xl border border-white/[0.06] bg-brand-card p-7">
             <Quote size={22} className="mb-4 text-accento-1" aria-hidden="true" />
             <blockquote className="mb-5 text-guida text-white/80">{v.testo}</blockquote>

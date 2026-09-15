@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Gestione contenuti — FantaEsagonale APS</title>
+    <link rel="icon" href="/img/logo-mark.png" />
+  </head>
+  <body>
+    <!--
+      Il pannello e' un'applicazione a parte, con la sua copia di React: per
+      questo non passa dal bundle del sito e i visitatori non la scaricano mai.
+      Versione fissata e verificata con l'hash: se il file sul CDN cambiasse,
+      il browser si rifiuterebbe di eseguirlo.
+    -->
+    <script>
+      window.CMS_MANUAL_INIT = true
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/decap-cms@3.16.2/dist/decap-cms.js"
+      integrity="sha384-tbnFsiSBvMm2vOLu70Mx7HlnMj6kXxR0Tdo0USlY9564mb1AyMnIdCjOZ738PWPr"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      // Il login passa dalle funzioni /api dello stesso indirizzo da cui si apre
+      // il pannello, cosi' la configurazione non dipende dal dominio.
+      window.CMS.init({ config: { backend: { base_url: window.location.origin } } })
+    </script>
+  </body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "ordine": 8,
+  "slug": "sede",
+  "alias": [
+    "sede-fisica"
+  ],
+  "nome": "Sede fisica",
+  "breve": "Un luogo per la community",
+  "tema": "centrale",
+  "stato": "in-progetto",
+  "occhiello": "Sede fisica",
+  "titolo": "Un luogo dove ritrovarsi",
+  "intro": "In prospettiva FantaEsagonale avrà una sede fisica: un luogo operativo, di incontro e di accoglienza, aperto alla community, ai partecipanti, ai partner e ai visitatori.",
+  "perChi": "La community, i partecipanti alle attività, i partner, i visitatori e i turisti.",
+  "offerta": [
+    {
+      "titolo": "Spazio operativo",
+      "testo": "La base da cui organizzare le attività dell'associazione."
+    },
+    {
+      "titolo": "Incontro",
+      "testo": "Un punto di ritrovo per chi fa parte della community."
+    },
+    {
+      "titolo": "Accoglienza",
+      "testo": "Un riferimento per visitatori e turisti, collegato ai progetti sul territorio."
+    }
+  ],
+  "nota": "La sede è in progetto.",
+  "faq": [
+    {
+      "domanda": "Dove sarà la sede?",
+      "risposta": "La sede è ancora in progetto. Scrivici per restare aggiornato sui prossimi passi."
+    }
+  ],
+  "cta": {
+    "etichetta": "Vuoi contribuire? Scrivici"
+  },
+  "icona": "building-2"
+}

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { Check } from 'lucide-react'
 import Reveal from '../components/motion/Reveal'
-import { ETICHETTA_STATO, SCALE_FANTADSICO, type Ramo as RamoTipo } from '../content/rami'
+import { ETICHETTA_STATO, type Ramo as RamoTipo } from '../content/rami'
+import { testimonianzeDi } from '../content/testimonianze'
 import {
   CtaBanner,
   FaqLista,
@@ -79,7 +80,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
         </div>
       </Section>
 
-      {ramo.slug === 'fantadsico' && (
+      {ramo.scale && (
         <Section>
           <SectionHead
             eyebrow="Formule"
@@ -87,7 +88,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
             subtitle="Adattiamo campagne e servizi alla scala del tuo progetto."
           />
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {SCALE_FANTADSICO.map((scala, i) => (
+            {ramo.scale.map((scala, i) => (
               <Reveal key={scala.nome} as="li" delay={i * 80}>
                 <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
                   <span className="mb-4 block text-cifra text-accento-1">0{i + 1}</span>
@@ -100,12 +101,12 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
         </Section>
       )}
 
-      <Section alt={ramo.slug === 'fantadsico'}>
+      <Section alt={Boolean(ramo.scale)}>
         <SectionHead
           eyebrow="Testimonianze"
           title={ramo.slug === 'fantadsico' ? 'Aziende che hanno scelto FantADSico' : 'Chi ha partecipato'}
         />
-        <Testimonianze voci={[]} />
+        <Testimonianze voci={testimonianzeDi(ramo.slug)} />
       </Section>
 
       {ramo.faq.length > 0 && (

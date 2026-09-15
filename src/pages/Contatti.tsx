@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import Reveal from '../components/motion/Reveal'
 import { CONTATTI } from '../content/sezioni'
 import { OGGETTI_CONTATTO } from '../content/navigazione'
-import { PageHero, Section, btnPrimary } from '../components/ui'
+import { PageHero, Section, btnPrimary, focusRing } from '../components/ui'
 
 const inputClass =
   'w-full rounded-xl border border-white/15 bg-brand-soft px-4 py-3 text-corpo text-white transition-all duration-300 hover:border-white/25 focus:border-accento-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accento-1'
@@ -160,9 +160,9 @@ export default function Contatti() {
           </Reveal>
 
           <ul className="grid gap-3">
-            {CONTATTI.map(({ Icon, titolo, testo, disponibile }, i) => (
-              <Reveal key={titolo} as="li" variant="right" delay={i * 60}>
-                <div className="flex items-center gap-4 rounded-xl border border-white/[0.06] bg-brand-card p-4">
+            {CONTATTI.map(({ Icon, titolo, testo, disponibile, href }, i) => {
+              const contenuto = (
+                <>
                   <span
                     className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${
                       disponibile
@@ -175,14 +175,32 @@ export default function Contatti() {
                   <span className="min-w-0">
                     <span className="block text-etichetta text-white">{titolo}</span>
                     <span
-                      className={`block text-micro ${disponibile ? 'text-white/60' : 'text-white/40'}`}
+                      className={`block break-words text-micro ${disponibile ? 'text-white/60' : 'text-white/40'}`}
                     >
                       {testo}
                     </span>
                   </span>
-                </div>
-              </Reveal>
-            ))}
+                </>
+              )
+              const scheda = 'flex items-center gap-4 rounded-xl border border-white/[0.06] bg-brand-card p-4'
+
+              return (
+                <Reveal key={titolo} as="li" variant="right" delay={i * 60}>
+                  {href ? (
+                    // I recapiti diventano cliccabili solo quando lo staff li inserisce.
+                    <a
+                      href={href}
+                      {...(href.startsWith('https:') ? { target: '_blank', rel: 'noreferrer' } : {})}
+                      className={`card-hover ${scheda} hover:border-accento-1/40 ${focusRing}`}
+                    >
+                      {contenuto}
+                    </a>
+                  ) : (
+                    <div className={scheda}>{contenuto}</div>
+                  )}
+                </Reveal>
+              )
+            })}
           </ul>
         </div>
       </Section>

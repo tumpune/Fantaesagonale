@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import LogoHero from '../components/hero/LogoHero'
 import Alveare from '../components/Alveare'
+import { testimonianzeDi } from '../content/testimonianze'
 import InEvidenza from '../components/InEvidenza'
 import Reveal from '../components/motion/Reveal'
 import Marquee from '../components/motion/Marquee'
@@ -28,8 +29,10 @@ import {
  * 5. risolvere i dubbi e contattare.
  */
 export default function Home() {
-  const chiusa = ' e sorridi'
-  const primaParte = SLOGAN.endsWith(chiusa) ? SLOGAN.slice(0, -chiusa.length) : SLOGAN
+  // Lo slogan si modifica dal pannello: la chiusa sotto al logo resta "e
+  // sorridi" se c'e', altrimenti scende l'ultima parola.
+  const chiusa = / e sorridi$/.test(SLOGAN) ? ' e sorridi' : SLOGAN.slice(SLOGAN.lastIndexOf(' '))
+  const primaParte = SLOGAN.slice(0, SLOGAN.length - chiusa.length)
 
   return (
     <>
@@ -116,7 +119,7 @@ export default function Home() {
 
       <Section alt>
         <SectionHead eyebrow="Testimonianze" title="Chi ha giocato con noi" />
-        <Testimonianze voci={[]} />
+        <Testimonianze voci={testimonianzeDi()} />
       </Section>
 
       <Section>

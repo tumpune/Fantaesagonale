@@ -2,6 +2,7 @@ import { Facebook, Instagram, MessageCircle, Music2, Send, Youtube } from 'lucid
 import type { LucideIcon } from 'lucide-react'
 import { RAMI } from './rami'
 import { SLOGAN } from './associazione'
+import contatti from './dati/contatti.json'
 
 /**
  * Voci principali del menu. I rami sono raccolti sotto "Progetti": undici voci
@@ -14,18 +15,29 @@ export const NAV_PRINCIPALE = [
 ]
 
 /**
- * `url` resta vuoto finche' non arrivano gli indirizzi reali dei profili: le
+ * Un indirizzo inserito dal pannello finisce in un href: si accettano solo
+ * collegamenti https, cosi' un valore sbagliato non diventa uno script.
+ */
+const urlSicuro = (url?: string) => (url && /^https:\/\/\S+$/.test(url.trim()) ? url.trim() : undefined)
+
+export const RECAPITI = {
+  email: contatti.email.trim(),
+  telefono: contatti.telefono.trim(),
+  indirizzo: contatti.indirizzo.trim(),
+}
+
+/**
+ * `url` resta vuoto finche' lo staff non inserisce i profili dal pannello: le
  * icone vengono mostrate come non cliccabili, cosi' nessuno finisce su un
- * collegamento che non porta da nessuna parte. Il questionario (5.1) chiede
- * anche di differenziarli per ramo dove serve: andranno aggiunti qui.
+ * collegamento che non porta da nessuna parte.
  */
 export const SOCIALS: { label: string; Icon: LucideIcon; url?: string }[] = [
-  { label: 'Instagram', Icon: Instagram },
-  { label: 'Facebook', Icon: Facebook },
-  { label: 'TikTok', Icon: Music2 },
-  { label: 'YouTube', Icon: Youtube },
-  { label: 'Canale Telegram', Icon: Send },
-  { label: 'Canale WhatsApp', Icon: MessageCircle },
+  { label: 'Instagram', Icon: Instagram, url: urlSicuro(contatti.social.instagram) },
+  { label: 'Facebook', Icon: Facebook, url: urlSicuro(contatti.social.facebook) },
+  { label: 'TikTok', Icon: Music2, url: urlSicuro(contatti.social.tiktok) },
+  { label: 'YouTube', Icon: Youtube, url: urlSicuro(contatti.social.youtube) },
+  { label: 'Canale Telegram', Icon: Send, url: urlSicuro(contatti.social.telegram) },
+  { label: 'Canale WhatsApp', Icon: MessageCircle, url: urlSicuro(contatti.social.canaleWhatsapp) },
 ]
 
 export const FOOTER_COLONNE = [

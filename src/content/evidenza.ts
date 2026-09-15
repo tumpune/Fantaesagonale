@@ -1,3 +1,5 @@
+import dati from './dati/evidenza.json'
+
 /**
  * Iniziative in evidenza nella home (questionario 2.2): la home deve dare
  * priorita' a cio' che e' attivo in quel momento — iscrizioni aperte, eventi,
@@ -6,6 +8,8 @@
  * `dal` e `al` sono facoltativi. Un'iniziativa compare solo nel suo periodo e
  * sparisce da sola alla scadenza: nessuno deve ricordarsi di toglierla.
  * Senza date resta sempre visibile, per le richieste valide tutto l'anno.
+ *
+ * Le iniziative stanno in `dati/evidenza.json` e si gestiscono dal pannello /admin.
  */
 
 export type Iniziativa = {
@@ -20,43 +24,14 @@ export type Iniziativa = {
   priorita: number
 }
 
-export const INIZIATIVE: Iniziativa[] = [
-  {
-    titolo: 'Stagione 2026-2027',
-    testo: 'Si aprono le iscrizioni al fantacalcio a listone. Non perdere la nuova edizione.',
-    percorso: '/fantacalcio',
-    etichetta: 'Scopri come partecipare',
-    ramo: 'fantacalcio',
-    dal: '2027-05-01',
-    priorita: 1,
-  },
-  {
-    titolo: 'Italia Campione 2030',
-    testo: 'Un video al giorno fino alla finale dei Mondiali. La challenge è in corso.',
-    percorso: '/italia-campione-2030',
-    etichetta: 'Segui la challenge',
-    ramo: 'italia-campione-2030',
-    dal: '2026-03-31',
-    al: '2030-07-21',
-    priorita: 2,
-  },
-  {
-    titolo: 'Stai organizzando il matrimonio?',
-    testo: 'Porta FantaMaritati alla tua festa: gli invitati non guardano, partecipano.',
-    percorso: '/fantamaritati',
-    etichetta: 'Richiedi informazioni',
-    ramo: 'fantamaritati',
-    priorita: 3,
-  },
-  {
-    titolo: 'Fai crescere la tua attività',
-    testo: 'Campagne sponsor e digital marketing su misura con FantADSico.',
-    percorso: '/fantadsico',
-    etichetta: 'Richiedi un preventivo',
-    ramo: 'fantadsico',
-    priorita: 4,
-  },
-]
+export const INIZIATIVE: Iniziativa[] = dati.iniziative.map((i: Partial<Iniziativa>) => ({
+  ...i,
+  percorso: i.percorso || `/${i.ramo}`,
+  // Il pannello salva i campi data vuoti come stringa vuota: equivale a nessun limite.
+  dal: i.dal || undefined,
+  al: i.al || undefined,
+  priorita: i.priorita ?? 99,
+})) as Iniziativa[]
 
 const inizioGiorno = (iso: string) => new Date(`${iso}T00:00:00`)
 const fineGiorno = (iso: string) => new Date(`${iso}T23:59:59`)

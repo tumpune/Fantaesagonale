@@ -1,0 +1,48 @@
+{
+  "ordine": 1,
+  "slug": "fantacalcio",
+  "alias": [
+    "listone"
+  ],
+  "nome": "Fantacalcio",
+  "breve": "Dove tutto è cominciato",
+  "tema": "oro",
+  "stato": "attivo",
+  "occhiello": "Fantacalcio a listone",
+  "titolo": "Dove tutto è cominciato",
+  "intro": "FantaEsagonale nasce nell'agosto 2023 come fantacalcio a listone: un gioco di strategia interno all'associazione, con quota di iscrizione e premi. È ancora oggi il cuore del progetto, e il punto da cui è partito tutto il resto.",
+  "perChi": "Appassionati di calcio e di fantacalcio, da Grammichele e da tutta Italia.",
+  "offerta": [
+    {
+      "titolo": "Gioco di strategia a listone",
+      "testo": "Un fantacalcio pensato come sfida di strategia fra i partecipanti dell'associazione."
+    },
+    {
+      "titolo": "Survivor Soccer",
+      "testo": "Il gioco a eliminazione che affianca il listone tradizionale."
+    },
+    {
+      "titolo": "Stagione 2026-2027",
+      "testo": "Una nuova identità in nero e oro per la prossima edizione."
+    }
+  ],
+  "nota": "La comunicazione della stagione 2026-2027 partirà indicativamente a maggio 2027.",
+  "faq": [
+    {
+      "domanda": "Quando parte la prossima stagione?",
+      "risposta": "La comunicazione del fantacalcio 2026-2027 partirà indicativamente a maggio 2027. Scrivici e ti avviseremo appena si aprono le iscrizioni."
+    },
+    {
+      "domanda": "Chi può partecipare?",
+      "risposta": "Il fantacalcio è un gioco interno all'associazione. Contattaci per sapere come prendere parte alla prossima edizione."
+    },
+    {
+      "domanda": "Cos'è Survivor Soccer?",
+      "risposta": "È il gioco a eliminazione che affianca il fantacalcio a listone tradizionale."
+    }
+  ],
+  "cta": {
+    "etichetta": "Avvisami quando aprono le iscrizioni"
+  },
+  "icona": "trophy"
+}

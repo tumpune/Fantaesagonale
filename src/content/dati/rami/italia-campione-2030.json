@@ -1,0 +1,22 @@
+{
+  "ordine": 5,
+  "slug": "italia-campione-2030",
+  "alias": [
+    "ic2030"
+  ],
+  "nome": "Italia Campione 2030",
+  "breve": "La challenge per la Nazionale",
+  "tema": "centrale",
+  "stato": "attivo",
+  "occhiello": "Progetto speciale",
+  "titolo": "Italia Campione 2030",
+  "intro": "Un video al giorno per 1572 giorni, fino alla finale dei Mondiali 2030: un canale di informazione e supporto dedicato alla Nazionale.",
+  "perChi": "Tifosi della Nazionale italiana, appassionati di calcio e community social.",
+  "offerta": [],
+  "faq": [],
+  "cta": {
+    "etichetta": "Resta aggiornato"
+  },
+  "paginaDedicata": true,
+  "icona": "flag"
+}

@@ -1,0 +1,37 @@
+{
+  "ordine": 6,
+  "slug": "merchandising",
+  "alias": [
+    "merch",
+    "shop"
+  ],
+  "nome": "Merchandising",
+  "breve": "I prodotti del brand",
+  "tema": "centrale",
+  "stato": "in-arrivo",
+  "occhiello": "Merchandising",
+  "titolo": "Il brand, anche fuori dallo schermo",
+  "intro": "Prodotti legati a FantaEsagonale e ai suoi progetti, per chi fa parte della community e vuole portarla con sé.",
+  "perChi": "Tutta la community, e chiunque si riconosca in uno dei rami del progetto.",
+  "offerta": [
+    {
+      "titolo": "Prodotti del brand",
+      "testo": "Articoli con l'identità di FantaEsagonale."
+    },
+    {
+      "titolo": "Linee per ogni progetto",
+      "testo": "Prodotti dedicati ai singoli rami del progetto."
+    }
+  ],
+  "nota": "La vendita online arriverà in una fase successiva.",
+  "faq": [
+    {
+      "domanda": "Dove posso acquistare i prodotti?",
+      "risposta": "La vendita online è prevista in una fase successiva. Scrivici e ti avviseremo quando sarà disponibile."
+    }
+  ],
+  "cta": {
+    "etichetta": "Avvisami all'apertura"
+  },
+  "icona": "shirt"
+}

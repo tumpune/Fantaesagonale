@@ -1,0 +1,44 @@
+{
+  "ordine": 2,
+  "slug": "fantamaritati",
+  "alias": [
+    "maritati",
+    "matrimoni"
+  ],
+  "nome": "FantaMaritati",
+  "breve": "Intrattenimento per matrimoni",
+  "tema": "mono",
+  "stato": "attivo",
+  "occhiello": "FantaMaritati",
+  "titolo": "Il vostro matrimonio, da giocare insieme",
+  "intro": "FantaMaritati è il format di intrattenimento per matrimoni basato su social, trend, bonus e malus: gli invitati non guardano la festa, ci partecipano.",
+  "perChi": "Giovani coppie che stanno organizzando il matrimonio e cercano un intrattenimento originale e partecipativo.",
+  "offerta": [
+    {
+      "titolo": "Social e trend",
+      "testo": "Il gioco vive dei contenuti e delle tendenze che gli invitati creano durante la festa."
+    },
+    {
+      "titolo": "Bonus e malus",
+      "testo": "Un sistema di punteggi che trasforma i momenti del matrimonio in occasioni di gioco."
+    },
+    {
+      "titolo": "Tutti gli ospiti coinvolti",
+      "testo": "Un format pensato per far partecipare davvero gli invitati, non solo per intrattenerli."
+    }
+  ],
+  "faq": [
+    {
+      "domanda": "Come funziona FantaMaritati?",
+      "risposta": "È un format di intrattenimento basato su social, trend, bonus e malus, in cui gli invitati partecipano attivamente durante il matrimonio."
+    },
+    {
+      "domanda": "Come lo richiedo per il mio matrimonio?",
+      "risposta": "Scrivici dalla pagina Contatti indicando data e luogo del matrimonio: ti risponderemo con tutte le informazioni."
+    }
+  ],
+  "cta": {
+    "etichetta": "Richiedi informazioni"
+  },
+  "icona": "heart-handshake"
+}

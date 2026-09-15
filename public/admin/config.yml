@@ -1,0 +1,223 @@
+# Pannello di gestione dei contenuti (Decap CMS), raggiungibile su /admin.
+#
+# Online: si accede con il proprio account GitHub, se e' collaboratore del
+# repository. Ogni salvataggio diventa un commit su main e Vercel ripubblica il
+# sito da solo. Togliere un collaboratore su GitHub gli toglie l'accesso.
+#
+# In locale: `npm run pannello` avvia sito e pannello insieme, senza login, e
+# le modifiche vengono scritte direttamente nei file di src/content/dati.
+#
+# I nomi dei campi devono restare quelli letti da src/content/*.ts.
+
+backend:
+  name: github
+  repo: tumpune/Fantaesagonale
+  branch: main
+  # base_url viene impostato da index.html sull'indirizzo del sito stesso.
+  auth_endpoint: api/auth
+  commit_messages:
+    create: 'Pannello: crea {{collection}} "{{slug}}"'
+    update: 'Pannello: aggiorna {{collection}} "{{slug}}"'
+    delete: 'Pannello: elimina {{collection}} "{{slug}}"'
+    uploadMedia: 'Pannello: carica "{{path}}"'
+    deleteMedia: 'Pannello: elimina "{{path}}"'
+
+local_backend:
+  url: http://127.0.0.1:8081/api/v1
+locale: it
+site_url: https://fantaesagonale.vercel.app
+display_url: https://fantaesagonale.vercel.app
+logo_url: /img/logo-trasparente.png
+
+media_folder: public/img/caricamenti
+public_folder: /img/caricamenti
+
+collections:
+  - name: associazione
+    label: Associazione
+    description: Slogan, presentazione, storia, principi e domande frequenti generali.
+    editor: { preview: false }
+    files:
+      - name: identita
+        label: Chi siamo e FAQ generali
+        file: src/content/dati/associazione.json
+        fields:
+          - { name: slogan, label: Slogan, widget: string, hint: 'In home l''ultima parte ("e sorridi") va sotto al logo.' }
+          - { name: presentazione, label: Presentazione, widget: text, hint: Usata anche come prima risposta delle FAQ. }
+          - { name: missione, label: Missione, widget: text }
+          - { name: visione, label: Visione, widget: text }
+          - { name: distintivo, label: Cosa ci distingue, widget: text }
+          - name: storia
+            label: Il percorso
+            label_singular: tappa
+            widget: list
+            summary: '{{fields.quando}}'
+            fields:
+              - { name: quando, label: Quando, widget: string, hint: 'Es. "Agosto 2023" o "In prospettiva".' }
+              - { name: testo, label: Testo, widget: text }
+          - name: principi
+            label: Principi
+            label_singular: principio
+            widget: list
+            summary: '{{fields.nome}}'
+            fields:
+              - { name: nome, label: Nome, widget: string }
+              - { name: testo, label: Testo, widget: text }
+          - name: faq
+            label: Domande frequenti generali
+            label_singular: domanda
+            widget: list
+            summary: '{{fields.domanda}}'
+            fields:
+              - { name: domanda, label: Domanda, widget: string }
+              - { name: risposta, label: Risposta, widget: text }
+
+      - name: contatti
+        label: Contatti e social
+        file: src/content/dati/contatti.json
+        fields:
+          - { name: email, label: Email, widget: string, required: false, hint: Lasciare vuoto finché non esiste. Sul sito comparirà "Presto disponibile". }
+          - { name: telefono, label: Telefono e WhatsApp, widget: string, required: false }
+          - { name: indirizzo, label: Dove siamo, widget: string, default: Grammichele (CT) }
+          - name: social
+            label: Profili social
+            widget: object
+            hint: Indirizzi completi che iniziano con https://. Un campo vuoto mostra l'icona non cliccabile.
+            fields:
+              - { name: instagram, label: Instagram, widget: string, required: false, pattern: ['^$|^https://\S+$', 'Deve iniziare con https://'] }
+              - { name: facebook, label: Facebook, widget: string, required: false, pattern: ['^$|^https://\S+$', 'Deve iniziare con https://'] }
+              - { name: tiktok, label: TikTok, widget: string, required: false, pattern: ['^$|^https://\S+$', 'Deve iniziare con https://'] }
+              - { name: youtube, label: YouTube, widget: string, required: false, pattern: ['^$|^https://\S+$', 'Deve iniziare con https://'] }
+              - { name: telegram, label: Canale Telegram, widget: string, required: false, pattern: ['^$|^https://\S+$', 'Deve iniziare con https://'] }
+              - { name: canaleWhatsapp, label: Canale WhatsApp, widget: string, required: false, pattern: ['^$|^https://\S+$', 'Deve iniziare con https://'] }
+
+      - name: evidenza
+        label: In evidenza in home
+        file: src/content/dati/evidenza.json
+        fields:
+          - name: iniziative
+            label: Iniziative
+            label_singular: iniziativa
+            widget: list
+            summary: '{{fields.titolo}}'
+            hint: In home ne compaiono al massimo tre, tra quelle attive oggi, in ordine di priorità.
+            fields:
+              - { name: titolo, label: Titolo, widget: string }
+              - { name: testo, label: Testo, widget: text }
+              - { name: etichetta, label: Testo del pulsante, widget: string }
+              - { name: ramo, label: Progetto, widget: relation, collection: rami, value_field: slug, search_fields: [nome], display_fields: [nome], hint: Dà il colore alla scheda e la pagina di destinazione. }
+              - { name: percorso, label: Link diverso (facoltativo), widget: string, required: false, hint: 'Solo se il pulsante non deve portare alla pagina del progetto. Es. /contatti?oggetto=fantacalcio' }
+              - { name: dal, label: Visibile dal, widget: datetime, required: false, format: YYYY-MM-DD, date_format: DD/MM/YYYY, time_format: false, picker_utc: true, hint: Vuoto = da subito. }
+              - { name: al, label: Visibile fino al, widget: datetime, required: false, format: YYYY-MM-DD, date_format: DD/MM/YYYY, time_format: false, picker_utc: true, hint: Vuoto = senza scadenza. }
+              - { name: priorita, label: Priorità, widget: number, value_type: int, min: 1, default: 5, hint: I numeri più bassi compaiono prima. }
+
+  - name: rami
+    label: Progetti
+    label_singular: progetto
+    description: Le pagine dei rami. Si modificano i testi; aggiungere o togliere un progetto va concordato con chi sviluppa il sito.
+    folder: src/content/dati/rami
+    extension: json
+    format: json
+    identifier_field: nome
+    slug: '{{fields.slug}}'
+    create: false
+    delete: false
+    sortable_fields: [ordine, nome]
+    summary: '{{fields.ordine}}. {{fields.nome}} — {{fields.stato}}'
+    editor: { preview: false }
+    fields:
+      - { name: slug, label: Indirizzo della pagina, widget: hidden }
+      - { name: ordine, label: Posizione nei menu, widget: number, value_type: int, min: 1 }
+      - { name: nome, label: Nome, widget: string }
+      - { name: breve, label: Descrizione breve, widget: string, hint: Compare nel menu Progetti e nella mappa esagonale. }
+      - name: stato
+        label: Stato
+        widget: select
+        options:
+          - { label: Attivo, value: attivo }
+          - { label: In arrivo, value: in-arrivo }
+          - { label: In progetto, value: in-progetto }
+      - name: tema
+        label: Colori della pagina
+        widget: select
+        options:
+          - { label: 'Nero, giallo e rosso (principale)', value: centrale }
+          - { label: Nero e oro, value: oro }
+          - { label: Bianco e nero, value: mono }
+      - name: icona
+        label: Icona
+        widget: select
+        options:
+          - { label: Coppa, value: trophy }
+          - { label: Stretta di mano, value: heart-handshake }
+          - { label: Megafono, value: megaphone }
+          - { label: Festa, value: party-popper }
+          - { label: Bandiera, value: flag }
+          - { label: Maglietta, value: shirt }
+          - { label: Mappa, value: map-pinned }
+          - { label: Edificio, value: building-2 }
+          - { label: Calendario, value: calendar-days }
+          - { label: Fotocamera, value: camera }
+          - { label: Regalo, value: gift }
+          - { label: Stella, value: star }
+          - { label: Biglietto, value: ticket }
+          - { label: Persone, value: users }
+      - { name: alias, label: Indirizzi brevi, widget: list, required: false, hint: 'Per QR e materiali stampati: "maritati" fa aprire /maritati. Solo lettere minuscole, numeri e trattini.' }
+      - { name: occhiello, label: Occhiello, widget: string }
+      - { name: titolo, label: Frase in testata, widget: string }
+      - { name: intro, label: Introduzione, widget: text }
+      - { name: perChi, label: Per chi è, widget: text }
+      - name: offerta
+        label: Cosa offriamo
+        label_singular: voce
+        widget: list
+        summary: '{{fields.titolo}}'
+        fields:
+          - { name: titolo, label: Titolo, widget: string }
+          - { name: testo, label: Testo, widget: text }
+      - name: scale
+        label: Formule a scala
+        label_singular: formula
+        widget: list
+        required: false
+        summary: '{{fields.nome}}'
+        hint: Facoltative. Se presenti compare la sezione "Una proposta per ogni portata".
+        fields:
+          - { name: nome, label: Nome, widget: string }
+          - { name: testo, label: Testo, widget: text }
+      - { name: nota, label: Nota, widget: string, required: false, hint: 'Es. "La sede è in progetto."' }
+      - name: faq
+        label: Domande frequenti
+        label_singular: domanda
+        widget: list
+        summary: '{{fields.domanda}}'
+        fields:
+          - { name: domanda, label: Domanda, widget: string }
+          - { name: risposta, label: Risposta, widget: text }
+      - name: cta
+        label: Invito finale
+        widget: object
+        fields:
+          - { name: etichetta, label: Testo del pulsante, widget: string }
+
+  - name: testimonianze
+    label: Testimonianze
+    label_singular: testimonianza
+    description: Una scheda per persona. Pubblicare solo con il consenso di chi l'ha scritta.
+    folder: src/content/dati/testimonianze
+    extension: json
+    format: json
+    create: true
+    delete: true
+    identifier_field: autore
+    slug: '{{year}}{{month}}{{day}}-{{fields.autore}}'
+    summary: '{{fields.autore}} — {{fields.data}}'
+    sortable_fields: [data, autore]
+    editor: { preview: false }
+    fields:
+      - { name: autore, label: Nome, widget: string, hint: 'Nome e iniziale del cognome, se la persona preferisce.' }
+      - { name: ruolo, label: Ruolo, widget: string, required: false, hint: 'Es. "Partecipante al fantacalcio 2025-26" o "Titolare, Bar Centrale".' }
+      - { name: testo, label: Testimonianza, widget: text }
+      - { name: ramo, label: Progetto, widget: relation, collection: rami, value_field: slug, search_fields: [nome], display_fields: [nome], required: false, hint: Vuoto = parla dell'associazione in generale. Compare in home e in Chi siamo; con un progetto anche nella sua pagina. }
+      - { name: data, label: Data, widget: datetime, format: YYYY-MM-DD, date_format: DD/MM/YYYY, time_format: false, picker_utc: true }
+      - { name: pubblicata, label: Pubblicata sul sito, widget: boolean, default: false, hint: Attivare solo dopo aver avuto il consenso. }

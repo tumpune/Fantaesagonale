@@ -1,0 +1,49 @@
+{
+  "ordine": 4,
+  "slug": "eventi",
+  "alias": [
+    "tornei",
+    "tornei-giochi",
+    "intrattenimento"
+  ],
+  "nome": "Eventi",
+  "breve": "Tornei, challenge e interviste",
+  "tema": "centrale",
+  "stato": "attivo",
+  "occhiello": "Eventi e intrattenimento",
+  "titolo": "Portiamo il gioco dove c'è una festa",
+  "intro": "Organizziamo eventi e tornei, soprattutto sportivi, e collaboriamo alle iniziative di altri. Durante eventi sportivi e non portiamo giochi, challenge dal vivo, interviste e format pensati per i social.",
+  "perChi": "Organizzatori di eventi, associazioni e comunità, con un forte legame con il territorio ma aperti a iniziative più ampie.",
+  "offerta": [
+    {
+      "titolo": "Eventi e tornei",
+      "testo": "Organizzazione di eventi e tornei, soprattutto sportivi."
+    },
+    {
+      "titolo": "Challenge dal vivo",
+      "testo": "Format di gioco come freccette, beer pong e cornhole per animare ogni evento."
+    },
+    {
+      "titolo": "Interviste e contenuti social",
+      "testo": "Il racconto dell'evento attraverso interviste e format pensati per i social."
+    },
+    {
+      "titolo": "Collaborazioni",
+      "testo": "Supporto alla realizzazione di iniziative organizzate da altri."
+    }
+  ],
+  "faq": [
+    {
+      "domanda": "Potete animare un evento che organizziamo noi?",
+      "risposta": "Sì: oltre ai nostri eventi collaboriamo alla realizzazione di iniziative di terzi, portando giochi, challenge e interviste."
+    },
+    {
+      "domanda": "Che tipo di eventi seguite?",
+      "risposta": "Soprattutto eventi sportivi, ma anche eventi di altro genere in cui l'intrattenimento può fare la differenza."
+    }
+  ],
+  "cta": {
+    "etichetta": "Porta FantaEsagonale al tuo evento"
+  },
+  "icona": "party-popper"
+}

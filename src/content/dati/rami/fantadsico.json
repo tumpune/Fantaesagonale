@@ -1,0 +1,63 @@
+{
+  "ordine": 3,
+  "slug": "fantadsico",
+  "alias": [
+    "sponsor",
+    "marketing",
+    "aziende"
+  ],
+  "nome": "FantADSico",
+  "breve": "Marketing per le aziende",
+  "tema": "centrale",
+  "stato": "attivo",
+  "occhiello": "FantADSico · Digital marketing",
+  "titolo": "Visibilità reale per chi fa crescere il territorio",
+  "intro": "FantADSico è l'area di FantaEsagonale dedicata alle aziende: campagne sponsor, social media e digital marketing per le attività commerciali, con formule adattate alla portata di ogni progetto. Non un contributo a fondo perduto, ma visibilità concreta e relazione con la community.",
+  "perChi": "Aziende e attività commerciali: dalle realtà locali per le iniziative sul territorio ai soggetti nazionali per i progetti di maggiore portata.",
+  "offerta": [
+    {
+      "titolo": "Campagne sponsor",
+      "testo": "Visibilità legata ai progetti e agli eventi di FantaEsagonale."
+    },
+    {
+      "titolo": "Social media e digital marketing",
+      "testo": "Contenuti e campagne pensati per far conoscere la tua attività alla community."
+    },
+    {
+      "titolo": "Formule su misura",
+      "testo": "Proposte locali, provinciali, regionali o nazionali in base alla portata del progetto."
+    }
+  ],
+  "faq": [
+    {
+      "domanda": "A che tipo di aziende vi rivolgete?",
+      "risposta": "Ad attività commerciali di ogni dimensione: locali per le iniziative sul territorio, provinciali o regionali per gli eventi più ampi, nazionali per i progetti di maggiore portata."
+    },
+    {
+      "domanda": "Cosa ottiene un'azienda che collabora con voi?",
+      "risposta": "Visibilità, relazione con la community e potenziali opportunità economiche, attraverso contenuti, collaborazioni, eventi e servizi di digital marketing."
+    }
+  ],
+  "cta": {
+    "etichetta": "Richiedi un preventivo"
+  },
+  "icona": "megaphone",
+  "scale": [
+    {
+      "nome": "Locale",
+      "testo": "Per le attività del territorio e le iniziative locali."
+    },
+    {
+      "nome": "Provinciale",
+      "testo": "Per le realtà che guardano a un pubblico più ampio."
+    },
+    {
+      "nome": "Regionale",
+      "testo": "Per gli eventi di portata regionale."
+    },
+    {
+      "nome": "Nazionale",
+      "testo": "Per i progetti di maggiore portata."
+    }
+  ]
+}

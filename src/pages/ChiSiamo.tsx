@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import Reveal from '../components/motion/Reveal'
 import Alveare from '../components/Alveare'
+import { testimonianzeDi } from '../content/testimonianze'
 import { DISTINTIVO, MISSIONE, PRINCIPI, STORIA, VISIONE } from '../content/associazione'
 import {
   CtaBanner,
@@ -95,7 +96,7 @@ export default function ChiSiamo() {
 
       <Section>
         <SectionHead eyebrow="Testimonianze" title="Cosa dice chi ci conosce" />
-        <Testimonianze voci={[]} />
+        <Testimonianze voci={testimonianzeDi()} />
       </Section>
 
       <CtaBanner
