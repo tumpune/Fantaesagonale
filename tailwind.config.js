@@ -1,6 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+  // Il pannello /admin ha una configurazione sua (tailwind.pannello.config.js):
+  // le sue classi non finiscono nel CSS scaricato da chi visita il sito.
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}', '!./src/admin/**'],
   theme: {
     extend: {
       colors: {

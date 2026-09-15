@@ -9,6 +9,7 @@ import ScrollProgress from '../motion/ScrollProgress'
 import SmoothScroll from '../motion/SmoothScroll'
 import { PAGE_TITLES, TITOLO_NON_TROVATA } from '../../content/navigazione'
 import { temaDaPercorso } from '../../content/rami'
+import { registraVisita } from '../../lib/visite'
 
 /**
  * Il cursore personalizzato e il sipario fra una pagina e l'altra sono stati
@@ -23,6 +24,7 @@ export default function Layout() {
   useEffect(() => {
     window.scrollTo(0, 0)
     document.title = PAGE_TITLES[pathname] ?? TITOLO_NON_TROVATA
+    registraVisita(pathname)
   }, [pathname])
 
   return (

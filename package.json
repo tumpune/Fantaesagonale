@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "pannello": "node scripts/pannello.mjs",
-    "build": "tsc && vite build",
+    "build": "tsc && tsc -p tsconfig.api.json && vite build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -20,6 +20,7 @@
     "react-router-dom": "^6.27.0"
   },
   "devDependencies": {
+    "@types/node": "^22.20.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.3",

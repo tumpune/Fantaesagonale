@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Link } from 'react-router-dom'
 import { PageHero, Section } from '../components/ui'
 
 /**
@@ -60,11 +61,21 @@ export function Privacy() {
             come l'indirizzo IP e il tipo di browser, necessarie a erogare le pagine e a garantirne
             la sicurezza.
           </p>
+          <p>
+            <strong className="font-semibold text-white">Statistiche di visita</strong>: contiamo
+            le visite in forma aggregata e anonima, senza cookie. Conserviamo solo totali giornalieri
+            (pagine viste, sito di provenienza, tipo di dispositivo, nazione e città stimate) e una
+            stima dei visitatori unici calcolata con un codice che cambia ogni giorno e da cui non si
+            può risalire alla persona. L'indirizzo IP non viene salvato. I totali vengono cancellati
+            dopo 13 mesi. Il conteggio non parte se il tuo browser invia il segnale Global Privacy
+            Control o Do Not Track.
+          </p>
         </Blocco>
 
         <Blocco titolo="Perché li trattiamo">
           <p>
-            Usiamo i dati del modulo solo per rispondere alla tua richiesta. La base giuridica è il
+            Usiamo i dati del modulo solo per rispondere alla tua richiesta: il messaggio ci arriva
+            via email e non viene conservato sul sito. La base giuridica è il
             tuo consenso, espresso al momento dell'invio, e la necessità di dare seguito a una
             richiesta che ci hai rivolto. I dati di navigazione servono al funzionamento e alla
             sicurezza del sito.
@@ -115,8 +126,16 @@ export function Cookie() {
 
         <Blocco titolo="Nessun cookie di profilazione">
           <p>
-            Questo sito non usa cookie di profilazione, né cookie di terze parti a scopo
-            pubblicitario o statistico. Per questo non ti chiediamo di accettarne all'ingresso.
+            Questo sito non usa cookie: né di profilazione, né di terze parti, né per le
+            statistiche. Per questo non ti chiediamo di accettarne all'ingresso.
+          </p>
+          <p>
+            Le visite vengono contate in forma anonima e aggregata senza salvare nulla sul tuo
+            dispositivo. I dettagli sono nella{' '}
+            <Link to="/privacy" className="link-underline text-accento-1">
+              Privacy Policy
+            </Link>
+            .
           </p>
           <p>
             Anche i caratteri tipografici sono ospitati direttamente sul sito, invece di essere
@@ -126,8 +145,7 @@ export function Cookie() {
 
         <Blocco titolo="Se in futuro cambiasse">
           <p>
-            Se verranno introdotti strumenti di statistica o contenuti di terze parti che usano
-            cookie non tecnici, aggiorneremo questa pagina e ti chiederemo il consenso prima di
+            Se verranno introdotti contenuti di terze parti che usano cookie non tecnici, aggiorneremo questa pagina e ti chiederemo il consenso prima di
             attivarli.
           </p>
         </Blocco>

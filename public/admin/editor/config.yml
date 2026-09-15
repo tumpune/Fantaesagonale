@@ -1,4 +1,5 @@
-# Pannello di gestione dei contenuti (Decap CMS), raggiungibile su /admin.
+# Editor dei contenuti (Decap CMS). Si usa dentro il pannello /admin, che lo
+# carica in questa pagina (/admin/editor/) e gli applica i colori del sito.
 #
 # Online: si accede con il proprio account GitHub, se e' collaboratore del
 # repository. Ogni salvataggio diventa un commit su main e Vercel ripubblica il
@@ -111,6 +112,37 @@ collections:
               - { name: al, label: Visibile fino al, widget: datetime, required: false, format: YYYY-MM-DD, date_format: DD/MM/YYYY, time_format: false, picker_utc: true, hint: Vuoto = senza scadenza. }
               - { name: priorita, label: Priorità, widget: number, value_type: int, min: 1, default: 5, hint: I numeri più bassi compaiono prima. }
 
+  - name: impostazioni
+    label: Impostazioni
+    description: Come si comportano le automazioni del sito.
+    editor: { preview: false }
+    files:
+      - name: automazioni
+        label: Automazioni
+        file: src/content/dati/automazioni.json
+        fields:
+          - name: moduloContatti
+            label: Modulo contatti
+            widget: object
+            collapsed: false
+            fields:
+              - { name: attivo, label: Inoltra le richieste via email, widget: boolean, default: true }
+              - { name: rispostaAutomatica, label: Invia una conferma a chi scrive, widget: boolean, default: false, hint: Richiede un dominio email verificato su Resend. }
+              - { name: testoRisposta, label: Testo della conferma, widget: text, required: false }
+          - name: promemoriaScadenze
+            label: Promemoria scadenze
+            widget: object
+            collapsed: false
+            fields:
+              - { name: attivo, label: Avvisa lo staff quando un'iniziativa entra o esce dalla home, widget: boolean, default: true }
+              - { name: giorniPrima, label: Giorni di anticipo, widget: number, value_type: int, min: 1, max: 30, default: 3 }
+          - name: riepilogoSettimanale
+            label: Riepilogo settimanale
+            widget: object
+            collapsed: false
+            fields:
+              - { name: attivo, label: "Invia ogni lunedì visite, richieste e iniziative", widget: boolean, default: true }
+
   - name: rami
     label: Progetti
     label_singular: progetto
@@ -203,7 +235,7 @@ collections:
   - name: testimonianze
     label: Testimonianze
     label_singular: testimonianza
-    description: Una scheda per persona. Pubblicare solo con il consenso di chi l'ha scritta.
+    description: Una scheda per persona. Inserire solo testimonianze che la persona ha già autorizzato a pubblicare, perché i file dei contenuti sono visibili nel repository.
     folder: src/content/dati/testimonianze
     extension: json
     format: json

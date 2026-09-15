@@ -1,6 +1,7 @@
 {
   "rewrites": [
     { "source": "/admin", "destination": "/admin/index.html" },
+    { "source": "/admin/editor", "destination": "/admin/editor/index.html" },
     { "source": "/((?!api/|admin/).*)", "destination": "/index.html" }
   ],
   "headers": [
@@ -8,8 +9,9 @@
       "source": "/admin/(.*)",
       "headers": [
         { "key": "X-Robots-Tag", "value": "noindex, nofollow" },
-        { "key": "Cache-Control", "value": "no-cache" }
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" }
       ]
     }
-  ]
+  ],
+  "crons": [{ "path": "/api/automazioni", "schedule": "0 7 * * *" }]
 }

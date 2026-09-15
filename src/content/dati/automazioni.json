@@ -1,0 +1,14 @@
+{
+  "moduloContatti": {
+    "attivo": true,
+    "rispostaAutomatica": false,
+    "testoRisposta": "Grazie per averci scritto: abbiamo ricevuto la tua richiesta e ti risponderemo il prima possibile."
+  },
+  "promemoriaScadenze": {
+    "attivo": true,
+    "giorniPrima": 3
+  },
+  "riepilogoSettimanale": {
+    "attivo": true
+  }
+}

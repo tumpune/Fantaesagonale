@@ -10,6 +10,15 @@ const inputClass =
 
 const labelClass = 'mb-2 block text-etichetta text-white/75'
 
+/** Messaggi per chi scrive, a partire dagli errori restituiti da api/contatto. */
+const ERRORI_INVIO: Record<string, string> = {
+  'campi-non-validi': 'Controlla i campi: il messaggio deve contenere almeno 10 caratteri.',
+  'troppe-richieste': 'Hai inviato diverse richieste in poco tempo. Riprova tra un’ora.',
+  'non-configurato': 'Il modulo non è ancora attivo. Nel frattempo puoi contattarci sui nostri canali.',
+  'in-pausa': 'Il modulo è momentaneamente sospeso. Nel frattempo puoi contattarci sui nostri canali.',
+  generico: 'Invio non riuscito. Riprova tra qualche minuto.',
+}
+
 export default function Contatti() {
   const [params] = useSearchParams()
   // Chi arriva dalla pagina di un ramo trova l'argomento gia' scelto: la
@@ -17,21 +26,44 @@ export default function Contatti() {
   const richiesto = params.get('oggetto') ?? 'generale'
   const oggettoIniziale = OGGETTI_CONTATTO.some((o) => o.valore === richiesto) ? richiesto : 'generale'
 
-  const [feedback, setFeedback] = useState('')
+  const [esito, setEsito] = useState<{ tipo: 'ok' | 'errore'; testo: string } | null>(null)
   const [invio, setInvio] = useState(false)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     const form = e.currentTarget
+    const campi = new FormData(form)
+    const oggetto = String(campi.get('oggetto'))
     setInvio(true)
-    setFeedback('')
-    setTimeout(() => {
+    setEsito(null)
+
+    try {
+      const risposta = await fetch('/api/contatto', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          oggetto,
+          argomento: OGGETTI_CONTATTO.find((o) => o.valore === oggetto)?.etichetta,
+          nome: campi.get('nome'),
+          email: campi.get('email'),
+          telefono: campi.get('telefono'),
+          messaggio: campi.get('messaggio'),
+          privacy: campi.get('privacy') === 'on',
+          sito: campi.get('sito'),
+        }),
+      })
+      const dati = (await risposta.json().catch(() => ({}))) as { errore?: string }
+      if (risposta.ok) {
+        setEsito({ tipo: 'ok', testo: 'Grazie! Abbiamo ricevuto il tuo messaggio e ti risponderemo il prima possibile.' })
+        form.reset()
+      } else {
+        setEsito({ tipo: 'errore', testo: ERRORI_INVIO[dati.errore ?? ''] ?? ERRORI_INVIO.generico })
+      }
+    } catch {
+      setEsito({ tipo: 'errore', testo: 'Connessione non riuscita: controlla la rete e riprova.' })
+    } finally {
       setInvio(false)
-      setFeedback(
-        'Grazie! Il modulo sarà collegato al servizio di invio con la messa online definitiva: per ora il messaggio non viene spedito.',
-      )
-      form.reset()
-    }, 700)
+    }
   }
 
   return (
@@ -45,7 +77,7 @@ export default function Contatti() {
         <div className="grid items-start gap-10 lg:grid-cols-[1.3fr_1fr]">
           <Reveal variant="left">
             <div className="rounded-2xl border border-white/[0.08] bg-brand-card p-6 sm:p-8 lg:p-10">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} className="relative">
                 <div className="mb-5">
                   <label htmlFor="oggetto" className={labelClass}>
                     Argomento
@@ -109,6 +141,13 @@ export default function Contatti() {
                   />
                 </div>
 
+                {/* Campo trappola per i programmi che compilano i moduli in
+                    automatico: invisibile e fuori dalla navigazione da tastiera. */}
+                <div aria-hidden="true" className="absolute -left-[9999px] h-px w-px overflow-hidden">
+                  <label htmlFor="sito">Sito web</label>
+                  <input id="sito" name="sito" type="text" tabIndex={-1} autoComplete="off" />
+                </div>
+
                 <div className="mb-6">
                   <label htmlFor="messaggio" className={labelClass}>
                     Messaggio
@@ -117,6 +156,8 @@ export default function Contatti() {
                     id="messaggio"
                     name="messaggio"
                     required
+                    minLength={10}
+                    maxLength={4000}
                     rows={5}
                     className={`${inputClass} resize-y`}
                   />
@@ -149,9 +190,13 @@ export default function Contatti() {
                 </button>
 
                 <div aria-live="polite">
-                  {feedback && (
-                    <p className="reveal reveal-up is-visible mt-5 rounded-xl bg-accento-1/10 px-4 py-3.5 text-corpo text-accento-1">
-                      {feedback}
+                  {esito && (
+                    <p
+                      className={`reveal reveal-up is-visible mt-5 rounded-xl px-4 py-3.5 text-corpo ${
+                        esito.tipo === 'ok' ? 'bg-accento-1/10 text-accento-1' : 'bg-accento-2/10 text-white'
+                      }`}
+                    >
+                      {esito.testo}
                     </p>
                   )}
                 </div>

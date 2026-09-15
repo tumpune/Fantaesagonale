@@ -1,0 +1,480 @@
+/*
+ * Tema dell'editor Decap dentro il pannello.
+ *
+ * Decap non prevede temi: i suoi componenti hanno colori fissi. Le classi
+ * generate portano pero' il nome del componente (es. "css-1abc-ControlContainer"),
+ * quindi si possono raggiungere con [class*="-Nome"] senza dipendere dall'hash.
+ * Se un aggiornamento di Decap rinomina un componente, quella parte torna ai
+ * colori originali ma resta utilizzabile.
+ */
+
+:root {
+  --e-fondo: #0d0d0d;
+  --e-superficie: #151515;
+  --e-campo: #1b1b1b;
+  --e-campo-hover: #202020;
+  --e-bordo: rgba(255, 255, 255, 0.09);
+  --e-bordo-forte: rgba(255, 255, 255, 0.18);
+  --e-testo: #f2f2f2;
+  --e-testo-2: rgba(255, 255, 255, 0.62);
+  --e-testo-3: rgba(255, 255, 255, 0.42);
+  --e-giallo: #fcd70c;
+  --e-rosso: #e61a1a;
+  --e-gradiente: linear-gradient(90deg, #fcd70c, #e61a1a);
+  color-scheme: dark;
+}
+
+html,
+body {
+  background: var(--e-fondo) !important;
+  color: var(--e-testo) !important;
+  font-family: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+}
+
+body * {
+  font-family: inherit;
+}
+
+::selection {
+  background: var(--e-giallo);
+  color: #000;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+
+/* ------------------------------------------------ struttura nel pannello */
+
+.nel-pannello [class*='-AppHeader-css'],
+.nel-pannello [class*='-SidebarContainer'],
+.nel-pannello [class*='-ToolbarSectionMeta'] [class*='-SettingsWrapper'] {
+  display: none !important;
+}
+
+.nel-pannello [class*='-AppMainContainer'] {
+  padding-top: 24px !important;
+  margin: 0 auto !important;
+  max-width: 1100px !important;
+  width: calc(100% - 48px) !important;
+}
+
+.nel-pannello [class*='-CollectionContainer'] {
+  margin: 0 !important;
+}
+
+.nel-pannello [class*='-CollectionMain'] {
+  padding-left: 0 !important;
+  margin: 0 auto !important;
+  max-width: 920px !important;
+  width: 100% !important;
+}
+
+/* --------------------------------------------------------------- superfici */
+
+/* Solo i contenitori: le classi dei titoli interni contengono anche "card". */
+[class*='-card-card'] {
+  background: var(--e-superficie) !important;
+  border: 1px solid var(--e-bordo) !important;
+  box-shadow: none !important;
+  border-radius: 16px !important;
+}
+
+[class*='-ListCard-card'] {
+  border-radius: 12px !important;
+  margin-bottom: 8px !important;
+  transition: border-color 0.2s ease, background 0.2s ease !important;
+}
+[class*='-ListCard-card']:hover {
+  border-color: rgba(252, 215, 12, 0.4) !important;
+  background: #191919 !important;
+}
+
+[class*='-ListCardTitle'],
+[class*='-CollectionTopHeading'],
+[class*='-cardTopHeading'] {
+  color: var(--e-testo) !important;
+  font-weight: 700 !important;
+}
+
+[class*='-CollectionTopHeading'] {
+  font-family: 'Bricolage Grotesque Variable', 'Inter Variable', system-ui, sans-serif !important;
+  letter-spacing: -0.02em !important;
+}
+
+[class*='-CollectionTopDescription'],
+[class*='-cardTopDescription'] {
+  color: var(--e-testo-2) !important;
+}
+
+/* ---------------------------------------------------------- barra editor */
+
+[class*='-EditorContainer'],
+[class*='-ControlPaneContainer'],
+[class*='-PreviewPaneContainer'] {
+  background: var(--e-fondo) !important;
+}
+
+[class*='-ToolbarContainer'] {
+  background: rgba(13, 13, 13, 0.92) !important;
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--e-bordo) !important;
+  box-shadow: none !important;
+  color: var(--e-testo) !important;
+}
+
+[class*='-ToolbarSectionBackLink'],
+[class*='-ToolbarSectionMain'],
+[class*='-ToolbarSectionMeta'] {
+  border-color: var(--e-bordo) !important;
+}
+
+[class*='-ToolbarSectionBackLink']:hover,
+[class*='-ToolbarSectionBackLink']:focus {
+  background: rgba(255, 255, 255, 0.04) !important;
+}
+
+[class*='-BackArrow'],
+[class*='-BackCollection'] {
+  color: var(--e-testo-2) !important;
+}
+
+[class*='-PreviewLink'],
+[class*='-AppHeaderSiteLink'] {
+  color: var(--e-giallo) !important;
+}
+
+/* ---------------------------------------------------------------- pulsanti */
+
+[class*='-PublishButton'],
+[class*='-SaveButton'],
+[class*='-PublishedButton'],
+[class*='-ToolbarButton'],
+[class*='-DropdownButton'] {
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+}
+
+[class*='-PublishedButton'] {
+  background: rgba(52, 211, 153, 0.12) !important;
+  color: #6ee7b7 !important;
+}
+
+[class*='-StyledDropdownButton'][class*='-PublishButton'],
+[class*='-ToolbarButton'][class*='-PublishButton'],
+[class*='-PublishButton'] {
+  background: var(--e-gradiente) !important;
+  color: #0d0d0d !important;
+}
+
+[class*='-DeleteEntryButton'] {
+  background: rgba(230, 26, 26, 0.12) !important;
+  color: #ff8a80 !important;
+}
+
+[class*='-CollectionTopNewButton'],
+[class*='-AddButton'] {
+  background: var(--e-gradiente) !important;
+  color: #0d0d0d !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+}
+
+[class*='-ViewControlsButton'] {
+  color: var(--e-testo-3) !important;
+}
+[class*='-ViewControlsButton'][class*='Active'] {
+  color: var(--e-giallo) !important;
+}
+
+/* menu a tendina */
+[class*='-DropdownList'],
+[class*='-StyledMenuList'] {
+  background: #181818 !important;
+  border: 1px solid var(--e-bordo-forte) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7) !important;
+}
+[class*='-StyledMenuItem'],
+[class*='-DropdownItem'] {
+  color: var(--e-testo) !important;
+}
+[class*='-StyledMenuItem']:hover,
+[class*='-StyledMenuItem']:focus,
+[class*='-DropdownItem']:hover,
+[class*='-DropdownItem']:focus {
+  background: rgba(252, 215, 12, 0.12) !important;
+  color: #fff !important;
+}
+
+/* ------------------------------------------------------------------- campi */
+
+[class*='-ControlContainer'] {
+  margin-bottom: 28px !important;
+}
+
+[class*='-FieldLabel']::before,
+[class*='-FieldLabel']::after {
+  display: none !important;
+}
+
+[class*='-FieldLabel'],
+[class*='-fieldLabel'] {
+  background: transparent !important;
+  color: var(--e-testo-2) !important;
+  border: 0 !important;
+  padding: 0 0 8px 2px !important;
+  font-size: 12px !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 700 !important;
+}
+
+[class*='-ControlContainer']:focus-within [class*='-FieldLabel'] {
+  color: var(--e-giallo) !important;
+}
+
+[class*='-ControlHint'] {
+  color: var(--e-testo-3) !important;
+  padding-left: 2px !important;
+}
+
+input[class*='-TextControl'],
+input[class*='-StringControl'],
+textarea[class*='-TextControl'],
+[class*='-TextControl'],
+[class*='-NumberControl'],
+input[type='text'],
+input[type='number'],
+input[type='date'],
+input[type='datetime-local'],
+input[type='search'],
+textarea {
+  background: var(--e-campo) !important;
+  color: var(--e-testo) !important;
+  border: 1px solid var(--e-bordo) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease !important;
+}
+
+input[type='text']:hover,
+input[type='number']:hover,
+textarea:hover {
+  background: var(--e-campo-hover) !important;
+}
+
+input[type='text']:focus,
+input[type='number']:focus,
+input[type='date']:focus,
+input[type='datetime-local']:focus,
+textarea:focus {
+  border-color: var(--e-giallo) !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(252, 215, 12, 0.15) !important;
+}
+
+input[type='date']::-webkit-calendar-picker-indicator,
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+  filter: invert(1) opacity(0.6);
+}
+
+/* campi con errore */
+[class*='-ControlErrorsList'],
+[class*='-ErrorsList'] {
+  color: #ff8a80 !important;
+}
+
+/* select (react-select): il suo campo di testo interno resta invisibile */
+[class*='-control'] input,
+[class*='-ValueContainer'] input {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  color: var(--e-testo) !important;
+}
+[class*='-control'] {
+  background: var(--e-campo) !important;
+  border: 1px solid var(--e-bordo) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+[class*='-control']:hover {
+  border-color: var(--e-bordo-forte) !important;
+}
+[class*='-singleValue'],
+[class*='-Input'],
+[class*='-multiValue'] {
+  color: var(--e-testo) !important;
+}
+[class*='-placeholder'] {
+  color: var(--e-testo-3) !important;
+}
+[class*='-indicatorSeparator'] {
+  background: var(--e-bordo) !important;
+}
+[class*='-indicatorContainer'] {
+  color: var(--e-testo-3) !important;
+}
+[class*='-menu'] {
+  background: #181818 !important;
+  border: 1px solid var(--e-bordo-forte) !important;
+  border-radius: 12px !important;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.7) !important;
+}
+[class*='-option'] {
+  background: transparent !important;
+  color: var(--e-testo) !important;
+}
+[class*='-option']:hover,
+[class*='-option'][class*='focused'] {
+  background: rgba(252, 215, 12, 0.12) !important;
+}
+[class*='-multiValue'] {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-radius: 999px !important;
+}
+
+/* interruttori */
+[class*='-ToggleBackground'] {
+  background: rgba(255, 255, 255, 0.14) !important;
+}
+[class*='-ToggleContainer'] [class*='-ToggleBackground'][class*='Active'],
+[class*='-ToggleBackground'][class*='-isActive'] {
+  background: var(--e-gradiente) !important;
+}
+[class*='-ToggleHandle'] {
+  background: #fff !important;
+}
+
+/* ---------------------------------------------------------------- liste */
+
+[class*='-ListControl'],
+[class*='-listControl'],
+[class*='-ObjectControl'],
+[class*='-ObjectWidgetTopBar'],
+[class*='-TopBarContainer'] {
+  background: var(--e-superficie) !important;
+  border-color: var(--e-bordo) !important;
+  color: var(--e-testo) !important;
+  border-radius: 12px !important;
+}
+
+[class*='-ListItem'],
+[class*='-listControlItem'],
+[class*='-SortableListItem'] {
+  background: var(--e-superficie) !important;
+  border: 1px solid var(--e-bordo) !important;
+  border-radius: 12px !important;
+  margin-top: 10px !important;
+}
+
+[class*='-StyledListItemTopBar'],
+[class*='-TopBar-'] {
+  background: #1d1d1d !important;
+  border-radius: 12px 12px 0 0 !important;
+  color: var(--e-testo-2) !important;
+}
+
+[class*='-TopBarButton'],
+[class*='-DragIconContainer'],
+[class*='-ExpandButton'] {
+  color: var(--e-testo-3) !important;
+}
+[class*='-TopBarButton']:hover,
+[class*='-ExpandButton']:hover {
+  color: var(--e-testo) !important;
+}
+
+[class*='-NestedObjectLabel'] {
+  background: transparent !important;
+  color: var(--e-testo-2) !important;
+  border-color: var(--e-bordo) !important;
+}
+
+/* ------------------------------------------------------- avvisi e modali */
+
+[class*='-StyledModal'],
+[class*='-ModalContainer'],
+[class*='-LibraryTop'],
+[class*='-MediaLibraryModal'] {
+  background: #121212 !important;
+  color: var(--e-testo) !important;
+}
+
+[class*='-Overlay'] {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+[class*='-EmptyMessage'],
+[class*='-LibraryTitle'] {
+  color: var(--e-testo-2) !important;
+}
+
+/* notifiche */
+.notif__container [class*='success'],
+[class*='toastify'] [class*='success'] {
+  background: #0f2a1f !important;
+}
+
+/* schermata di caricamento e di accesso di Decap */
+[class*='-StyledAuthenticationPage'],
+[class*='-AuthenticationPage'] {
+  background: var(--e-fondo) !important;
+}
+
+a {
+  color: var(--e-giallo);
+}
+
+/* ------------------------------------------ contenitori senza nome proprio */
+
+/* I widget lista, oggetto e si'/no hanno contenitori senza etichetta nel nome
+   della classe: si raggiungono per posizione dentro quelli che ce l'hanno. */
+[class*='-ControlContainer'] > div:not([class*='-ControlTopbar']),
+[class*='-SortableListItem'] > div,
+[class*='-DateTimeControl'] {
+  background-color: var(--e-superficie) !important;
+  border-color: var(--e-bordo) !important;
+  color: var(--e-testo) !important;
+}
+
+[class*='-SortableListItem'] [class*='-ControlContainer'] > div:not([class*='-ControlTopbar']) {
+  background-color: #181818 !important;
+}
+
+[class*='-DateTimeControl'] {
+  border-radius: 12px !important;
+}
+[class*='-DateTimeControl'] span,
+[class*='-DateTimeControl'] button {
+  color: var(--e-testo-2) !important;
+}
+[class*='-DateTimeControl'] button {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-radius: 999px !important;
+}
+
+/* interruttore si'/no */
+[class*='-ToggleContainer'] {
+  background: rgba(255, 255, 255, 0.16) !important;
+  border: 0 !important;
+  border-radius: 999px !important;
+}
+[class*='-ToggleContainer'][aria-checked='true'] {
+  background: var(--e-gradiente) !important;
+}
+
+[class*='-BackStatus'] {
+  color: #6ee7b7 !important;
+}
+[class*='-BackStatusChanged'] {
+  color: var(--e-giallo) !important;
+}

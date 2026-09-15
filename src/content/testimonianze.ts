@@ -8,7 +8,7 @@ import type { Testimonianza } from '../components/ui/Testimonianze'
  * appena arrivano e mostrarle dopo aver avuto il consenso della persona.
  */
 
-type TestimonianzaDati = Testimonianza & {
+export type TestimonianzaDati = Testimonianza & {
   /** Slug del ramo, oppure vuoto per le testimonianze sull'associazione. */
   ramo?: string
   pubblicata?: boolean
@@ -20,7 +20,10 @@ const FILE = import.meta.glob<TestimonianzaDati>('./dati/testimonianze/*.json', 
   import: 'default',
 })
 
-const PUBBLICATE = Object.values(FILE)
+/** Tutte, pubblicate o no: servono al pannello per segnalare quelle in attesa. */
+export const TESTIMONIANZE: TestimonianzaDati[] = Object.values(FILE)
+
+const PUBBLICATE = TESTIMONIANZE
   .filter((t) => t.pubblicata && t.testo?.trim() && t.autore?.trim())
   .sort((a, b) => (b.data ?? '').localeCompare(a.data ?? ''))
 
