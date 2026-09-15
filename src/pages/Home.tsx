@@ -1,65 +1,69 @@
 import { Link } from 'react-router-dom'
 import LogoHero from '../components/hero/LogoHero'
-import StatsRow from '../components/hero/StatsRow'
-import CampaignCountdown from '../components/CampaignCountdown'
+import Alveare from '../components/Alveare'
+import InEvidenza from '../components/InEvidenza'
 import Reveal from '../components/motion/Reveal'
 import Marquee from '../components/motion/Marquee'
 import Magnetic from '../components/motion/Magnetic'
-import { HOME_FEATURES, NASTRO_ATTIVITA } from '../content/sezioni'
+import { RAMI } from '../content/rami'
+import { DISTINTIVO, FAQ_GENERALI, PRINCIPI, SLOGAN } from '../content/associazione'
 import {
-  ArticleCard,
   CtaBanner,
-  Corpo,
-  FeatureCard,
-  HighlightPanel,
-  PlaceholderBox,
+  Eyebrow,
+  FaqLista,
+  Guida,
   Section,
   SectionHead,
+  Testimonianze,
   btnPrimary,
   btnSecondary,
 } from '../components/ui'
 
 /**
- * Ordine della home: chi siamo, cosa facciamo, perche' fidarsi, il progetto
- * speciale, chi ci sostiene, cosa raccontiamo, come contattarci.
- *
- * Le cifre chiave stanno solo nella testata. Una sezione "In numeri" le
- * ripeteva identiche poco piu' sotto: due volte lo stesso dato indebolisce
- * entrambe le occorrenze e allunga la pagina senza aggiungere nulla.
+ * Ordine della home, dal questionario (2.1, 2.2):
+ * 1. capire subito cos'e' FantaEsagonale;
+ * 2. vedere cosa e' attivo in questo momento;
+ * 3. trovare il proprio ramo;
+ * 4. fidarsi: visione, principi, testimonianze;
+ * 5. risolvere i dubbi e contattare.
  */
 export default function Home() {
+  const chiusa = ' e sorridi'
+  const primaParte = SLOGAN.endsWith(chiusa) ? SLOGAN.slice(0, -chiusa.length) : SLOGAN
+
   return (
     <>
       <LogoHero
-        eyebrow="Grammichele · dal 2023"
-        titoloSopra="Il divertimento"
-        titoloSotto="diventa competizione"
-        descrizione="Associazione di promozione sociale a Grammichele. Fantacalcio al Listone, tornei, freccette, beer pong e cornhole: sfide vere, con premi veri."
+        eyebrow="FantaEsagonale APS · Grammichele"
+        titoloSopra={primaParte}
+        titoloSotto={chiusa.trim()}
+        descrizione="Un'associazione nata nel 2023 che dà valore al tempo libero. Fantacalcio, eventi, FantaMaritati, marketing per le aziende e progetti per il territorio: tante anime, un unico ecosistema."
         azioni={
           <>
             <Magnetic>
-              <Link to="/tornei-giochi" className={btnPrimary}>
-                Scopri i tornei
-              </Link>
+              <a href="#progetti" className={btnPrimary}>
+                Scopri i progetti
+              </a>
             </Magnetic>
             <Magnetic>
-              <Link to="/sponsor" className={btnSecondary}>
-                Diventa sponsor
+              <Link to="/contatti" className={btnSecondary}>
+                Contattaci
               </Link>
             </Magnetic>
           </>
         }
-        dati={<StatsRow />}
       />
 
-      {/* Nastro d'insegna: separa la testata dal contenuto e riassume in una
-          riga tutto quello che l'associazione organizza. */}
-      <div className="border-y border-brand-yellow/20 bg-gradient-to-r from-brand-yellow/[0.07] via-brand-red/[0.07] to-brand-yellow/[0.07] py-5">
-        <Marquee speed={32}>
-          {NASTRO_ATTIVITA.map((voce) => (
-            <span key={voce} className="flex items-center">
-              <span className="px-7 text-titolo uppercase text-white/85">{voce}</span>
-              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-brand-yellow to-brand-red" />
+      {/* Nastro dei rami: dice in una riga che FantaEsagonale non coincide con
+          un solo settore, il primo messaggio chiesto dal questionario. */}
+      <div className="border-y border-accento-1/20 bg-gradient-to-r from-accento-1/[0.06] via-accento-2/[0.06] to-accento-1/[0.06] py-5">
+        <Marquee speed={36}>
+          {RAMI.map((ramo) => (
+            <span key={ramo.slug} className="flex items-center">
+              <span className="px-7 font-display text-sottotitolo uppercase tracking-wide text-white/80">
+                {ramo.nome}
+              </span>
+              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-accento-1 to-accento-2" />
             </span>
           ))}
         </Marquee>
@@ -67,83 +71,69 @@ export default function Home() {
 
       <Section>
         <SectionHead
-          eyebrow="Cosa facciamo"
-          title="Un ecosistema di sport e divertimento"
-          subtitle="Quattro anime, un'unica community."
+          eyebrow="In evidenza ora"
+          title="Cosa sta succedendo"
+          subtitle="Le iniziative attive in questo momento."
         />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {HOME_FEATURES.map((feature, i) => (
-            <Reveal key={feature.title} delay={i * 90}>
-              <FeatureCard Icon={feature.Icon} title={feature.title}>
-                {feature.text}
-              </FeatureCard>
-            </Reveal>
-          ))}
-        </div>
+        <InEvidenza />
       </Section>
 
-      <Section alt width="narrow">
-        <HighlightPanel eyebrow="Perché FantaEsagonale" title="Non siamo solo intrattenimento">
-          Mettiamo in palio premi in denaro, coppe e riconoscimenti veri, perché la sfida sia
-          autentica fino alla fine.
-        </HighlightPanel>
-      </Section>
+      <section id="progetti" className="scroll-mt-24 bg-brand-soft px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
+        <SectionHead
+          eyebrow="I nostri progetti"
+          title="Scegli da dove iniziare"
+          subtitle="Ogni esagono è un ramo di FantaEsagonale, con la sua pagina e le sue domande frequenti."
+        />
+        <Alveare />
+      </section>
 
       <Section>
-        <div className="grid items-center gap-10 rounded-2xl border border-brand-yellow/25 bg-brand-card p-8 sm:p-12 lg:grid-cols-[1.2fr_1fr]">
+        <div className="grid items-center gap-12 lg:grid-cols-2">
           <Reveal variant="left">
-            <span className="mb-4 inline-block rounded-full bg-gradient-to-r from-brand-yellow to-brand-red px-3.5 py-1.5 text-occhiello uppercase text-black">
-              Progetto speciale
-            </span>
-            <h2 className="mb-4 text-titolo text-white">Italia Campione 2030</h2>
-            <Corpo className="mb-7">
-              Nata dopo la mancata qualificazione ai Mondiali (sconfitta con la Bosnia, 31 marzo
-              2026), è la nostra challenge di 1572 giorni: un video al giorno fino al 21 luglio 2030,
-              giorno della finale. Un canale di informazione e supporto dedicato alla nazionale
-              azzurra.
-            </Corpo>
-            <Link to="/italia-campione-2030" className={btnPrimary}>
-              Scopri il progetto
+            <Eyebrow>Chi siamo</Eyebrow>
+            <h2 className="mb-5 text-titolo text-white text-balance">
+              Opportunità nuove, senza lasciare il proprio territorio
+            </h2>
+            <Guida className="mb-8">{DISTINTIVO}</Guida>
+            <Link to="/chi-siamo" className={btnSecondary}>
+              La nostra storia
             </Link>
           </Reveal>
-          <Reveal variant="right" delay={120}>
-            <CampaignCountdown />
-          </Reveal>
+
+          <ul className="grid gap-4 sm:grid-cols-2">
+            {PRINCIPI.map((principio, i) => (
+              <Reveal key={principio.nome} as="li" variant="right" delay={i * 80}>
+                <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
+                  <span className="mb-3 block h-1 w-10 rounded-full bg-gradient-to-r from-accento-1 to-accento-2" />
+                  <h3 className="mb-2 text-sottotitolo text-white">{principio.nome}</h3>
+                  <p className="text-corpo text-white/60">{principio.testo}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </Section>
 
       <Section alt>
-        <SectionHead eyebrow="I nostri sponsor" title="Aziende che credono in noi" />
-        <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-5">
-          {Array.from({ length: 5 }).map((_, i) => (
-            <Reveal key={i} variant="scale" delay={i * 70}>
-              <PlaceholderBox className="h-24">Logo sponsor {i + 1}</PlaceholderBox>
-            </Reveal>
-          ))}
-        </div>
-        <Reveal className="mt-10 text-center" delay={160}>
-          <Link to="/sponsor" className={btnSecondary}>
-            Scopri le sponsorizzazioni
+        <SectionHead eyebrow="Testimonianze" title="Chi ha giocato con noi" />
+        <Testimonianze voci={[]} />
+      </Section>
+
+      <Section>
+        <SectionHead eyebrow="Domande frequenti" title="Le risposte più cercate" />
+        <FaqLista voci={FAQ_GENERALI.slice(0, 3)} />
+        <Reveal className="mt-8 text-center">
+          <Link to="/faq" className={btnSecondary}>
+            Tutte le domande
           </Link>
         </Reveal>
       </Section>
 
-      <Section>
-        <SectionHead eyebrow="Dal blog" title="News & Storie" />
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {['Tornei', 'Interviste', 'Sponsor'].map((tag, i) => (
-            <Reveal key={tag} delay={i * 90}>
-              <ArticleCard tag={tag} />
-            </Reveal>
-          ))}
-        </div>
-      </Section>
-
       <CtaBanner
-        title="Vuoi partecipare o proporre una sponsorizzazione?"
+        title="Hai un'idea, un evento o un progetto?"
         action={
           <Link to="/contatti" className={btnPrimary}>
-            Contattaci
+            Parliamone
           </Link>
         }
       />

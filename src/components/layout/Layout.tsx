@@ -5,35 +5,37 @@ import { funzionalitaMovimento } from '../../lib/motionFeatures'
 import Nav from './Nav'
 import Footer from './Footer'
 import ChatWidget from './ChatWidget'
-import CustomCursor from '../motion/CustomCursor'
 import ScrollProgress from '../motion/ScrollProgress'
 import SmoothScroll from '../motion/SmoothScroll'
 import { PAGE_TITLES, TITOLO_NON_TROVATA } from '../../content/navigazione'
+import { temaDaPercorso } from '../../content/rami'
 
+/**
+ * Il cursore personalizzato e il sipario fra una pagina e l'altra sono stati
+ * tolti: il questionario (6.1) chiede "tranquillita' nella navigazione" e una
+ * professionalita' "senza ostentarla". Restano gli ingressi discreti allo
+ * scorrimento e le transizioni leggere.
+ */
 export default function Layout() {
   const { pathname } = useLocation()
+  const tema = temaDaPercorso(pathname)
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    // In una single page application il titolo resterebbe quello iniziale su
-    // ogni pagina, penalizzando cronologia, segnalibri e motori di ricerca.
     document.title = PAGE_TITLES[pathname] ?? TITOLO_NON_TROVATA
   }, [pathname])
 
   return (
     <LazyMotion features={funzionalitaMovimento} strict>
-      <div className="min-h-screen bg-brand-black">
+      {/* Il tema del ramo si applica a tutta la pagina, menu e barra di lettura
+          compresi: entrare nel Fantacalcio vuol dire entrare nel nero e oro. */}
+      <div data-tema={tema} className="min-h-screen bg-brand-black">
         <a href="#contenuto" className="skip-link">
           Salta al contenuto
         </a>
 
         <SmoothScroll />
         <ScrollProgress />
-        <CustomCursor />
-
-        {/* La key sul pathname rimonta sipario e contenuto a ogni cambio rotta,
-            cosi' l'animazione di ingresso riparte invece di scattare una volta. */}
-        <div key={`curtain-${pathname}`} className="curtain" aria-hidden="true" />
 
         <Nav />
         <main id="contenuto" key={pathname} className="page-transition">

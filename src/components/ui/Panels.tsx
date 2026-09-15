@@ -15,7 +15,7 @@ export function HighlightPanel({
 }) {
   return (
     <Reveal variant="scale">
-      <div className="rounded-2xl border border-brand-yellow/20 bg-gradient-to-br from-brand-yellow/[0.08] to-brand-red/[0.08] p-8 text-center sm:p-12">
+      <div className="rounded-2xl border border-accento-1/20 bg-gradient-to-br from-accento-1/[0.08] to-accento-2/[0.08] p-8 text-center sm:p-12">
         <Eyebrow>{eyebrow}</Eyebrow>
         <h2 className="mb-4 text-titolo text-white text-balance">{title}</h2>
         <Guida className="mx-auto">{children}</Guida>
@@ -30,7 +30,7 @@ export function HighlightPanel({
  */
 export function CtaBanner({ title, action }: { title: string; action: ReactNode }) {
   return (
-    <section className="bg-gradient-to-br from-brand-yellow/[0.08] to-brand-red/[0.1] px-5 py-16 text-center sm:px-8">
+    <section className="bg-gradient-to-br from-accento-1/[0.08] to-accento-2/[0.1] px-5 py-16 text-center sm:px-8">
       <Reveal>
         <h2 className="mx-auto mb-7 max-w-2xl text-titolo text-white text-balance">{title}</h2>
         <Magnetic>{action}</Magnetic>

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Compass } from 'lucide-react'
 import Reveal from '../components/motion/Reveal'
-import { btnPrimary, btnSecondary } from '../components/ui'
+import { btnPrimary, btnSecondary, gradientText } from '../components/ui'
 
 /**
  * Senza una rotta di riserva qualsiasi indirizzo sbagliato lasciava la pagina
@@ -9,25 +9,17 @@ import { btnPrimary, btnSecondary } from '../components/ui'
  */
 export default function NonTrovata() {
   return (
-    <section className="flex min-h-[80svh] items-center justify-center px-5 pb-16 pt-28 text-center sm:px-8 sm:pt-36 bg-[radial-gradient(circle_at_20%_20%,rgba(252,215,12,0.12),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(230,26,26,0.14),transparent_50%)]">
+    <section className="fondo-testata flex min-h-[80svh] items-center justify-center px-5 pb-16 pt-28 text-center sm:px-8 sm:pt-36">
       <Reveal variant="scale" className="max-w-lg">
-        <div className="card-icon mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-brand-yellow to-brand-red text-black">
+        <div className="card-icon mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-accento-1 to-accento-2 text-black">
           <Compass size={30} aria-hidden="true" />
         </div>
-        <p className="mb-3 text-occhiello uppercase text-brand-yellow">
+        <p className="mb-3 text-occhiello uppercase text-accento-1">
           Errore 404
         </p>
         <h1 className="mb-5 text-display text-white text-balance">
-          <span
-            className="block font-playfair font-normal italic"
-          >
-            Questa pagina
-          </span>
-          <span
-            className="-mt-1 block"
-          >
-            non esiste
-          </span>
+          <span className="block">Questa pagina</span>
+          <span className={`block ${gradientText}`}>non esiste</span>
         </h1>
         <p className="mb-8 text-guida text-white/60 text-pretty">
           L'indirizzo che hai aperto non corrisponde a nessuna pagina del sito. Può darsi che il link

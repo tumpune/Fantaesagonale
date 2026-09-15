@@ -51,7 +51,7 @@ export default function CampaignCountdown() {
       </div>
       <div className="mt-5 h-2.5 overflow-hidden rounded-full border border-white/[0.08] bg-brand-soft">
         <div
-          className="h-full rounded-full bg-gradient-to-r from-brand-yellow to-brand-red transition-[width] duration-[1600ms] ease-out"
+          className="h-full rounded-full bg-gradient-to-r from-accento-1 to-accento-2 transition-[width] duration-[1600ms] ease-out"
           style={{ width: inView ? `${progress}%` : '0%' }}
         />
       </div>

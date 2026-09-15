@@ -1,32 +1,33 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { ChevronDown } from 'lucide-react'
 import { asset } from '../../lib/constants'
-import { NAV_LINKS } from '../../content/navigazione'
-import { focusRing } from '../ui/styles'
+import { NAV_PRINCIPALE } from '../../content/navigazione'
+import { RAMI, ETICHETTA_STATO } from '../../content/rami'
+import { btnPrimary, focusRing } from '../ui/styles'
 
 export default function Nav() {
-  const [open, setOpen] = useState(false)
+  const [menuMobile, setMenuMobile] = useState(false)
+  const [progetti, setProgetti] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const [indicatore, setIndicatore] = useState({ left: 0, width: 0 })
   const pillRef = useRef<HTMLDivElement>(null)
+  const progettiRef = useRef<HTMLDivElement>(null)
   const { pathname } = useLocation()
 
-  useEffect(() => setOpen(false), [pathname])
+  const inUnRamo = RAMI.some((r) => pathname === `/${r.slug}`)
 
-  // Misura la voce attiva a ogni cambio pagina e al ridimensionamento: le
-  // larghezze dipendono dal testo, quindi non si possono fissare a priori.
+  useEffect(() => {
+    setMenuMobile(false)
+    setProgetti(false)
+  }, [pathname])
+
+  // Posizione dell'indicatore sotto la voce attiva, rimisurata a ogni cambio
+  // pagina e ridimensionamento: le larghezze dipendono dal testo.
   useEffect(() => {
     const misura = () => {
-      const contenitore = pillRef.current
-      const attivo = contenitore?.querySelector<HTMLElement>('[data-attivo]')
-      if (!contenitore || !attivo) {
-        setIndicatore({ left: 0, width: 0 })
-        return
-      }
-      setIndicatore({
-        left: attivo.offsetLeft,
-        width: attivo.offsetWidth,
-      })
+      const attivo = pillRef.current?.querySelector<HTMLElement>('[data-attivo]')
+      setIndicatore(attivo ? { left: attivo.offsetLeft, width: attivo.offsetWidth } : { left: 0, width: 0 })
     }
     misura()
     window.addEventListener('resize', misura)
@@ -40,37 +41,53 @@ export default function Nav() {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  // La tendina si chiude con Esc e con un clic fuori: senza, resterebbe aperta
+  // sopra la pagina finche' non si ricorda di cliccare di nuovo sul pulsante.
   useEffect(() => {
-    if (!open) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') setOpen(false)
+    if (!progetti) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setProgetti(false)
+    const onClick = (e: MouseEvent) => {
+      if (!progettiRef.current?.contains(e.target as Node)) setProgetti(false)
     }
     window.addEventListener('keydown', onKey)
-    // Blocca lo scroll della pagina sotto il menu aperto, altrimenti su mobile
-    // si scorre il contenuto retrostante mentre il pannello resta fermo.
+    document.addEventListener('mousedown', onClick)
+    return () => {
+      window.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onClick)
+    }
+  }, [progetti])
+
+  useEffect(() => {
+    if (!menuMobile) return
+    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuMobile(false)
+    window.addEventListener('keydown', onKey)
+    // Blocca lo scroll sotto il menu aperto, altrimenti su mobile scorre il
+    // contenuto retrostante mentre il pannello resta fermo.
     document.body.style.overflow = 'hidden'
     return () => {
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
     }
-  }, [open])
+  }, [menuMobile])
+
+  const vocePill = (attiva: boolean) =>
+    `relative z-10 rounded-full px-4 py-1.5 text-etichetta transition-colors ${focusRing} ${
+      attiva ? 'text-white' : 'text-white/75 hover:text-white'
+    }`
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${
-        scrolled || open
-          ? 'bg-brand-black/85 backdrop-blur-md border-b border-white/10 shadow-lg shadow-black/30'
-          : 'bg-transparent border-b border-transparent'
+      className={`fixed left-0 right-0 top-0 z-[100] transition-all duration-300 ${
+        scrolled || menuMobile
+          ? 'border-b border-white/10 bg-brand-black/85 shadow-lg shadow-black/30 backdrop-blur-md'
+          : 'border-b border-transparent bg-transparent'
       }`}
     >
       <nav
         aria-label="Navigazione principale"
         className="relative mx-auto flex max-w-[110rem] items-center justify-between gap-3 px-4 py-3 sm:px-6 sm:py-4"
       >
-        <Link
-          to="/"
-          className={`group flex shrink-0 items-center gap-2.5 rounded-full ${focusRing}`}
-        >
+        <Link to="/" className={`group flex shrink-0 items-center gap-2.5 rounded-full ${focusRing}`}>
           <img
             src={asset('img/logo-trasparente.png')}
             alt=""
@@ -78,22 +95,18 @@ export default function Nav() {
             height={36}
             className="h-8 w-8 object-contain transition-transform duration-500 group-hover:rotate-[14deg] group-hover:scale-110 sm:h-9 sm:w-9"
           />
-          <span className="whitespace-nowrap font-playfair text-sottotitolo font-normal italic text-white">
+          <span className="whitespace-nowrap font-display text-lg font-bold tracking-tight text-white sm:text-xl">
             FantaEsagonale
           </span>
         </Link>
 
         <div
           ref={pillRef}
-          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/25 bg-white/15 px-2 py-2 backdrop-blur-md lg:flex"
+          className="absolute left-1/2 hidden -translate-x-1/2 items-center gap-1 rounded-full border border-white/20 bg-white/10 px-2 py-2 backdrop-blur-md lg:flex"
         >
-          {/* Un solo indicatore che scivola fra le voci: posizione e larghezza
-              sono misurate sulla voce attiva, l'interpolazione la fa il CSS.
-              Le animazioni di layout della libreria darebbero lo stesso
-              risultato al prezzo di 13,6 KB compressi. */}
           <span
             aria-hidden="true"
-            className="pointer-events-none absolute left-0 top-1/2 -translate-y-1/2 rounded-full bg-white/25 transition-[transform,width,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+            className="pointer-events-none absolute left-0 top-1/2 rounded-full bg-white/20 transition-[transform,width,opacity] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
             style={{
               height: 'calc(100% - 1rem)',
               width: indicatore.width,
@@ -101,42 +114,95 @@ export default function Nav() {
               opacity: indicatore.width ? 1 : 0,
             }}
           />
-          {NAV_LINKS.map((link) => {
-            const active = pathname === link.to
-            return (
-              <Link
-                key={link.to}
-                to={link.to}
-                data-attivo={active || undefined}
-                aria-current={active ? 'page' : undefined}
-                className={`relative z-10 rounded-full px-4 py-1.5 text-etichetta transition-colors ${focusRing} ${
-                  active ? 'text-white' : 'text-white/80 hover:text-white'
-                }`}
+
+          <Link
+            to="/chi-siamo"
+            data-attivo={pathname === '/chi-siamo' || undefined}
+            aria-current={pathname === '/chi-siamo' ? 'page' : undefined}
+            className={vocePill(pathname === '/chi-siamo')}
+          >
+            Chi siamo
+          </Link>
+
+          <div ref={progettiRef} className="relative" data-attivo={inUnRamo || undefined}>
+            <button
+              type="button"
+              aria-expanded={progetti}
+              aria-controls="menu-progetti"
+              onClick={() => setProgetti((v) => !v)}
+              className={`${vocePill(inUnRamo || progetti)} inline-flex items-center gap-1.5`}
+            >
+              Progetti
+              <ChevronDown
+                size={15}
+                aria-hidden="true"
+                className={`transition-transform duration-300 ${progetti ? 'rotate-180' : ''}`}
+              />
+            </button>
+
+            {progetti && (
+              <div
+                id="menu-progetti"
+                className="menu-panel absolute left-1/2 top-[calc(100%+0.9rem)] w-[36rem] -translate-x-1/2 rounded-2xl border border-white/10 bg-brand-soft/95 p-3 shadow-2xl shadow-black/60 backdrop-blur-xl"
               >
-                {link.label}
-              </Link>
-            )
-          })}
+                <ul className="grid grid-cols-2 gap-1">
+                  {RAMI.map((ramo) => (
+                    <li key={ramo.slug} data-tema={ramo.tema}>
+                      <Link
+                        to={`/${ramo.slug}`}
+                        aria-current={pathname === `/${ramo.slug}` ? 'page' : undefined}
+                        className={`group flex items-center gap-3 rounded-xl p-3 transition-colors hover:bg-white/[0.06] ${focusRing} ${
+                          pathname === `/${ramo.slug}` ? 'bg-white/[0.06]' : ''
+                        }`}
+                      >
+                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-accento-1 to-accento-2 text-black transition-transform duration-300 group-hover:scale-105">
+                          <ramo.Icon size={18} aria-hidden="true" />
+                        </span>
+                        <span className="min-w-0">
+                          <span className="flex items-center gap-2 text-etichetta text-white">
+                            {ramo.nome}
+                            {ramo.stato !== 'attivo' && (
+                              <span className="text-meta uppercase text-white/40">
+                                {ETICHETTA_STATO[ramo.stato]}
+                              </span>
+                            )}
+                          </span>
+                          <span className="block truncate text-micro text-white/55">{ramo.breve}</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {NAV_PRINCIPALE.filter((v) => v.to !== '/chi-siamo').map((voce) => (
+            <Link
+              key={voce.to}
+              to={voce.to}
+              data-attivo={pathname === voce.to || undefined}
+              aria-current={pathname === voce.to ? 'page' : undefined}
+              className={vocePill(pathname === voce.to)}
+            >
+              {voce.label}
+            </Link>
+          ))}
         </div>
 
         <div className="flex shrink-0 items-center gap-2">
-          <Link
-            to="/area-soci"
-            className={`press btn-shine hidden rounded-full bg-white px-5 py-2.5 text-etichetta text-gray-900 hover:bg-gray-100 sm:block ${focusRing}`}
-          >
-            Area Soci
+          <Link to="/contatti" className={`${btnPrimary} hidden !px-5 !py-2.5 sm:inline-block`}>
+            Contattaci
           </Link>
           <button
             type="button"
-            aria-label={open ? 'Chiudi menu' : 'Apri menu'}
-            aria-expanded={open}
+            aria-label={menuMobile ? 'Chiudi menu' : 'Apri menu'}
+            aria-expanded={menuMobile}
             aria-controls="menu-mobile"
-            data-open={open}
-            onClick={() => setOpen((v) => !v)}
+            data-open={menuMobile}
+            onClick={() => setMenuMobile((v) => !v)}
             className={`burger press grid h-11 w-11 place-items-center rounded-full text-white hover:bg-white/15 lg:hidden ${focusRing}`}
           >
-            {/* Tre barrette che ruotano in una X: il passaggio fra i due stati
-                resta leggibile, a differenza di uno scambio secco di icone. */}
             <span className="relative flex h-4 w-5 flex-col justify-between" aria-hidden="true">
               <span className="burger-line burger-top h-0.5 w-full rounded bg-current" />
               <span className="burger-line burger-mid h-0.5 w-full rounded bg-current" />
@@ -146,43 +212,52 @@ export default function Nav() {
         </div>
       </nav>
 
-      {open && (
+      {menuMobile && (
         <div
           id="menu-mobile"
-          className="menu-panel max-h-[calc(100svh-4rem)] overflow-y-auto border-t border-white/10 px-4 pb-5 pt-2 lg:hidden"
+          className="menu-panel max-h-[calc(100svh-4rem)] overflow-y-auto border-t border-white/10 px-4 pb-6 pt-3 lg:hidden"
         >
-          <ul className="flex flex-col gap-1">
-            {NAV_LINKS.map((link, i) => (
+          <Link
+            to="/chi-siamo"
+            className={`menu-item block rounded-xl px-4 py-3 text-etichetta text-white/85 hover:bg-white/10 ${focusRing}`}
+          >
+            Chi siamo
+          </Link>
+
+          <p className="menu-item mt-3 px-4 pb-2 text-occhiello uppercase text-white/40">Progetti</p>
+          <ul className="grid gap-1 sm:grid-cols-2">
+            {RAMI.map((ramo, i) => (
               <li
-                key={link.to}
+                key={ramo.slug}
+                data-tema={ramo.tema}
                 className="menu-item"
-                style={{ animationDelay: `${i * 45}ms` }}
+                style={{ animationDelay: `${(i + 1) * 35}ms` }}
               >
                 <Link
-                  to={link.to}
-                  aria-current={pathname === link.to ? 'page' : undefined}
-                  className={`press block rounded-xl px-4 py-3.5 text-etichetta ${focusRing} ${
-                    pathname === link.to
-                      ? 'bg-white/10 text-white'
-                      : 'text-white/80 hover:bg-white/10 hover:text-white'
+                  to={`/${ramo.slug}`}
+                  aria-current={pathname === `/${ramo.slug}` ? 'page' : undefined}
+                  className={`flex items-center gap-3 rounded-xl px-4 py-2.5 hover:bg-white/10 ${focusRing} ${
+                    pathname === `/${ramo.slug}` ? 'bg-white/10' : ''
                   }`}
                 >
-                  {link.label}
+                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-accento-1 to-accento-2 text-black">
+                    <ramo.Icon size={16} aria-hidden="true" />
+                  </span>
+                  <span className="text-etichetta text-white/85">{ramo.nome}</span>
                 </Link>
               </li>
             ))}
-            <li
-              className="menu-item sm:hidden"
-              style={{ animationDelay: `${NAV_LINKS.length * 45}ms` }}
-            >
-              <Link
-                to="/area-soci"
-                className={`press mt-2 block rounded-xl bg-white px-4 py-3.5 text-center text-etichetta text-gray-900 ${focusRing}`}
-              >
-                Area Soci
-              </Link>
-            </li>
           </ul>
+
+          <Link
+            to="/faq"
+            className={`menu-item mt-3 block rounded-xl px-4 py-3 text-etichetta text-white/85 hover:bg-white/10 ${focusRing}`}
+          >
+            Domande frequenti
+          </Link>
+          <Link to="/contatti" className={`${btnPrimary} menu-item mt-4 block w-full text-center sm:hidden`}>
+            Contattaci
+          </Link>
         </div>
       )}
     </header>

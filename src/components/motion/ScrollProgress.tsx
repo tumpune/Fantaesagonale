@@ -18,7 +18,7 @@ export default function ScrollProgress() {
     <m.div
       aria-hidden="true"
       style={{ scaleX: avanzamento }}
-      className="fixed left-0 right-0 top-0 z-[150] h-[3px] origin-left bg-gradient-to-r from-brand-yellow to-brand-red"
+      className="fixed left-0 right-0 top-0 z-[150] h-[3px] origin-left bg-gradient-to-r from-accento-1 to-accento-2"
     />
   )
 }

@@ -1,14 +1,23 @@
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import Layout from './components/layout/Layout'
 import Home from './pages/Home'
 import ChiSiamo from './pages/ChiSiamo'
-import TorneiGiochi from './pages/TorneiGiochi'
-import Sponsor from './pages/Sponsor'
-import Blog from './pages/Blog'
 import Contatti from './pages/Contatti'
-import AreaSoci from './pages/AreaSoci'
+import Faq from './pages/Faq'
+import Ramo from './pages/Ramo'
 import ItaliaCampione2030 from './pages/ItaliaCampione2030'
 import NonTrovata from './pages/NonTrovata'
+import { Cookie, Privacy } from './pages/Legale'
+import { RAMI } from './content/rami'
+
+/**
+ * Pagine rimosse dalla struttura precedente. Il reindirizzamento evita che i
+ * link gia' condivisi finiscano sulla pagina di errore.
+ */
+const PERCORSI_DISMESSI: Record<string, string> = {
+  '/area-soci': '/',
+  '/blog': '/',
+}
 
 export default function App() {
   return (
@@ -16,12 +25,31 @@ export default function App() {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/chi-siamo" element={<ChiSiamo />} />
-        <Route path="/tornei-giochi" element={<TorneiGiochi />} />
-        <Route path="/sponsor" element={<Sponsor />} />
-        <Route path="/blog" element={<Blog />} />
+        <Route path="/faq" element={<Faq />} />
         <Route path="/contatti" element={<Contatti />} />
-        <Route path="/area-soci" element={<AreaSoci />} />
-        <Route path="/italia-campione-2030" element={<ItaliaCampione2030 />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/cookie" element={<Cookie />} />
+
+        {RAMI.map((ramo) => (
+          <Route
+            key={ramo.slug}
+            path={`/${ramo.slug}`}
+            element={ramo.paginaDedicata ? <ItaliaCampione2030 /> : <Ramo ramo={ramo} />}
+          />
+        ))}
+
+        {/* Indirizzi brevi per materiali stampati, merch e QR (questionario 2.2):
+            chi arriva da /maritati atterra direttamente su FantaMaritati. */}
+        {RAMI.flatMap((ramo) =>
+          (ramo.alias ?? []).map((alias) => (
+            <Route key={alias} path={`/${alias}`} element={<Navigate to={`/${ramo.slug}`} replace />} />
+          )),
+        )}
+
+        {Object.entries(PERCORSI_DISMESSI).map(([da, a]) => (
+          <Route key={da} path={da} element={<Navigate to={a} replace />} />
+        ))}
+
         <Route path="*" element={<NonTrovata />} />
       </Route>
     </Routes>

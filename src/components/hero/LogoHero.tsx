@@ -5,6 +5,7 @@ import { usePointerFine, useReducedMotion } from '../../hooks/useMediaQuery'
 import SplitText from '../motion/SplitText'
 import Reveal from '../motion/Reveal'
 import { Eyebrow, Guida } from '../ui/Typography'
+import { gradientText } from '../ui/styles'
 
 /**
  * Testata della home costruita attorno al logo.
@@ -20,14 +21,12 @@ export default function LogoHero({
   titoloSotto,
   descrizione,
   azioni,
-  dati,
 }: {
   eyebrow: string
   titoloSopra: string
   titoloSotto: string
   descrizione: string
   azioni: ReactNode
-  dati: ReactNode
 }) {
   const ref = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
@@ -66,7 +65,7 @@ export default function LogoHero({
       }}
       // pb ampio su mobile: in basso a destra c'e' il pulsante fisso della
       // chat, che altrimenti copre il richiamo secondario.
-      className="relative flex min-h-[44rem] items-center overflow-hidden px-5 pb-36 pt-28 sm:min-h-[100svh] sm:px-8 sm:py-32 lg:px-12 bg-[radial-gradient(circle_at_20%_20%,rgba(252,215,12,0.12),transparent_45%),radial-gradient(circle_at_80%_30%,rgba(230,26,26,0.14),transparent_50%)]"
+      className="fondo-testata relative flex min-h-[40rem] items-center overflow-hidden px-5 pb-28 pt-28 sm:min-h-[100svh] sm:px-8 sm:py-32 lg:px-12"
     >
       {/* Il logo ingrandito e sfocato diventa l'alone di fondo: lo sfondo nasce
           dal marchio invece di essere una decorazione qualsiasi. */}
@@ -86,21 +85,21 @@ export default function LogoHero({
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
 
-        {/* Una sola scala per le due righe: cambia il carattere, corsivo
-            sopra e tondo sotto, non la misura. */}
+        {/* Lo slogan ufficiale, spezzato dove la voce farebbe una pausa: il
+            logo fa da respiro prima della chiusa "e sorridi". */}
         <h1 className="w-full text-display text-white text-balance">
           <SplitText
             text={titoloSopra}
             immediate
             delay={200}
             step={90}
-            className="block font-playfair font-normal italic"
+            className="block"
           />
 
           {/* Il marchio sta dentro il titolo, fra le due righe: e' il centro
               della composizione, non un elemento appoggiato accanto. */}
           <m.span
-            className="my-5 block sm:my-7"
+            className="my-12 block sm:my-14 md:my-16"
             initial={reduced ? false : { opacity: 0, scale: 0.55, rotate: -35 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ type: 'spring', stiffness: 55, damping: 14, delay: 0.35 }}
@@ -116,13 +115,13 @@ export default function LogoHero({
               <svg
                 viewBox="-100 -100 200 200"
                 aria-hidden="true"
-                className="pointer-events-none absolute left-1/2 top-1/2 h-[240%] w-[240%] -translate-x-1/2 -translate-y-1/2"
+                className="pointer-events-none absolute left-1/2 top-1/2 h-[180%] w-[180%] -translate-x-1/2 -translate-y-1/2"
               >
                 <polygon
                   points="0,-92 80,-46 80,46 0,92 -80,46 -80,-46"
                   className="hex-ring hex-ring-1"
                   fill="none"
-                  stroke="rgba(252,215,12,0.28)"
+                  style={{ stroke: 'rgb(var(--accento-1) / 0.28)' }}
                   strokeWidth="0.8"
                   strokeDasharray="14 8"
                 />
@@ -130,7 +129,7 @@ export default function LogoHero({
                   points="0,-66 57,-33 57,33 0,66 -57,33 -57,-33"
                   className="hex-ring hex-ring-2"
                   fill="none"
-                  stroke="rgba(230,26,26,0.32)"
+                  style={{ stroke: 'rgb(var(--accento-2) / 0.32)' }}
                   strokeWidth="0.9"
                 />
                 <polygon
@@ -157,6 +156,7 @@ export default function LogoHero({
             delay={560}
             step={90}
             className="block"
+            wordClassName={gradientText}
           />
         </h1>
 
@@ -168,7 +168,6 @@ export default function LogoHero({
           {azioni}
         </Reveal>
 
-        <div className="mt-14 w-full border-t border-white/10 pt-7 sm:mt-16">{dati}</div>
       </m.div>
     </section>
   )

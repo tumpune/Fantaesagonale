@@ -1,0 +1,54 @@
+import { useMemo } from 'react'
+import { Link } from 'react-router-dom'
+import { ArrowRight } from 'lucide-react'
+import { iniziativeAttive } from '../content/evidenza'
+import { ramoDaSlug } from '../content/rami'
+import Reveal from './motion/Reveal'
+import { focusRing } from './ui/styles'
+
+/**
+ * "In evidenza ora": le iniziative attive oggi (questionario 2.2).
+ * Ogni scheda prende il tema del proprio ramo. Se nessuna iniziativa e'
+ * attiva il blocco non compare, invece di restare vuoto.
+ */
+export default function InEvidenza() {
+  const attive = useMemo(() => iniziativeAttive(), [])
+  if (attive.length === 0) return null
+
+  return (
+    <div className="grid gap-5 md:grid-cols-3">
+      {attive.map((iniziativa, i) => {
+        const ramo = ramoDaSlug(iniziativa.ramo)
+        const Icon = ramo?.Icon
+        return (
+          <Reveal key={iniziativa.titolo} delay={i * 90}>
+            <Link
+              to={iniziativa.percorso}
+              data-tema={ramo?.tema ?? 'centrale'}
+              className={`card-hover group flex h-full flex-col rounded-2xl border border-accento-1/20 bg-gradient-to-br from-accento-1/[0.07] to-accento-2/[0.07] p-7 hover:border-accento-1/50 ${focusRing}`}
+            >
+              <span className="mb-5 flex items-center gap-3">
+                {Icon && (
+                  <span className="card-icon grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accento-1 to-accento-2 text-black">
+                    <Icon size={18} aria-hidden="true" />
+                  </span>
+                )}
+                <span className="text-occhiello uppercase text-accento-1">{ramo?.nome}</span>
+              </span>
+              <span className="mb-2 text-sottotitolo text-white">{iniziativa.titolo}</span>
+              <span className="mb-6 text-corpo text-white/60">{iniziativa.testo}</span>
+              <span className="mt-auto inline-flex items-center gap-2 text-etichetta text-accento-1">
+                {iniziativa.etichetta}
+                <ArrowRight
+                  size={16}
+                  aria-hidden="true"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                />
+              </span>
+            </Link>
+          </Reveal>
+        )
+      })}
+    </div>
+  )
+}

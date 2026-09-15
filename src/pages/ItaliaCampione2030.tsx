@@ -9,8 +9,8 @@ export default function ItaliaCampione2030() {
     <>
       <PageHero
         eyebrow="Progetto speciale"
-        titleItalic="Italia"
-        title="Campione 2030"
+        title="Italia"
+        highlight="Campione 2030"
       >
         Dopo la mancata qualificazione ai Mondiali — la sconfitta con la Bosnia del 31 marzo 2026 —
         FantaEsagonale ha lanciato una challenge lunga quattro anni: un video al giorno, ogni
@@ -28,8 +28,8 @@ export default function ItaliaCampione2030() {
         <ol className="grid gap-4">
           {CAMPAIGN_TIMELINE.map((item, i) => (
             <Reveal key={item.date} as="li" variant="left" delay={i * 110}>
-              <div className="card-hover grid gap-2 rounded-xl border border-white/[0.06] bg-brand-card p-5 hover:border-brand-yellow/40 sm:grid-cols-[140px_1fr] sm:gap-4">
-                <span className="text-etichetta text-brand-yellow">{item.date}</span>
+              <div className="card-hover grid gap-2 rounded-xl border border-white/[0.06] bg-brand-card p-5 hover:border-accento-1/40 sm:grid-cols-[140px_1fr] sm:gap-4">
+                <span className="text-etichetta text-accento-1">{item.date}</span>
                 <p className="text-corpo text-white/60 text-pretty">{item.text}</p>
               </div>
             </Reveal>
@@ -47,7 +47,7 @@ export default function ItaliaCampione2030() {
           {CAMPAIGN_CHANNELS.map((channel, i) => (
             <Reveal key={channel.title} delay={i * 90}>
               <FeatureCard Icon={channel.Icon} title={channel.title}>
-                <span className="italic text-white/35">{channel.text}</span>
+                {channel.text}
               </FeatureCard>
             </Reveal>
           ))}
@@ -57,7 +57,7 @@ export default function ItaliaCampione2030() {
       <CtaBanner
         title="Vuoi seguire ogni giorno la sfida verso il 2030?"
         action={
-          <Link to="/contatti" className={btnPrimary}>
+          <Link to="/contatti?oggetto=italia-campione-2030" className={btnPrimary}>
             Resta aggiornato
           </Link>
         }
