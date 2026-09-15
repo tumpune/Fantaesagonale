@@ -75,7 +75,7 @@ export default function Sponsor() {
           {Array.from({ length: 8 }).map((_, i) => (
             <span
               key={i}
-              className="mx-3 flex h-16 w-40 items-center justify-center rounded-xl border border-dashed border-white/15 text-xs text-white/35"
+              className="mx-3 flex h-16 w-40 items-center justify-center rounded-xl border border-dashed border-white/15 text-micro text-white/35"
             >
               Logo sponsor
             </span>

@@ -19,11 +19,11 @@ export default function Footer() {
                 height={44}
                 className="h-10 w-10 object-contain sm:h-11 sm:w-11"
               />
-              <span className="font-playfair text-xl italic text-white sm:text-2xl">
+              <span className="font-playfair text-sottotitolo font-normal italic text-white">
                 FantaEsagonale
               </span>
             </div>
-            <p className="mb-4 max-w-[280px] text-sm text-white/60">
+            <p className="mb-4 max-w-[280px] text-micro text-white/60">
               Associazione di promozione sociale a Grammichele e dintorni. Dal 2023 trasmettiamo
               ottimismo attraverso sport, giochi e sfide vere.
             </p>
@@ -59,8 +59,8 @@ export default function Footer() {
 
           {FOOTER_COLUMNS.map((column) => (
             <div key={column.title}>
-              <h2 className="mb-4 text-xs uppercase tracking-wider text-white/50">{column.title}</h2>
-              <ul className="space-y-2.5 text-sm">
+              <h2 className="mb-4 text-meta uppercase text-white/50">{column.title}</h2>
+              <ul className="space-y-2.5 text-micro">
                 {column.links.map((link) => (
                   <li key={link.to}>
                     <Link to={link.to} className={linkClass}>
@@ -73,8 +73,8 @@ export default function Footer() {
           ))}
 
           <div>
-            <h2 className="mb-4 text-xs uppercase tracking-wider text-white/50">Contatti</h2>
-            <ul className="space-y-2.5 text-sm text-white/60">
+            <h2 className="mb-4 text-meta uppercase text-white/50">Contatti</h2>
+            <ul className="space-y-2.5 text-micro text-white/60">
               <li className="italic text-white/40">Email da definire</li>
               <li className="italic text-white/40">Tel/WhatsApp da definire</li>
               <li>Grammichele</li>
@@ -82,7 +82,7 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="flex flex-wrap justify-between gap-2 border-t border-white/[0.06] pt-5 text-xs text-white/40">
+        <div className="flex flex-wrap justify-between gap-2 border-t border-white/[0.06] pt-5 text-micro text-white/40">
           <span>&copy; {new Date().getFullYear()} FantaEsagonale. Tutti i diritti riservati.</span>
           <span>Sito in fase di sviluppo — contenuti in corso di definizione</span>
         </div>

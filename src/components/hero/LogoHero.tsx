@@ -4,7 +4,7 @@ import { asset } from '../../lib/constants'
 import { usePointerFine, useReducedMotion } from '../../hooks/useMediaQuery'
 import SplitText from '../motion/SplitText'
 import Reveal from '../motion/Reveal'
-import { Eyebrow } from '../ui/Typography'
+import { Eyebrow, Guida } from '../ui/Typography'
 
 /**
  * Testata della home costruita attorno al logo.
@@ -86,19 +86,21 @@ export default function LogoHero({
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
 
-        <h1 className="w-full text-white leading-[0.95] text-balance">
+        {/* Una sola scala per le due righe: cambia il carattere, corsivo
+            sopra e tondo sotto, non la misura. */}
+        <h1 className="w-full text-display text-white text-balance">
           <SplitText
             text={titoloSopra}
             immediate
             delay={200}
             step={90}
-            className="block font-playfair text-3xl font-normal italic sm:text-5xl md:text-6xl"
+            className="block font-playfair font-normal italic"
           />
 
           {/* Il marchio sta dentro il titolo, fra le due righe: e' il centro
               della composizione, non un elemento appoggiato accanto. */}
           <m.span
-            className="my-10 block sm:my-14"
+            className="my-5 block sm:my-7"
             initial={reduced ? false : { opacity: 0, scale: 0.55, rotate: -35 }}
             animate={{ opacity: 1, scale: 1, rotate: 0 }}
             transition={{ type: 'spring', stiffness: 55, damping: 14, delay: 0.35 }}
@@ -144,7 +146,7 @@ export default function LogoHero({
               <img
                 src={asset('img/logo-trasparente.png')}
                 alt="FantaEsagonale"
-                className="logo-float relative h-24 w-24 object-contain sm:h-32 sm:w-32 md:h-40 md:w-40"
+                className="logo-float relative h-24 w-24 object-contain sm:h-28 sm:w-28 md:h-32 md:w-32"
               />
             </m.span>
           </m.span>
@@ -154,14 +156,12 @@ export default function LogoHero({
             immediate
             delay={560}
             step={90}
-            className="block text-3xl font-extrabold sm:text-5xl md:text-6xl"
+            className="block"
           />
         </h1>
 
         <Reveal delay={300}>
-          <p className="mt-6 max-w-2xl text-base text-white/60 sm:text-lg text-pretty">
-            {descrizione}
-          </p>
+          <Guida className="mt-7">{descrizione}</Guida>
         </Reveal>
 
         <Reveal delay={420} className="mt-8 flex flex-wrap justify-center gap-3">

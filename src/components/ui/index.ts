@@ -3,7 +3,7 @@
  * sapere in quale file vive ogni componente.
  */
 export { Section } from './Section'
-export { Eyebrow, SectionHead, PageHero } from './Typography'
+export { Eyebrow, SectionHead, PageHero, Guida, Corpo } from './Typography'
 export { Card, FeatureCard, ArticleCard } from './Card'
 export { HighlightPanel, CtaBanner } from './Panels'
 export { Placeholder, PlaceholderBox } from './Placeholder'

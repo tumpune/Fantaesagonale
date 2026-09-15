@@ -4,9 +4,9 @@ import { CONTACTS } from '../content/sezioni'
 import { PageHero, Section, btnPrimary } from '../components/ui'
 
 const inputClass =
-  'w-full rounded-xl border border-white/15 bg-brand-soft px-4 py-3 text-sm text-white transition-all duration-300 hover:border-white/25 focus:border-brand-yellow focus:bg-brand-soft/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow'
+  'w-full rounded-xl border border-white/15 bg-brand-soft px-4 py-3 text-corpo text-white transition-all duration-300 hover:border-white/25 focus:border-brand-yellow focus:bg-brand-soft/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-yellow'
 
-const labelClass = 'mb-2 block text-sm font-semibold text-white/70'
+const labelClass = 'mb-2 block text-etichetta text-white/70'
 
 export default function Contatti() {
   const [feedback, setFeedback] = useState('')
@@ -126,13 +126,13 @@ export default function Contatti() {
                     doversi spostare manualmente sul messaggio. */}
                 <div aria-live="polite">
                   {feedback && (
-                    <p className="reveal reveal-up is-visible mt-5 rounded-xl bg-brand-yellow/10 px-4 py-3.5 text-sm text-brand-yellow">
+                    <p className="reveal reveal-up is-visible mt-5 rounded-xl bg-brand-yellow/10 px-4 py-3.5 text-corpo text-brand-yellow">
                       {feedback}
                     </p>
                   )}
                 </div>
 
-                <p className="mt-4 text-center text-xs text-white/40">
+                <p className="mt-4 text-center text-micro text-white/40">
                   Modulo da collegare a un servizio email o backend prima della pubblicazione.
                 </p>
               </form>
@@ -147,9 +147,9 @@ export default function Contatti() {
                     <Icon size={18} aria-hidden="true" />
                   </span>
                   <span className="min-w-0">
-                    <span className="mb-1 block text-sm font-semibold text-white">{title}</span>
+                    <span className="mb-1 block text-etichetta text-white">{title}</span>
                     <span
-                      className={`block break-words text-sm ${todo ? 'italic text-white/40' : 'text-white/60'}`}
+                      className={`block break-words text-corpo ${todo ? 'italic text-white/40' : 'text-white/60'}`}
                     >
                       {text}
                     </span>

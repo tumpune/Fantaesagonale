@@ -19,7 +19,7 @@ export function useCampaignProgress() {
   }, [])
 }
 
-export default function CampaignCountdown({ size = 'md' }: { size?: 'md' | 'lg' }) {
+export default function CampaignCountdown() {
   const { dayNumber, daysRemaining, progress } = useCampaignProgress()
   const { ref, inView } = useInView<HTMLDivElement>({ threshold: 0.1 })
 
@@ -28,25 +28,23 @@ export default function CampaignCountdown({ size = 'md' }: { size?: 'md' | 'lg' 
   const animatedDay = useCountUp(dayNumber, inView)
   const animatedRemaining = useCountUp(daysRemaining, inView, 1700)
 
-  const numberClass = size === 'lg' ? 'text-4xl md:text-5xl' : 'text-3xl md:text-4xl'
-
   return (
     <div ref={ref}>
       <div className="grid grid-cols-2 gap-4">
         <div className="card-hover rounded-xl border border-white/[0.08] bg-brand-soft p-5 text-center">
-          <div className={`${numberClass} font-extrabold leading-none ${gradientText}`}>
+          <div className={`text-cifra ${gradientText}`}>
             {animatedDay}
-            <span className="text-base font-semibold text-white/40"> / {CAMPAIGN_TOTAL_DAYS}</span>
+            <span className="text-etichetta text-white/40"> / {CAMPAIGN_TOTAL_DAYS}</span>
           </div>
-          <div className="mt-2 text-xs uppercase tracking-wider text-white/50">
+          <div className="mt-2 text-meta uppercase text-white/50">
             Giorno della challenge
           </div>
         </div>
         <div className="card-hover rounded-xl border border-white/[0.08] bg-brand-soft p-5 text-center">
-          <div className={`${numberClass} font-extrabold leading-none ${gradientText}`}>
+          <div className={`text-cifra ${gradientText}`}>
             {animatedRemaining}
           </div>
-          <div className="mt-2 text-xs uppercase tracking-wider text-white/50">
+          <div className="mt-2 text-meta uppercase text-white/50">
             Giorni al 21 luglio 2030
           </div>
         </div>

@@ -18,7 +18,7 @@ export function PlaceholderBox({
 }) {
   return (
     <div
-      className={`placeholder-shimmer bg-brand-card border border-dashed border-white/15 rounded-xl flex items-center justify-center text-center text-xs text-white/35 p-4 ${className}`}
+      className={`placeholder-shimmer bg-brand-card border border-dashed border-white/15 rounded-xl flex items-center justify-center text-center text-micro text-white/35 p-4 ${className}`}
     >
       {children}
     </div>

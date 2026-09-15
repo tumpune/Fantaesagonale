@@ -22,7 +22,7 @@ export default function Layout() {
 
   return (
     <LazyMotion features={funzionalitaMovimento} strict>
-      <div className="min-h-screen bg-brand-black tracking-[-0.02em]">
+      <div className="min-h-screen bg-brand-black">
         <a href="#contenuto" className="skip-link">
           Salta al contenuto
         </a>

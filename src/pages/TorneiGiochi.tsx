@@ -21,17 +21,17 @@ export default function TorneiGiochi() {
                     <activity.Icon size={28} aria-hidden="true" />
                   </div>
                   <div>
-                    <h2 className="mb-2.5 text-lg font-bold text-white sm:text-xl">
+                    <h2 className="mb-2.5 text-sottotitolo text-white">
                       {activity.title}
                     </h2>
-                    <p className="text-sm text-white/60 sm:text-base text-pretty">{activity.body}</p>
+                    <p className="text-corpo text-white/60 text-pretty">{activity.body}</p>
                     {/* Elenchi di argomenti, non link: le pagine di destinazione
                         non esistono ancora e un href="#" riporterebbe in cima. */}
                     <ul className="mt-4 flex flex-wrap gap-2">
                       {activity.topics.map((topic) => (
                         <li
                           key={topic}
-                          className="rounded-full border border-white/15 px-3.5 py-1.5 text-xs text-white/50 transition-colors duration-300 hover:border-brand-yellow/50 hover:text-white/80 sm:text-sm"
+                          className="rounded-full border border-white/15 px-3.5 py-1.5 text-micro text-white/50 transition-colors duration-300 hover:border-brand-yellow/50 hover:text-white/80"
                         >
                           {topic}
                           <span className="sr-only"> — in arrivo</span>

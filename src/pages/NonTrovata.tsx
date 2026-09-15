@@ -14,24 +14,22 @@ export default function NonTrovata() {
         <div className="card-icon mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-brand-yellow to-brand-red text-black">
           <Compass size={30} aria-hidden="true" />
         </div>
-        <p className="mb-3 text-sm font-bold uppercase tracking-[0.15em] text-brand-yellow">
+        <p className="mb-3 text-occhiello uppercase text-brand-yellow">
           Errore 404
         </p>
-        <h1 className="mb-4 leading-[0.95] text-white">
+        <h1 className="mb-5 text-display text-white text-balance">
           <span
-            className="block font-playfair text-3xl font-normal italic sm:text-5xl"
-            style={{ letterSpacing: '-0.05em' }}
+            className="block font-playfair font-normal italic"
           >
             Questa pagina
           </span>
           <span
-            className="-mt-1 block text-3xl font-normal sm:text-5xl"
-            style={{ letterSpacing: '-0.06em' }}
+            className="-mt-1 block"
           >
             non esiste
           </span>
         </h1>
-        <p className="mb-8 text-base text-white/60 text-pretty">
+        <p className="mb-8 text-guida text-white/60 text-pretty">
           L'indirizzo che hai aperto non corrisponde a nessuna pagina del sito. Può darsi che il link
           fosse sbagliato o che la pagina sia stata spostata.
         </p>

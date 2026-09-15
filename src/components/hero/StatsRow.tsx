@@ -20,11 +20,11 @@ function Numero({
 
   return (
     <div ref={ref}>
-      <div className={`text-2xl font-extrabold leading-none sm:text-3xl ${gradientText}`}>
+      <div className={`text-cifra ${gradientText}`}>
         {grezzo ? conteggio : conteggio.toLocaleString('it-IT')}
         {suffisso}
       </div>
-      <div className="mt-1.5 text-xs text-white/55 sm:text-sm">{etichetta}</div>
+      <div className="mt-2 text-micro text-white/55">{etichetta}</div>
     </div>
   )
 }

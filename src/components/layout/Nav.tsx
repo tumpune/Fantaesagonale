@@ -78,7 +78,7 @@ export default function Nav() {
             height={36}
             className="h-8 w-8 object-contain transition-transform duration-500 group-hover:rotate-[14deg] group-hover:scale-110 sm:h-9 sm:w-9"
           />
-          <span className="whitespace-nowrap font-playfair text-lg italic text-white sm:text-2xl">
+          <span className="whitespace-nowrap font-playfair text-sottotitolo font-normal italic text-white">
             FantaEsagonale
           </span>
         </Link>
@@ -109,7 +109,7 @@ export default function Nav() {
                 to={link.to}
                 data-attivo={active || undefined}
                 aria-current={active ? 'page' : undefined}
-                className={`relative z-10 rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${focusRing} ${
+                className={`relative z-10 rounded-full px-4 py-1.5 text-etichetta transition-colors ${focusRing} ${
                   active ? 'text-white' : 'text-white/80 hover:text-white'
                 }`}
               >
@@ -122,7 +122,7 @@ export default function Nav() {
         <div className="flex shrink-0 items-center gap-2">
           <Link
             to="/area-soci"
-            className={`press btn-shine hidden rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-gray-900 hover:bg-gray-100 sm:block ${focusRing}`}
+            className={`press btn-shine hidden rounded-full bg-white px-5 py-2.5 text-etichetta text-gray-900 hover:bg-gray-100 sm:block ${focusRing}`}
           >
             Area Soci
           </Link>
@@ -161,7 +161,7 @@ export default function Nav() {
                 <Link
                   to={link.to}
                   aria-current={pathname === link.to ? 'page' : undefined}
-                  className={`press block rounded-xl px-4 py-3.5 text-base font-medium ${focusRing} ${
+                  className={`press block rounded-xl px-4 py-3.5 text-etichetta ${focusRing} ${
                     pathname === link.to
                       ? 'bg-white/10 text-white'
                       : 'text-white/80 hover:bg-white/10 hover:text-white'
@@ -177,7 +177,7 @@ export default function Nav() {
             >
               <Link
                 to="/area-soci"
-                className={`press mt-2 block rounded-xl bg-white px-4 py-3.5 text-center text-base font-semibold text-gray-900 ${focusRing}`}
+                className={`press mt-2 block rounded-xl bg-white px-4 py-3.5 text-center text-etichetta text-gray-900 ${focusRing}`}
               >
                 Area Soci
               </Link>
