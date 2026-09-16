@@ -1,12 +1,14 @@
 import { Link } from 'react-router-dom'
 import LogoHero from '../components/hero/LogoHero'
 import Alveare from '../components/Alveare'
+import Numeri from '../components/Numeri'
 import { testimonianzeDi } from '../content/testimonianze'
 import InEvidenza from '../components/InEvidenza'
 import Reveal from '../components/motion/Reveal'
 import Marquee from '../components/motion/Marquee'
 import Magnetic from '../components/motion/Magnetic'
-import { RAMI } from '../content/rami'
+import { RAMI, ramoDaSlug } from '../content/rami'
+import { iniziativeAttive } from '../content/evidenza'
 import { DISTINTIVO, FAQ_GENERALI, INTRO_HOME, PRINCIPI, SLOGAN } from '../content/associazione'
 import {
   CtaBanner,
@@ -31,8 +33,13 @@ import {
 export default function Home() {
   // Lo slogan si modifica dal pannello: la chiusa sotto al logo resta "e
   // sorridi" se c'e', altrimenti scende l'ultima parola.
-  const chiusa = / e sorridi$/.test(SLOGAN) ? ' e sorridi' : SLOGAN.slice(SLOGAN.lastIndexOf(' '))
+  const ultimoSpazio = SLOGAN.lastIndexOf(' ')
+  const chiusa = / e sorridi$/.test(SLOGAN) ? ' e sorridi' : ultimoSpazio > 0 ? SLOGAN.slice(ultimoSpazio) : ''
   const primaParte = SLOGAN.slice(0, SLOGAN.length - chiusa.length)
+
+  // Le sezioni senza contenuto non compaiono affatto: un titolo che promette
+  // novita' seguito dal vuoto e' peggio del silenzio.
+  const iniziativeInHome = iniziativeAttive().filter((i) => ramoDaSlug(i.ramo)).length
 
   return (
     <>
@@ -72,14 +79,18 @@ export default function Home() {
         </Marquee>
       </div>
 
-      <Section>
-        <SectionHead
-          eyebrow="In evidenza ora"
-          title="Cosa sta succedendo"
-          subtitle="Le iniziative attive in questo momento."
-        />
-        <InEvidenza />
-      </Section>
+      <Numeri />
+
+      {iniziativeInHome > 0 && (
+        <Section>
+          <SectionHead
+            eyebrow="In evidenza ora"
+            title="Cosa sta succedendo"
+            subtitle="Le iniziative attive in questo momento."
+          />
+          <InEvidenza />
+        </Section>
+      )}
 
       <section id="progetti" className="scroll-mt-24 bg-brand-soft px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
         <SectionHead
@@ -105,7 +116,7 @@ export default function Home() {
 
           <ul className="grid gap-4 sm:grid-cols-2">
             {PRINCIPI.map((principio, i) => (
-              <Reveal key={principio.nome} as="li" variant="right" delay={i * 80}>
+              <Reveal key={`${principio.nome}-${i}`} as="li" variant="right" delay={i * 80}>
                 <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
                   <span className="mb-3 block h-1 w-10 rounded-full bg-gradient-to-r from-accento-1 to-accento-2" />
                   <h3 className="mb-2 text-sottotitolo text-white">{principio.nome}</h3>
@@ -122,15 +133,17 @@ export default function Home() {
         <Testimonianze voci={testimonianzeDi()} />
       </Section>
 
-      <Section>
-        <SectionHead eyebrow="Domande frequenti" title="Le risposte più cercate" />
-        <FaqLista voci={FAQ_GENERALI.slice(0, 3)} />
-        <Reveal className="mt-8 text-center">
-          <Link to="/faq" className={btnSecondary}>
-            Tutte le domande
-          </Link>
-        </Reveal>
-      </Section>
+      {FAQ_GENERALI.length > 0 && (
+        <Section>
+          <SectionHead eyebrow="Domande frequenti" title="Le risposte più cercate" />
+          <FaqLista voci={FAQ_GENERALI.slice(0, 3)} />
+          <Reveal className="mt-8 text-center">
+            <Link to="/faq" className={btnSecondary}>
+              Tutte le domande
+            </Link>
+          </Reveal>
+        </Section>
+      )}
 
       <CtaBanner
         title="Hai un'idea, un evento o un progetto?"

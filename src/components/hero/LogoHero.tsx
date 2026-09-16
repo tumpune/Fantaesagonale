@@ -145,6 +145,11 @@ export default function LogoHero({
               <img
                 src={asset('img/logo-trasparente.png')}
                 alt="FantaEsagonale"
+                width={128}
+                height={128}
+                // Dichiarare le misure evita che le due righe dello slogan
+                // saltino quando l'immagine finisce di caricarsi.
+                fetchPriority="high"
                 className="logo-float relative h-24 w-24 object-contain sm:h-28 sm:w-28 md:h-32 md:w-32"
               />
             </m.span>

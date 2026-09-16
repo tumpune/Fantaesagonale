@@ -26,6 +26,10 @@ export default function Marquee({
           animationDirection: reverse ? 'reverse' : 'normal',
         }}
       >
+        {/* Tre copie invece di due: con una sola ripetizione, su schermi molto
+            larghi il gruppo non copre il contenitore e nel nastro passa un
+            vuoto a ogni giro. */}
+        <span className="marquee-group">{children}</span>
         <span className="marquee-group">{children}</span>
         <span className="marquee-group">{children}</span>
       </div>

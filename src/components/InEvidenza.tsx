@@ -12,16 +12,19 @@ import { focusRing } from './ui/styles'
  * attiva il blocco non compare, invece di restare vuoto.
  */
 export default function InEvidenza() {
-  const attive = useMemo(() => iniziativeAttive(), [])
+  // Un'iniziativa collegata a un progetto che non esiste piu' porterebbe a una
+  // pagina di errore, con la scheda priva di icona e occhiello: meglio non
+  // mostrarla affatto.
+  const attive = useMemo(() => iniziativeAttive().filter((i) => ramoDaSlug(i.ramo)), [])
   if (attive.length === 0) return null
 
   return (
-    <div className="grid gap-5 md:grid-cols-3">
+    <div className={`grid gap-5 ${attive.length > 2 ? "md:grid-cols-3" : "mx-auto max-w-4xl sm:grid-cols-2"}`}>
       {attive.map((iniziativa, i) => {
         const ramo = ramoDaSlug(iniziativa.ramo)
         const Icon = ramo?.Icon
         return (
-          <Reveal key={iniziativa.titolo} delay={i * 90}>
+          <Reveal key={`${iniziativa.titolo}-${i}`} delay={i * 90}>
             <Link
               to={iniziativa.percorso}
               data-tema={ramo?.tema ?? 'centrale'}

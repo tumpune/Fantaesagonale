@@ -3,6 +3,7 @@ import { Check } from 'lucide-react'
 import Reveal from '../components/motion/Reveal'
 import { ETICHETTA_STATO, type Ramo as RamoTipo } from '../content/rami'
 import { testimonianzeDi } from '../content/testimonianze'
+import { SchemaDomande } from '../components/DatiStrutturati'
 import {
   CtaBanner,
   FaqLista,
@@ -27,6 +28,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
 
   return (
     <>
+      <SchemaDomande voci={ramo.faq} />
       <PageHero
         eyebrow={ramo.occhiello}
         highlight={ramo.nome}
@@ -43,9 +45,11 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
             <Link to={contatto} className={btnPrimary}>
               {ramo.cta.etichetta}
             </Link>
-            <a href="#faq" className={btnSecondary}>
-              Domande frequenti
-            </a>
+            {ramo.faq.length > 0 && (
+              <a href="#faq" className={btnSecondary}>
+                Domande frequenti
+              </a>
+            )}
           </>
         }
       >
@@ -66,7 +70,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
 
           <ul className="grid gap-4 sm:grid-cols-2">
             {ramo.offerta.map((voce, i) => (
-              <Reveal key={voce.titolo} as="li" variant="right" delay={i * 80}>
+              <Reveal key={`${voce.titolo}-${i}`} as="li" variant="right" delay={i * 80}>
                 <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
                   <span className="card-icon mb-4 grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-accento-1 to-accento-2 text-black">
                     <Check size={17} aria-hidden="true" />
@@ -89,9 +93,9 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
           />
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {ramo.scale.map((scala, i) => (
-              <Reveal key={scala.nome} as="li" delay={i * 80}>
+              <Reveal key={`${scala.nome}-${i}`} as="li" delay={i * 80}>
                 <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
-                  <span className="mb-4 block text-cifra text-accento-1">0{i + 1}</span>
+                  <span className="mb-4 block text-cifra text-accento-1">{String(i + 1).padStart(2, '0')}</span>
                   <h3 className="mb-2 text-sottotitolo text-white">{scala.nome}</h3>
                   <p className="text-corpo text-white/60">{scala.testo}</p>
                 </div>

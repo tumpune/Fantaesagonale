@@ -3,6 +3,7 @@ import Reveal from '../components/motion/Reveal'
 import { FAQ_GENERALI } from '../content/associazione'
 import { RAMI } from '../content/rami'
 import { CtaBanner, FaqLista, PageHero, Section, SectionHead, btnPrimary } from '../components/ui'
+import { SchemaDomande } from '../components/DatiStrutturati'
 
 /**
  * FAQ generali, piu' quelle di ogni ramo raccolte in un unico posto
@@ -14,6 +15,7 @@ export default function Faq() {
 
   return (
     <>
+      <SchemaDomande voci={[...FAQ_GENERALI, ...ramiConFaq.flatMap((r) => r.faq)]} />
       <PageHero eyebrow="Domande frequenti" title="Tutto quello che" highlight="vuoi sapere">
         Le risposte alle domande più comuni su FantaEsagonale e sui suoi progetti. Non trovi quello
         che cerchi? Scrivici.

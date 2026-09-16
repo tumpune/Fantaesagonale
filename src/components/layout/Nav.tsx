@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { ChevronDown } from 'lucide-react'
 import { asset } from '../../lib/constants'
+import { bloccaScorrimento } from '../../lib/scorrimento'
 import { NAV_PRINCIPALE } from '../../content/navigazione'
 import { RAMI, ETICHETTA_STATO } from '../../content/rami'
 import { btnPrimary, focusRing } from '../ui/styles'
@@ -61,12 +62,15 @@ export default function Nav() {
     if (!menuMobile) return
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setMenuMobile(false)
     window.addEventListener('keydown', onKey)
-    // Blocca lo scroll sotto il menu aperto, altrimenti su mobile scorre il
-    // contenuto retrostante mentre il pannello resta fermo.
+    // Sotto al menu aperto la pagina non deve muoversi. Serve fermare anche lo
+    // scorrimento inerziale: sposta la pagina via JavaScript e ignorerebbe
+    // `overflow: hidden`, facendo ritrovare un punto diverso alla chiusura.
     document.body.style.overflow = 'hidden'
+    bloccaScorrimento(true)
     return () => {
       window.removeEventListener('keydown', onKey)
       document.body.style.overflow = ''
+      bloccaScorrimento(false)
     }
   }, [menuMobile])
 
@@ -162,7 +166,7 @@ export default function Nav() {
                           <span className="flex items-center gap-2 text-etichetta text-white">
                             {ramo.nome}
                             {ramo.stato !== 'attivo' && (
-                              <span className="text-meta uppercase text-white/40">
+                              <span className="text-meta uppercase text-white/60">
                                 {ETICHETTA_STATO[ramo.stato]}
                               </span>
                             )}
@@ -217,14 +221,22 @@ export default function Nav() {
           id="menu-mobile"
           className="menu-panel max-h-[calc(100svh-4rem)] overflow-y-auto border-t border-white/10 px-4 pb-6 pt-3 lg:hidden"
         >
-          <Link
-            to="/chi-siamo"
-            className={`menu-item block rounded-xl px-4 py-3 text-etichetta text-white/85 hover:bg-white/10 ${focusRing}`}
-          >
-            Chi siamo
-          </Link>
+          {/* Le voci principali arrivano dallo stesso elenco della barra su
+              schermi larghi: aggiungerne una la fa comparire in entrambi. */}
+          {NAV_PRINCIPALE.filter((voce) => voce.to !== '/faq').map((voce) => (
+            <Link
+              key={voce.to}
+              to={voce.to}
+              aria-current={pathname === voce.to ? 'page' : undefined}
+              className={`menu-item block rounded-xl px-4 py-3 text-etichetta text-white/85 hover:bg-white/10 ${focusRing} ${
+                pathname === voce.to ? 'bg-white/10' : ''
+              }`}
+            >
+              {voce.label}
+            </Link>
+          ))}
 
-          <p className="menu-item mt-3 px-4 pb-2 text-occhiello uppercase text-white/40">Progetti</p>
+          <p className="menu-item mt-3 px-4 pb-2 text-occhiello uppercase text-white/60">Progetti</p>
           <ul className="grid gap-1 sm:grid-cols-2">
             {RAMI.map((ramo, i) => (
               <li

@@ -16,7 +16,9 @@ export function GET(request: Request): Response {
   const github = new URL('https://github.com/login/oauth/authorize')
   github.searchParams.set('client_id', clientId)
   github.searchParams.set('redirect_uri', `${origine}/api/callback`)
-  github.searchParams.set('scope', process.env.GITHUB_SCOPE || 'repo')
+  // Il minimo necessario per scrivere sui contenuti di un repository
+  // pubblico. Se il repository diventasse privato serve GITHUB_SCOPE=repo.
+  github.searchParams.set('scope', process.env.GITHUB_SCOPE || 'public_repo')
   github.searchParams.set('state', state)
 
   return new Response(null, {

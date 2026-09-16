@@ -12,6 +12,7 @@ import {
   redis,
   redisConfigurato,
   registraEsecuzione,
+  sale,
   sha256,
   stessaOrigine,
   type ImpostazioniAutomazioni,
@@ -27,6 +28,19 @@ import {
 
 const EMAIL = /^[^\s@]{1,64}@[^\s@]{1,190}\.[a-z]{2,}$/i
 const MASSIMO_ORARIO = 5
+
+/**
+ * Freno di riserva quando l'archivio delle statistiche non e' configurato o non
+ * risponde: vale solo per questa istanza della funzione, ma evita che il modulo
+ * resti del tutto senza limiti.
+ */
+const inviiRecenti: number[] = []
+const troppiInvii = () => {
+  const ora = Date.now()
+  while (inviiRecenti.length && ora - inviiRecenti[0] > 3_600_000) inviiRecenti.shift()
+  inviiRecenti.push(ora)
+  return inviiRecenti.length > 30
+}
 
 const testo = (valore: unknown, minimo: number, massimo: number) =>
   typeof valore === 'string' && valore.trim().length >= minimo && valore.trim().length <= massimo
@@ -51,7 +65,9 @@ export async function POST(request: Request): Promise<Response> {
   const email = testo(dati.email, 5, 254)
   const telefono = dati.telefono ? testo(dati.telefono, 5, 30) : ''
   const oggetto = typeof dati.oggetto === 'string' && /^[a-z0-9-]{1,40}$/.test(dati.oggetto) ? dati.oggetto : null
-  const argomento = testo(dati.argomento, 1, 60) ?? oggetto
+  // L'etichetta finisce nell'oggetto dell'email: gli a capo permetterebbero di
+  // aggiungere intestazioni di posta, quindi si appiattiscono in spazi.
+  const argomento = (testo(dati.argomento, 1, 60) ?? oggetto)?.replace(/\s+/g, ' ')
   const messaggio = testo(dati.messaggio, 10, 4000)
 
   if (!nome || !email || !EMAIL.test(email) || telefono === null || !oggetto || !messaggio || dati.privacy !== true) {
@@ -65,9 +81,11 @@ export async function POST(request: Request): Promise<Response> {
   )
   if (impostazioni.moduloContatti?.attivo === false) return json({ errore: 'in-pausa' }, 503)
 
+  if (!redisConfigurato() && troppiInvii()) return json({ errore: 'troppe-richieste' }, 429)
+
   if (redisConfigurato()) {
     const ora = new Date().toISOString().slice(0, 13)
-    const chiave = `limite:${(await sha256(`${ipDi(request)}|${ora}`)).slice(0, 24)}`
+    const chiave = `limite:${(await sha256(`${ipDi(request)}|${sale()}|${ora}`)).slice(0, 24)}`
     const [conteggio] = await redis([
       ['INCR', chiave],
       ['EXPIRE', chiave, 3600],
@@ -130,7 +148,7 @@ export async function POST(request: Request): Promise<Response> {
       ['EXPIRE', chiave, DURATA_STATISTICHE, 'NX'],
     ]).catch(() => {})
   }
-  await registraEsecuzione('moduloContatti', 'ok', `Richiesta "${argomento}" inoltrata`)
+  await registraEsecuzione('moduloContatti', 'ok', `Richiesta "${oggetto}" inoltrata`)
 
   return json({ ok: true })
 }

@@ -63,8 +63,11 @@ async function promemoria(prova: boolean): Promise<Esito> {
   const oggi = giorno()
   const traPoco = spostaGiorno(oggi, anticipo)
 
+  // Se GitHub non risponde l'automazione non deve morire in silenzio: senza
+  // iniziative non parte nessun avviso, ma l'esecuzione resta registrata.
+  const iniziative = await leggiIniziative().catch(() => [] as Iniziativa[])
   const avvisi: string[] = []
-  for (const i of await leggiIniziative()) {
+  for (const i of iniziative) {
     if (i.dal === oggi) avvisi.push(`<strong>${html(i.titolo)}</strong> compare in home da oggi.`)
     if (i.dal === traPoco) avvisi.push(`<strong>${html(i.titolo)}</strong> comparirà in home ${dataEstesa(traPoco)}.`)
     if (i.al === traPoco) avvisi.push(`<strong>${html(i.titolo)}</strong> uscirà dalla home dopo ${dataEstesa(traPoco)}.`)

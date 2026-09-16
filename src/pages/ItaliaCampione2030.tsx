@@ -4,6 +4,7 @@ import CampaignCountdown from '../components/CampaignCountdown'
 import Reveal from '../components/motion/Reveal'
 import { ramoDaSlug } from '../content/rami'
 import { CtaBanner, FaqLista, FeatureCard, PageHero, Section, SectionHead, btnPrimary } from '../components/ui'
+import { SchemaDomande } from '../components/DatiStrutturati'
 
 /**
  * Italia Campione 2030 ha una pagina propria — il conto alla rovescia e la
@@ -30,6 +31,7 @@ export default function ItaliaCampione2030() {
 
   return (
     <>
+      <SchemaDomande voci={ramo.faq} />
       <PageHero eyebrow={ramo.occhiello} title={titolo} highlight={resto.join(' ')}>
         {ramo.intro}
       </PageHero>
@@ -44,7 +46,7 @@ export default function ItaliaCampione2030() {
           <SectionHead eyebrow="La linea del tempo" title="Dalla delusione alla finale" />
           <ol className="grid gap-4">
             {ramo.tappe.map((tappa, i) => (
-              <Reveal key={tappa.quando} as="li" variant="left" delay={i * 110}>
+              <Reveal key={`${tappa.quando}-${i}`} as="li" variant="left" delay={i * 110}>
                 <div className="card-hover grid gap-2 rounded-xl border border-white/[0.06] bg-brand-card p-5 hover:border-accento-1/40 sm:grid-cols-[140px_1fr] sm:gap-4">
                   <span className="text-etichetta text-accento-1">{tappa.quando}</span>
                   <p className="text-corpo text-white/60 text-pretty">{tappa.testo}</p>
@@ -64,7 +66,7 @@ export default function ItaliaCampione2030() {
           />
           <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-4">
             {ramo.offerta.map((canale, i) => (
-              <Reveal key={canale.titolo} delay={i * 90}>
+              <Reveal key={`${canale.titolo}-${i}`} delay={i * 90}>
                 <FeatureCard Icon={iconaCanale(canale.titolo)} title={canale.titolo}>
                   {canale.testo}
                 </FeatureCard>

@@ -2,6 +2,7 @@ import { readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { defineConfig, type Connect, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
+import { parse as parseYaml } from 'yaml'
 
 /**
  * Il pannello /admin e' una seconda pagina del progetto, con l'editor dei
@@ -57,6 +58,33 @@ const contenutiAggiornati = (): Plugin => ({
 })
 
 /**
+ * La configurazione dell'editor e' un file YAML letto dal browser: un errore
+ * di scrittura si vedrebbe solo aprendo il pannello, a sito gia' pubblicato.
+ * Qui la si controlla prima, e la pubblicazione si ferma se non e' valida.
+ */
+const configurazioneEditor = (): Plugin => ({
+  name: 'configurazione-editor',
+  apply: 'build',
+  buildStart() {
+    const percorso = resolve(__dirname, 'public/admin/editor/config.yml')
+    const contenuto = readFileSync(percorso, 'utf8')
+    let config: { collections?: { name: string; files?: unknown[]; folder?: string }[] }
+    try {
+      config = parseYaml(contenuto)
+    } catch (errore) {
+      this.error(`public/admin/editor/config.yml non e' valido: ${(errore as Error).message}`)
+      return
+    }
+    if (!config?.collections?.length) this.error('config.yml: manca l\'elenco delle raccolte (collections).')
+    for (const raccolta of config.collections ?? []) {
+      if (!raccolta.files && !raccolta.folder) {
+        this.error(`config.yml: la raccolta "${raccolta.name}" non indica ne' "files" ne' "folder".`)
+      }
+    }
+  },
+})
+
+/**
  * Mappa del sito e robots.txt, scritti alla pubblicazione leggendo i file dei
  * progetti: aggiungendo un ramo dal pannello, l'indirizzo compare da solo.
  * Il pannello di gestione resta escluso dai motori di ricerca.
@@ -94,7 +122,7 @@ const mappaDelSito = (): Plugin => ({
 })
 
 export default defineConfig({
-  plugins: [pannello(), contenutiAggiornati(), mappaDelSito(), react()],
+  plugins: [pannello(), contenutiAggiornati(), configurazioneEditor(), mappaDelSito(), react()],
   server: { port: 5173 },
   build: {
     rollupOptions: {

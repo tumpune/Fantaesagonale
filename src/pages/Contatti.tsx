@@ -129,7 +129,7 @@ export default function Contatti() {
 
                 <div className="mb-5">
                   <label htmlFor="telefono" className={labelClass}>
-                    Telefono <span className="font-normal text-white/45">(facoltativo)</span>
+                    Telefono <span className="font-normal text-white/60">(facoltativo)</span>
                   </label>
                   <input
                     id="telefono"
@@ -192,7 +192,7 @@ export default function Contatti() {
                 <div aria-live="polite">
                   {esito && (
                     <p
-                      className={`reveal reveal-up is-visible mt-5 rounded-xl px-4 py-3.5 text-corpo ${
+                      className={`entrata-messaggio mt-5 rounded-xl px-4 py-3.5 text-corpo ${
                         esito.tipo === 'ok' ? 'bg-accento-1/10 text-accento-1' : 'bg-accento-2/10 text-white'
                       }`}
                     >
@@ -212,7 +212,7 @@ export default function Contatti() {
                     className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${
                       disponibile
                         ? 'bg-gradient-to-br from-accento-1 to-accento-2 text-black'
-                        : 'border border-white/10 text-white/40'
+                        : 'border border-white/10 text-white/55'
                     }`}
                   >
                     <Icon size={18} aria-hidden="true" />
@@ -220,7 +220,7 @@ export default function Contatti() {
                   <span className="min-w-0">
                     <span className="block text-etichetta text-white">{titolo}</span>
                     <span
-                      className={`block break-words text-micro ${disponibile ? 'text-white/60' : 'text-white/40'}`}
+                      className={`block break-words text-micro ${disponibile ? 'text-white/70' : 'text-white/55'}`}
                     >
                       {testo}
                     </span>

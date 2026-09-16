@@ -15,7 +15,7 @@ export function FaqLista({ voci }: { voci: Faq[] }) {
   return (
     <div className="mx-auto grid max-w-3xl gap-3">
       {voci.map((voce, i) => (
-        <Reveal key={voce.domanda} delay={i * 60}>
+        <Reveal key={`${voce.domanda}-${i}`} delay={i * 60}>
           <details className="faq-voce group rounded-2xl border border-white/[0.08] bg-brand-card transition-colors open:border-accento-1/30 hover:border-white/15">
             <summary className="flex cursor-pointer items-center justify-between gap-6 px-6 py-5 text-sottotitolo text-white">
               {voce.domanda}

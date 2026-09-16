@@ -47,7 +47,7 @@ export default function Footer() {
                   <li
                     key={label}
                     title={`${label} — presto disponibile`}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/40"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/55"
                   >
                     <Icon size={16} aria-hidden="true" />
                     <span className="sr-only">{label} — presto disponibile</span>
@@ -59,7 +59,7 @@ export default function Footer() {
 
           {FOOTER_COLONNE.map((colonna) => (
             <div key={colonna.title}>
-              <h2 className="mb-4 text-meta uppercase text-white/45">{colonna.title}</h2>
+              <h2 className="mb-4 text-meta uppercase text-white/60">{colonna.title}</h2>
               <ul className="space-y-2.5 text-micro">
                 {colonna.links.map((link) => (
                   <li key={link.to}>
@@ -73,7 +73,7 @@ export default function Footer() {
           ))}
         </div>
 
-        <div className="flex flex-wrap justify-between gap-2 border-t border-white/[0.06] pt-6 text-micro text-white/40">
+        <div className="flex flex-wrap justify-between gap-2 border-t border-white/[0.06] pt-6 text-micro text-white/60">
           <span>&copy; {new Date().getFullYear()} FantaEsagonale APS · Grammichele (CT)</span>
           <span>Tutti i diritti riservati</span>
         </div>

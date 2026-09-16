@@ -46,6 +46,16 @@ collections:
           - { name: slogan, label: Slogan, widget: string, hint: 'In home l''ultima parte ("e sorridi") va sotto al logo.' }
           - { name: introHome, label: Testo sotto al logo in home, widget: text }
           - { name: brevePiePagina, label: Riga nel piè di pagina, widget: string }
+          - name: numeri
+            label: Numeri in evidenza in home
+            label_singular: numero
+            widget: list
+            required: false
+            summary: '{{fields.valore}} — {{fields.etichetta}}'
+            hint: "Vanno tenuti aggiornati: una cifra vecchia fa più danni di una cifra assente. Lasciando l'elenco vuoto la fascia non compare."
+            fields:
+              - { name: valore, label: Numero, widget: string, hint: 'Es. "205", "3ª", "2023".' }
+              - { name: etichetta, label: Descrizione, widget: string }
           - { name: presentazione, label: Presentazione, widget: text, hint: Usata anche come prima risposta delle FAQ. }
           - { name: missione, label: Missione, widget: text }
           - { name: visione, label: Visione, widget: text }

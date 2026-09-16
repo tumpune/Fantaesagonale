@@ -21,9 +21,9 @@ export const NAV_PRINCIPALE = [
 const urlSicuro = (url?: string) => (url && /^https:\/\/\S+$/.test(url.trim()) ? url.trim() : undefined)
 
 export const RECAPITI = {
-  email: contatti.email.trim(),
-  telefono: contatti.telefono.trim(),
-  indirizzo: contatti.indirizzo.trim(),
+  email: (contatti.email ?? '').trim(),
+  telefono: (contatti.telefono ?? '').trim(),
+  indirizzo: (contatti.indirizzo ?? '').trim(),
 }
 
 /**
@@ -32,12 +32,12 @@ export const RECAPITI = {
  * collegamento che non porta da nessuna parte.
  */
 export const SOCIALS: { label: string; Icon: LucideIcon; url?: string }[] = [
-  { label: 'Instagram', Icon: Instagram, url: urlSicuro(contatti.social.instagram) },
-  { label: 'Facebook', Icon: Facebook, url: urlSicuro(contatti.social.facebook) },
-  { label: 'TikTok', Icon: Music2, url: urlSicuro(contatti.social.tiktok) },
-  { label: 'YouTube', Icon: Youtube, url: urlSicuro(contatti.social.youtube) },
-  { label: 'Canale Telegram', Icon: Send, url: urlSicuro(contatti.social.telegram) },
-  { label: 'Canale WhatsApp', Icon: MessageCircle, url: urlSicuro(contatti.social.canaleWhatsapp) },
+  { label: 'Instagram', Icon: Instagram, url: urlSicuro(contatti.social?.instagram) },
+  { label: 'Facebook', Icon: Facebook, url: urlSicuro(contatti.social?.facebook) },
+  { label: 'TikTok', Icon: Music2, url: urlSicuro(contatti.social?.tiktok) },
+  { label: 'YouTube', Icon: Youtube, url: urlSicuro(contatti.social?.youtube) },
+  { label: 'Canale Telegram', Icon: Send, url: urlSicuro(contatti.social?.telegram) },
+  { label: 'Canale WhatsApp', Icon: MessageCircle, url: urlSicuro(contatti.social?.canaleWhatsapp) },
 ]
 
 export const FOOTER_COLONNE = [
@@ -79,8 +79,13 @@ export const TITOLO_NON_TROVATA = 'Pagina non trovata — FantaEsagonale APS'
  * condivisi. Quelle dei progetti arrivano dai testi scritti nel pannello, cosi'
  * si aggiornano insieme alla pagina.
  */
-const accorcia = (testo: string, massimo = 155) =>
-  testo.length <= massimo ? testo : `${testo.slice(0, testo.lastIndexOf(' ', massimo - 1))}…`
+const accorcia = (testo: string, massimo = 155) => {
+  const pulito = (testo ?? '').trim()
+  if (pulito.length <= massimo) return pulito
+  // Si taglia all'ultimo spazio utile; se non ce ne sono, al carattere esatto.
+  const spazio = pulito.lastIndexOf(' ', massimo - 1)
+  return `${pulito.slice(0, spazio > 0 ? spazio : massimo)}…`
+}
 
 export const DESCRIZIONI: Record<string, string> = {
   '/': accorcia(PRESENTAZIONE),

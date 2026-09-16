@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import Lenis from 'lenis'
 import { useReducedMotion } from '../../hooks/useMediaQuery'
+import { registraScorrimento } from '../../lib/scorrimento'
 
 /**
  * Scorrimento inerziale: la pagina continua brevemente il movimento dopo la
@@ -32,6 +33,7 @@ export default function SmoothScroll() {
       raf = requestAnimationFrame(loop)
     }
     raf = requestAnimationFrame(loop)
+    registraScorrimento(lenis)
 
     // I collegamenti interni devono passare da Lenis, altrimenti il salto
     // nativo e lo scorrimento animato si contendono la posizione.
@@ -49,6 +51,7 @@ export default function SmoothScroll() {
     document.addEventListener('click', onClick)
 
     return () => {
+      registraScorrimento(null)
       cancelAnimationFrame(raf)
       document.removeEventListener('click', onClick)
       lenis.destroy()

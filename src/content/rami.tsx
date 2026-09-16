@@ -107,6 +107,12 @@ const STATI: Stato[] = ['attivo', 'in-arrivo', 'in-progetto']
 function daDati({ ordine: _ordine, icona, tema, stato, ...dati }: RamoDati): Ramo {
   return {
     ...dati,
+    nome: dati.nome || dati.slug,
+    breve: dati.breve ?? '',
+    occhiello: dati.occhiello ?? '',
+    titolo: dati.titolo ?? '',
+    intro: dati.intro ?? '',
+    perChi: dati.perChi ?? '',
     // Un indirizzo breve scritto male ("Maritati ", "/sposi") non deve creare
     // una rotta sbagliata: si tengono solo minuscole, numeri e trattini.
     alias: (dati.alias ?? []).map((a) => a.trim()).filter((a) => /^[a-z0-9-]+$/.test(a)),
@@ -128,7 +134,7 @@ function daDati({ ordine: _ordine, icona, tema, stato, ...dati }: RamoDati): Ram
 const FILE_RAMI = import.meta.glob<RamoDati>('./dati/rami/*.json', { eager: true, import: 'default' })
 
 export const RAMI: Ramo[] = Object.values(FILE_RAMI)
-  .sort((a, b) => (a.ordine ?? 99) - (b.ordine ?? 99) || a.nome.localeCompare(b.nome))
+  .sort((a, b) => (a.ordine ?? 99) - (b.ordine ?? 99) || (a.nome ?? '').localeCompare(b.nome ?? ''))
   .map(daDati)
 
 export const ramoDaSlug = (slug: string) => RAMI.find((r) => r.slug === slug)

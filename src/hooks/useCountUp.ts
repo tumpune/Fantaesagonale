@@ -10,7 +10,7 @@ const easeOut = (t: number) => 1 - Math.pow(1 - t, 3)
  */
 export function useCountUp(target: number, start: boolean, durationMs = 1400) {
   const reduced = useReducedMotion()
-  const [value, setValue] = useState(0)
+  const [value, setValue] = useState(() => (start ? 0 : target))
 
   useEffect(() => {
     if (!start) return

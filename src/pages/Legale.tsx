@@ -69,7 +69,9 @@ export function Privacy() {
             stima dei visitatori unici calcolata con un codice che cambia ogni giorno e da cui non si
             può risalire alla persona. L'indirizzo IP non viene salvato. I totali vengono cancellati
             dopo 13 mesi. Il conteggio non parte se il tuo browser invia il segnale Global Privacy
-            Control o Do Not Track.
+            Control o Do Not Track. Per fermare gli abusi sul modulo di contatto conserviamo per
+            un'ora un codice derivato dall'indirizzo di rete di chi invia, senza l'indirizzo stesso
+            e senza collegarlo al messaggio.
           </p>
         </Blocco>
 
@@ -129,7 +131,9 @@ export function Cookie() {
         <Blocco titolo="Nessun cookie di profilazione">
           <p>
             Questo sito non usa cookie: né di profilazione, né di terze parti, né per le
-            statistiche. Per questo non ti chiediamo di accettarne all'ingresso.
+            statistiche. Per questo non ti chiediamo di accettarne all'ingresso. L'unico cookie
+            tecnico viene creato nell'area riservata allo staff, durante l'accesso, e serve solo a
+            completarlo in sicurezza.
           </p>
           <p>
             Le visite vengono contate in forma anonima e aggregata senza salvare nulla sul tuo

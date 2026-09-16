@@ -25,8 +25,9 @@ export async function GET(request: Request): Promise<Response> {
   if (!(await collaboratore(request))) return json({ errore: 'accesso-negato' }, 401)
   if (!redisConfigurato()) return json({ errore: 'non-configurato' }, 503)
 
-  const richiesti = Number(new URL(request.url).searchParams.get('giorni'))
-  const n = Number.isFinite(richiesti) ? Math.min(Math.max(Math.round(richiesti), 1), 180) : 30
+  const richiesto = new URL(request.url).searchParams.get('giorni')
+  const giorniChiesti = richiesto === null ? 30 : Number(richiesto)
+  const n = Number.isFinite(giorniChiesti) ? Math.min(Math.max(Math.round(giorniChiesti), 1), 180) : 30
 
   const tutti = giorniFinoA(n * 2)
   const precedenti = tutti.slice(0, n)
@@ -37,7 +38,10 @@ export async function GET(request: Request): Promise<Response> {
     ...attuali.map((g) => ['PFCOUNT', `u:${g}`]),
     ['PFCOUNT', ...attuali.map((g) => `u:${g}`)],
     ['PFCOUNT', ...precedenti.map((g) => `u:${g}`)],
-  ])
+  ]).catch(() => null)
+  // Archivio momentaneamente irraggiungibile: il pannello lo distingue da un
+  // errore vero e mostra le istruzioni di configurazione.
+  if (!risultati) return json({ errore: 'non-configurato' }, 503)
 
   const perGiorno = tutti.map((_, i) => daCoppie(risultati[i]))
   const unici = risultati.slice(tutti.length, tutti.length + n).map(Number)

@@ -1,5 +1,6 @@
 import {
   DURATA_STATISTICHE,
+  PERCORSI_NOTI,
   giorno,
   ipDi,
   redis,
@@ -38,8 +39,11 @@ export async function POST(request: Request): Promise<Response> {
     return vuota(400)
   }
 
-  const percorso = campo(dati.p, /^\/[a-z0-9\-/]{0,60}$/)?.replace(/(.)\/$/, '$1')
-  if (!percorso) return vuota(400)
+  const richiesto = campo(dati.p, /^\/[a-z0-9\-/]{0,60}$/)?.replace(/(.)\/$/, '$1')
+  if (!richiesto) return vuota(400)
+  // Solo gli indirizzi che il sito pubblica davvero: senza questo filtro
+  // chiunque potrebbe riempire l'archivio di voci inventate.
+  const percorso = PERCORSI_NOTI.has(richiesto) ? richiesto : '/altro'
 
   const fonte = campo(dati.r, /^[a-z0-9.-]{1,80}$/i)?.toLowerCase().replace(/^www\./, '') ?? 'diretto'
   const dispositivo = /ipad|tablet/i.test(agente) ? 'tablet' : /mobi|android|iphone/i.test(agente) ? 'mobile' : 'desktop'
@@ -53,8 +57,18 @@ export async function POST(request: Request): Promise<Response> {
   })()
 
   const oggi = giorno()
-  const impronta = await sha256(`${oggi}|${sale()}|${ipDi(request)}|${agente}`)
+  const indirizzo = ipDi(request)
+  const impronta = await sha256(`${oggi}|${sale()}|${indirizzo}|${agente}`)
   const chiave = `s:${oggi}`
+
+  // Tetto orario per rete: una persona non apre 200 pagine in un'ora, e senza
+  // un limite qualcuno potrebbe falsare le statistiche a piacere.
+  const chiaveLimite = `limite:visite:${(await sha256(`${indirizzo}|${sale()}|${new Date().toISOString().slice(0, 13)}`)).slice(0, 24)}`
+  const [conteggio] = await redis([
+    ['INCR', chiaveLimite],
+    ['EXPIRE', chiaveLimite, 3600, 'NX'],
+  ]).catch(() => [0])
+  if (Number(conteggio) > 200) return vuota()
 
   const comandi: (string | number)[][] = [
     ['HINCRBY', chiave, `p:${percorso}`, 1],

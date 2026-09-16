@@ -45,7 +45,7 @@ export default function ChiSiamo() {
         <SectionHead eyebrow="Il percorso" title="Dal fantacalcio a un ecosistema" />
         <ol className="relative grid gap-4 before:absolute before:bottom-4 before:left-[1.4rem] before:top-4 before:w-px before:bg-gradient-to-b before:from-accento-1 before:to-accento-2/20">
           {STORIA.map((tappa, i) => (
-            <Reveal key={tappa.quando} as="li" variant="left" delay={i * 100}>
+            <Reveal key={`${tappa.quando}-${i}`} as="li" variant="left" delay={i * 100}>
               <div className="relative flex gap-5">
                 <span className="relative z-10 grid h-12 w-12 shrink-0 place-items-center rounded-full border border-accento-1/40 bg-brand-black text-meta text-accento-1">
                   {i + 1}
@@ -74,7 +74,7 @@ export default function ChiSiamo() {
         />
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PRINCIPI.map((principio, i) => (
-            <Reveal key={principio.nome} as="li" delay={i * 80}>
+            <Reveal key={`${principio.nome}-${i}`} as="li" delay={i * 80}>
               <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
                 <span className="mb-4 block h-1 w-10 rounded-full bg-gradient-to-r from-accento-1 to-accento-2" />
                 <h3 className="mb-2 text-sottotitolo text-white">{principio.nome}</h3>

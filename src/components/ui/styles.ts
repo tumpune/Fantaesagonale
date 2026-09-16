@@ -10,7 +10,6 @@ export const btnPrimary = `${btnBase} btn-shine bg-gradient-to-r from-accento-1 
 
 export const btnSecondary = `${btnBase} border-2 border-white/80 text-white hover:border-accento-1 hover:text-accento-1`
 
-export const btnDanger = `${btnBase} btn-shine bg-accento-2 text-white hover:brightness-90 hover:shadow-lg hover:shadow-accento-2/30`
 
 export const gradientText =
   'bg-gradient-to-r from-accento-1 to-accento-2 bg-clip-text text-transparent'

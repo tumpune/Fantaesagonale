@@ -29,8 +29,48 @@ export function stessaOrigine(request: Request): boolean {
   return !origine || origine === new URL(request.url).origin
 }
 
+/**
+ * Indirizzo di chi ha fatto la richiesta, preso dall'intestazione scritta dal
+ * proxy di Vercel. Non si usa il primo valore di `x-forwarded-for`: quello puo'
+ * essere inventato da chi chiama, e basterebbe cambiarlo a ogni richiesta per
+ * aggirare i limiti antiabuso. L'ultimo valore, invece, lo aggiunge il proxy.
+ */
 export const ipDi = (request: Request) =>
-  request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? ''
+  request.headers.get('x-real-ip')?.trim() ||
+  request.headers.get('x-forwarded-for')?.split(',').pop()?.trim() ||
+  ''
+
+/** Percorsi che il sito pubblica davvero: gli altri non creano voci nuove. */
+export const PERCORSI_NOTI = new Set([
+  '/',
+  '/chi-siamo',
+  '/faq',
+  '/contatti',
+  '/privacy',
+  '/cookie',
+  '/aziende',
+  '/eventi',
+  '/fantacalcio',
+  '/fantadsico',
+  '/fantamaritati',
+  '/ic2030',
+  '/intrattenimento',
+  '/italia-campione-2030',
+  '/listone',
+  '/maritati',
+  '/marketing',
+  '/matrimoni',
+  '/merch',
+  '/merchandising',
+  '/sede',
+  '/sede-fisica',
+  '/shop',
+  '/sponsor',
+  '/territorio',
+  '/tornei',
+  '/tornei-giochi',
+  '/turismo',
+])
 
 export async function sha256(testo: string): Promise<string> {
   const byte = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(testo))
@@ -109,7 +149,7 @@ export async function registraEsecuzione(nome: string, esito: 'ok' | 'errore' | 
 
 export type Utente = { login: string; nome: string; avatar: string }
 
-const cacheAccessi = new Map<string, { scade: number; utente: Utente | null }>()
+const cacheAccessi = new Map<string, { scade: number; utente: Utente }>()
 
 /**
  * Le funzioni riservate accettano solo chi ha accesso in scrittura al
@@ -139,13 +179,25 @@ export async function collaboratore(request: Request): Promise<Utente | null> {
     const u = (await profilo.json()) as { login: string; name?: string; avatar_url: string }
     if (r.permissions?.push) utente = { login: u.login, nome: u.name || u.login, avatar: u.avatar_url }
   }
-  cacheAccessi.set(chiave, { scade: Date.now() + 5 * 60_000, utente })
+
+  // Si ricorda solo chi e' stato riconosciuto: se GitHub fosse
+  // momentaneamente irraggiungibile, un collaboratore resterebbe fuori per
+  // cinque minuti. La mappa si svuota quando cresce troppo, cosi' nessuno puo'
+  // gonfiarla inviando token a caso.
+  if (utente) {
+    if (cacheAccessi.size > 500) cacheAccessi.clear()
+    cacheAccessi.set(chiave, { scade: Date.now() + 5 * 60_000, utente })
+  }
   return utente
 }
 
 /** Legge un file dei contenuti dall'ultima versione pubblicata sul repository. */
 export async function datiDalRepository<T>(percorso: string): Promise<T> {
+  // Senza `no-store` la rete di distribuzione di GitHub servirebbe una copia
+  // vecchia di qualche minuto: mettere in pausa un'automazione dal pannello
+  // non avrebbe effetto subito.
   const risposta = await fetch(`https://raw.githubusercontent.com/${REPO}/${RAMO_GIT}/${percorso}`, {
+    cache: 'no-store',
     headers: process.env.GITHUB_TOKEN ? { Authorization: `Bearer ${process.env.GITHUB_TOKEN}` } : {},
   })
   if (!risposta.ok) throw new Error(`Impossibile leggere ${percorso} (${risposta.status})`)
@@ -196,7 +248,9 @@ export async function inviaEmail(email: {
       ...(email.rispondiA ? { reply_to: email.rispondiA } : {}),
     }),
   })
-  if (!risposta.ok) throw new Error(`Email non inviata (${risposta.status}): ${(await risposta.text()).slice(0, 200)}`)
+  // Solo il codice di errore: la risposta del fornitore puo' contenere gli
+  // indirizzi dei destinatari, che non vanno archiviati nelle esecuzioni.
+  if (!risposta.ok) throw new Error(`Email non inviata (errore ${risposta.status})`)
 }
 
 export const html = (testo: string) =>

@@ -33,13 +33,24 @@ export const INIZIATIVE: Iniziativa[] = dati.iniziative.map((i: Partial<Iniziati
   priorita: i.priorita ?? 99,
 })) as Iniziativa[]
 
-const inizioGiorno = (iso: string) => new Date(`${iso}T00:00:00`)
-const fineGiorno = (iso: string) => new Date(`${iso}T23:59:59`)
+/**
+ * Una data scritta male nel pannello non deve far sparire l'iniziativa senza
+ * spiegazione: viene trattata come "nessun limite".
+ */
+const data = (iso: string, ora: string) => {
+  const valore = new Date(`${iso}T${ora}`)
+  return Number.isNaN(valore.getTime()) ? null : valore
+}
+
+const inizioGiorno = (iso: string) => data(iso, '00:00:00')
+const fineGiorno = (iso: string) => data(iso, '23:59:59')
 
 export function iniziativeAttive(oggi = new Date(), massimo = 3) {
-  return INIZIATIVE.filter(
-    (i) => (!i.dal || inizioGiorno(i.dal) <= oggi) && (!i.al || fineGiorno(i.al) >= oggi),
-  )
+  return INIZIATIVE.filter((i) => {
+    const dal = i.dal ? inizioGiorno(i.dal) : null
+    const al = i.al ? fineGiorno(i.al) : null
+    return (!dal || dal <= oggi) && (!al || al >= oggi)
+  })
     .sort((a, b) => a.priorita - b.priorita)
     .slice(0, massimo)
 }
