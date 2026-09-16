@@ -1,7 +1,7 @@
 import { Facebook, Instagram, MessageCircle, Music2, Send, Youtube } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { RAMI } from './rami'
-import { SLOGAN } from './associazione'
+import { PRESENTAZIONE, SLOGAN, VISIONE } from './associazione'
 import contatti from './dati/contatti.json'
 
 /**
@@ -73,6 +73,26 @@ export const PAGE_TITLES: Record<string, string> = {
 }
 
 export const TITOLO_NON_TROVATA = 'Pagina non trovata — FantaEsagonale APS'
+
+/**
+ * Descrizione della pagina per i motori di ricerca e per l'anteprima dei link
+ * condivisi. Quelle dei progetti arrivano dai testi scritti nel pannello, cosi'
+ * si aggiornano insieme alla pagina.
+ */
+const accorcia = (testo: string, massimo = 155) =>
+  testo.length <= massimo ? testo : `${testo.slice(0, testo.lastIndexOf(' ', massimo - 1))}…`
+
+export const DESCRIZIONI: Record<string, string> = {
+  '/': accorcia(PRESENTAZIONE),
+  '/chi-siamo': accorcia(VISIONE),
+  '/faq': 'Le risposte alle domande più comuni su FantaEsagonale APS e sui suoi progetti.',
+  '/contatti': "Scrivi a FantaEsagonale APS scegliendo l'argomento: la richiesta arriva al progetto giusto.",
+  '/privacy': 'Come FantaEsagonale APS tratta i dati personali di chi visita il sito e scrive.',
+  '/cookie': 'Quali cookie usa il sito di FantaEsagonale APS, e quali no.',
+  ...Object.fromEntries(RAMI.map((r) => [`/${r.slug}`, accorcia(r.intro)])),
+}
+
+export const DESCRIZIONE_PREDEFINITA = DESCRIZIONI['/']
 
 /** Argomenti del modulo contatti: la richiesta arriva gia' indirizzata. */
 export const OGGETTI_CONTATTO = [

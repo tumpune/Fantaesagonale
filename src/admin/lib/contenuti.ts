@@ -1,8 +1,9 @@
-import { AtSign, Hexagon, Landmark, Quote, Settings2, Sparkles, type LucideIcon } from 'lucide-react'
+import { AtSign, Hexagon, Landmark, Quote, Scale, Settings2, Sparkles, type LucideIcon } from 'lucide-react'
 import { RAMI, type Stato, type Tema } from '../../content/rami'
 import { INIZIATIVE, iniziativeAttive } from '../../content/evidenza'
 import { PAGE_TITLES, RECAPITI, SOCIALS } from '../../content/navigazione'
 import { TESTIMONIANZE } from '../../content/testimonianze'
+import { CAMPI_LEGALI_MANCANTI, nomeCampoLegale } from '../../content/legale'
 
 /* ---------------------------------------------------------- navigazione */
 
@@ -54,6 +55,13 @@ export const VOCI_CONTENUTO: VoceContenuto[] = [
     Icon: Quote,
     vista: 'collections/testimonianze',
     descrizione: 'Le esperienze di chi ha partecipato',
+  },
+  {
+    id: 'legale',
+    etichetta: 'Informazioni legali',
+    Icon: Scale,
+    vista: vistaFile('associazione', 'legale'),
+    descrizione: 'Dati che compaiono nella Privacy Policy',
   },
   {
     id: 'contatti',
@@ -133,13 +141,6 @@ export type Controllo = {
   vista?: string
 }
 
-/**
- * Le pagine Privacy e Cookie contengono ancora campi da completare (sede
- * legale, codice fiscale, fornitori). Va messo a false quando il testo
- * definitivo e' stato inserito in src/pages/Legale.tsx.
- */
-const PAGINE_LEGALI_IN_BOZZA = true
-
 const PERCORSI_RISERVATI = new Set(['chi-siamo', 'faq', 'contatti', 'privacy', 'cookie', 'admin', 'api'])
 
 /**
@@ -152,12 +153,13 @@ export function controllaContenuti(oggi = new Date()): Controllo[] {
   const contatti = vistaFile('associazione', 'contatti')
   const evidenza = vistaFile('associazione', 'evidenza')
 
-  if (PAGINE_LEGALI_IN_BOZZA)
+  if (CAMPI_LEGALI_MANCANTI.length)
     esiti.push({
       id: 'legali',
       livello: 'critico',
-      titolo: 'Privacy e Cookie Policy da completare',
-      dettaglio: 'Mancano sede legale, codice fiscale, email e fornitori. Vanno inseriti prima della pubblicazione definitiva.',
+      titolo: 'Informazioni legali incomplete',
+      dettaglio: `Nella Privacy Policy compaiono ancora segnaposto: manca ${CAMPI_LEGALI_MANCANTI.map(nomeCampoLegale).join(', ')}.`,
+      vista: vistaFile('associazione', 'legale'),
     })
 
   if (!RECAPITI.email)

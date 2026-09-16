@@ -7,7 +7,7 @@ import Reveal from '../components/motion/Reveal'
 import Marquee from '../components/motion/Marquee'
 import Magnetic from '../components/motion/Magnetic'
 import { RAMI } from '../content/rami'
-import { DISTINTIVO, FAQ_GENERALI, PRINCIPI, SLOGAN } from '../content/associazione'
+import { DISTINTIVO, FAQ_GENERALI, INTRO_HOME, PRINCIPI, SLOGAN } from '../content/associazione'
 import {
   CtaBanner,
   Eyebrow,
@@ -40,7 +40,7 @@ export default function Home() {
         eyebrow="FantaEsagonale APS · Grammichele"
         titoloSopra={primaParte}
         titoloSotto={chiusa.trim()}
-        descrizione="Un'associazione nata nel 2023 che dà valore al tempo libero. Fantacalcio, eventi, FantaMaritati, marketing per le aziende e progetti per il territorio: tante anime, un unico ecosistema."
+        descrizione={INTRO_HOME}
         azioni={
           <>
             <Magnetic>

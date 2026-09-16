@@ -1,16 +1,16 @@
 import type { ReactNode } from 'react'
 import { Link } from 'react-router-dom'
+import { LEGALE } from '../content/legale'
 import { PageHero, Section } from '../components/ui'
 
 /**
- * Campo non ancora fornito dal cliente. Evidenziato apposta: in un documento
- * legale un dato mancante deve saltare all'occhio di chi lo revisiona, non
- * confondersi col testo.
+ * Campo non ancora compilato dal pannello (Contenuti > Informazioni legali).
+ * Evidenziato apposta: in un documento legale un dato mancante deve saltare
+ * all'occhio di chi lo revisiona, non confondersi col testo.
  */
-function DaCompletare({ children }: { children: ReactNode }) {
-  return (
-    <mark className="rounded bg-accento-1/15 px-1.5 py-0.5 text-accento-1">[{children}]</mark>
-  )
+function Dato({ valore, descrizione }: { valore: string; descrizione: string }) {
+  if (valore) return <>{valore}</>
+  return <mark className="rounded bg-accento-1/15 px-1.5 py-0.5 text-accento-1">[{descrizione}]</mark>
 }
 
 function Blocco({ titolo, children }: { titolo: string; children: ReactNode }) {
@@ -43,9 +43,10 @@ export function Privacy() {
 
         <Blocco titolo="Titolare del trattamento">
           <p>
-            FantaEsagonale APS, con sede legale in <DaCompletare>indirizzo</DaCompletare>, codice
-            fiscale <DaCompletare>codice fiscale</DaCompletare>. Per qualsiasi richiesta sui tuoi
-            dati puoi scrivere a <DaCompletare>email dell'associazione</DaCompletare>.
+            FantaEsagonale APS, con sede legale in <Dato valore={LEGALE.sedeLegale} descrizione="indirizzo" />,
+            codice fiscale <Dato valore={LEGALE.codiceFiscale} descrizione="codice fiscale" />. Per
+            qualsiasi richiesta sui tuoi dati puoi scrivere a{' '}
+            <Dato valore={LEGALE.email} descrizione="email dell'associazione" />.
           </p>
         </Blocco>
 
@@ -85,7 +86,7 @@ export function Privacy() {
         <Blocco titolo="Per quanto tempo">
           <p>
             Conserviamo i dati del modulo per il tempo necessario a gestire la richiesta e comunque
-            non oltre <DaCompletare>periodo di conservazione</DaCompletare>.
+            non oltre <Dato valore={LEGALE.conservazione} descrizione="periodo di conservazione" />.
           </p>
         </Blocco>
 
@@ -93,7 +94,8 @@ export function Privacy() {
           <p>
             I dati non vengono venduti né diffusi. Possono essere trattati dai fornitori dei servizi
             tecnici che ci servono per far funzionare il sito, come l'hosting e l'invio delle email,
-            nominati responsabili del trattamento: <DaCompletare>elenco dei fornitori</DaCompletare>.
+            nominati responsabili del trattamento:{' '}
+            <Dato valore={LEGALE.fornitori} descrizione="elenco dei fornitori" />.
           </p>
         </Blocco>
 
@@ -107,7 +109,7 @@ export function Privacy() {
         </Blocco>
 
         <p className="text-micro text-white/45">
-          Ultimo aggiornamento: <DaCompletare>data</DaCompletare>
+          Ultimo aggiornamento: <Dato valore={LEGALE.ultimoAggiornamento} descrizione="data" />
         </p>
       </Section>
     </>
@@ -151,7 +153,7 @@ export function Cookie() {
         </Blocco>
 
         <p className="text-micro text-white/45">
-          Ultimo aggiornamento: <DaCompletare>data</DaCompletare>
+          Ultimo aggiornamento: <Dato valore={LEGALE.ultimoAggiornamento} descrizione="data" />
         </p>
       </Section>
     </>

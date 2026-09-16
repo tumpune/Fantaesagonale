@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import { asset } from '../../lib/constants'
 import { FOOTER_COLONNE, SOCIALS } from '../../content/navigazione'
+import { BREVE_PIE_PAGINA } from '../../content/associazione'
 import { SLOGAN } from '../../content/associazione'
 import { focusRing } from '../ui/styles'
 
@@ -25,10 +26,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="mb-2 font-display text-guida font-semibold text-white/85">{SLOGAN}</p>
-            <p className="mb-5 max-w-xs text-micro text-white/55">
-              Associazione di promozione sociale nata a Grammichele nel 2023. Diamo valore al tempo
-              libero.
-            </p>
+            <p className="mb-5 max-w-xs text-micro text-white/55">{BREVE_PIE_PAGINA}</p>
             <ul className="flex flex-wrap gap-2">
               {SOCIALS.map(({ label, Icon, url }) =>
                 url ? (

@@ -44,6 +44,8 @@ collections:
         file: src/content/dati/associazione.json
         fields:
           - { name: slogan, label: Slogan, widget: string, hint: 'In home l''ultima parte ("e sorridi") va sotto al logo.' }
+          - { name: introHome, label: Testo sotto al logo in home, widget: text }
+          - { name: brevePiePagina, label: Riga nel piè di pagina, widget: string }
           - { name: presentazione, label: Presentazione, widget: text, hint: Usata anche come prima risposta delle FAQ. }
           - { name: missione, label: Missione, widget: text }
           - { name: visione, label: Visione, widget: text }
@@ -72,6 +74,17 @@ collections:
             fields:
               - { name: domanda, label: Domanda, widget: string }
               - { name: risposta, label: Risposta, widget: text }
+
+      - name: legale
+        label: Informazioni legali
+        file: src/content/dati/legale.json
+        fields:
+          - { name: sedeLegale, label: Sede legale, widget: string, required: false, hint: Indirizzo completo. Compare nella Privacy Policy. }
+          - { name: codiceFiscale, label: Codice fiscale, widget: string, required: false }
+          - { name: email, label: Email per le richieste sui dati, widget: string, required: false }
+          - { name: conservazione, label: Per quanto conserviamo i messaggi, widget: string, required: false, hint: 'Es. "24 mesi dalla risposta".' }
+          - { name: fornitori, label: Fornitori dei servizi, widget: text, required: false, hint: Chi tratta i dati per conto dell'associazione. }
+          - { name: ultimoAggiornamento, label: Data di ultimo aggiornamento, widget: string, required: false, hint: 'Es. "16 settembre 2026". Da aggiornare a ogni modifica dei testi legali.' }
 
       - name: contatti
         label: Contatti e social
@@ -218,6 +231,16 @@ collections:
           - { name: nome, label: Nome, widget: string }
           - { name: testo, label: Testo, widget: text }
       - { name: nota, label: Nota, widget: string, required: false, hint: 'Es. "La sede è in progetto."' }
+      - name: tappe
+        label: Linea del tempo
+        label_singular: tappa
+        widget: list
+        required: false
+        summary: '{{fields.quando}}'
+        hint: Usata solo dalla pagina Italia Campione 2030.
+        fields:
+          - { name: quando, label: Quando, widget: string }
+          - { name: testo, label: Testo, widget: text }
       - name: faq
         label: Domande frequenti
         label_singular: domanda

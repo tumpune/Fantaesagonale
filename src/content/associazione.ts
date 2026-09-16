@@ -7,6 +7,12 @@ import dati from './dati/associazione.json'
  */
 
 export const SLOGAN: string = dati.slogan
+
+/** Testo sotto al logo nella home. */
+export const INTRO_HOME: string = dati.introHome
+
+/** Riga di presentazione nel pie' di pagina. */
+export const BREVE_PIE_PAGINA: string = dati.brevePiePagina
 export const PRESENTAZIONE: string = dati.presentazione
 export const MISSIONE: string = dati.missione
 export const VISIONE: string = dati.visione

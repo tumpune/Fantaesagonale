@@ -7,7 +7,7 @@ import Footer from './Footer'
 import ChatWidget from './ChatWidget'
 import ScrollProgress from '../motion/ScrollProgress'
 import SmoothScroll from '../motion/SmoothScroll'
-import { PAGE_TITLES, TITOLO_NON_TROVATA } from '../../content/navigazione'
+import { DESCRIZIONE_PREDEFINITA, DESCRIZIONI, PAGE_TITLES, TITOLO_NON_TROVATA } from '../../content/navigazione'
 import { temaDaPercorso } from '../../content/rami'
 import { registraVisita } from '../../lib/visite'
 
@@ -23,7 +23,21 @@ export default function Layout() {
 
   useEffect(() => {
     window.scrollTo(0, 0)
-    document.title = PAGE_TITLES[pathname] ?? TITOLO_NON_TROVATA
+
+    // Titolo e descrizione cambiano a ogni pagina: sono quelli che compaiono
+    // su Google e nell'anteprima dei link condivisi sui social.
+    const titolo = PAGE_TITLES[pathname] ?? TITOLO_NON_TROVATA
+    const descrizione = DESCRIZIONI[pathname] ?? DESCRIZIONE_PREDEFINITA
+    document.title = titolo
+    for (const [selettore, valore] of [
+      ['meta[name="description"]', descrizione],
+      ['meta[property="og:description"]', descrizione],
+      ['meta[property="og:title"]', titolo],
+      ['meta[property="og:url"]', window.location.href],
+    ] as const) {
+      document.head.querySelector(selettore)?.setAttribute('content', valore)
+    }
+
     registraVisita(pathname)
   }, [pathname])
 

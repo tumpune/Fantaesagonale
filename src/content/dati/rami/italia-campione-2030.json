@@ -10,13 +10,43 @@
   "stato": "attivo",
   "occhiello": "Progetto speciale",
   "titolo": "Italia Campione 2030",
-  "intro": "Un video al giorno per 1572 giorni, fino alla finale dei Mondiali 2030: un canale di informazione e supporto dedicato alla Nazionale.",
+  "intro": "Dopo la mancata qualificazione ai Mondiali — la sconfitta con la Bosnia del 31 marzo 2026 — FantaEsagonale ha lanciato una challenge lunga quattro anni: un video al giorno, ogni giorno, fino alla finale dei Mondiali. Un canale di informazione e supporto dedicato alla Nazionale azzurra.",
   "perChi": "Tifosi della Nazionale italiana, appassionati di calcio e community social.",
-  "offerta": [],
+  "offerta": [
+    {
+      "titolo": "YouTube",
+      "testo": "I video quotidiani della challenge."
+    },
+    {
+      "titolo": "Instagram",
+      "testo": "Aggiornamenti e contenuti brevi."
+    },
+    {
+      "titolo": "TikTok",
+      "testo": "I momenti più condivisi."
+    },
+    {
+      "titolo": "Canale Telegram",
+      "testo": "Le foto delle attività."
+    }
+  ],
+  "tappe": [
+    {
+      "quando": "31 marzo 2026",
+      "testo": "L'Italia non si qualifica ai Mondiali dopo la sconfitta con la Bosnia. Nasce l'idea di Italia Campione 2030."
+    },
+    {
+      "quando": "Ogni giorno",
+      "testo": "Un video al giorno per informare, commentare e sostenere il percorso verso il prossimo Mondiale, fino al 21 luglio 2030."
+    },
+    {
+      "quando": "21 luglio 2030",
+      "testo": "Giorno della finale dei Mondiali in Spagna, Portogallo e Marocco: il traguardo della challenge."
+    }
+  ],
   "faq": [],
   "cta": {
     "etichetta": "Resta aggiornato"
   },
-  "paginaDedicata": true,
   "icona": "flag"
 }

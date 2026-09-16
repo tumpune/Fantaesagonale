@@ -3,7 +3,7 @@ import { Route, Routes, useLocation, useNavigate } from 'react-router-dom'
 import { ChevronRight, ExternalLink, Menu, Search } from 'lucide-react'
 import Sidebar from './components/Sidebar'
 import Comandi from './components/Comandi'
-import EditorFrame, { apriLibreriaMedia } from './components/EditorFrame'
+import EditorFrame from './components/EditorFrame'
 import { anello, pulsanteSecondario } from './components/ui'
 import { useAccesso } from './lib/accesso'
 import { SITO, leggiLocale, scriviLocale } from './lib/ambiente'
@@ -31,6 +31,7 @@ export default function App() {
   const [comandiAperti, setComandiAperti] = useState(false)
   // L'editor si carica alla prima visita ai contenuti e poi resta vivo.
   const [editorAvviato, setEditorAvviato] = useState(false)
+  const [richiesteMedia, setRichiesteMedia] = useState(0)
 
   const inEditor = pathname.startsWith('/contenuti')
   const vista = inEditor ? pathname.replace(/^\/contenuti\/?/, '') || VISTA_PREDEFINITA : ''
@@ -50,10 +51,17 @@ export default function App() {
     })
   }, [])
 
+  /**
+   * La libreria immagini vive dentro l'editor, e il suo comando esiste solo
+   * negli elenchi: con una scheda aperta si torna prima all'elenco (chiedendo
+   * conferma se ci sono modifiche non salvate). Il contatore fa partire la
+   * richiesta appena l'editor e' pronto.
+   */
   const apriMedia = useCallback(() => {
-    if (!inEditor) naviga(`/contenuti/${ultimaVista}`)
-    apriLibreriaMedia()
-  }, [inEditor, naviga, ultimaVista])
+    const corrente = inEditor ? vista : ultimaVista
+    naviga(`/contenuti/${corrente.split('/entries')[0].replace(/\/new$/, '')}`)
+    setRichiesteMedia((n) => n + 1)
+  }, [inEditor, naviga, ultimaVista, vista])
 
   useEffect(() => {
     const tasto = (e: KeyboardEvent) => {
@@ -123,7 +131,9 @@ export default function App() {
           </div>
         </header>
 
-        {editorAvviato && <EditorFrame vista={inEditor ? vista : ultimaVista} visibile={inEditor} />}
+        {editorAvviato && (
+          <EditorFrame vista={inEditor ? vista : ultimaVista} visibile={inEditor} richiestaMedia={richiesteMedia} />
+        )}
 
         {!inEditor && (
           <main key={pathname} className="mx-auto w-full max-w-[1320px] flex-1 px-4 py-8 sm:px-6 lg:px-10 lg:py-10">

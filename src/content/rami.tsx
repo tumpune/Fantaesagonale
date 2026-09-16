@@ -54,6 +54,8 @@ export type Ramo = {
   cta: { etichetta: string; oggetto: string }
   /** Formule a scala: per ora solo FantADSico. */
   scale?: { nome: string; testo: string }[]
+  /** Linea del tempo: per ora solo Italia Campione 2030. */
+  tappe?: { quando: string; testo: string }[]
   /** Ha una pagina costruita a parte invece del modello comune. */
   paginaDedicata?: boolean
 }
@@ -112,6 +114,7 @@ function daDati({ ordine: _ordine, icona, tema, stato, ...dati }: RamoDati): Ram
     faq: dati.faq ?? [],
     nota: dati.nota || undefined,
     scale: dati.scale?.length ? dati.scale : undefined,
+    tappe: dati.tappe?.length ? dati.tappe : undefined,
     // L'oggetto del modulo contatti coincide con lo slug: lo si deriva invece
     // di chiederlo, cosi' dal pannello non si puo' scollegare.
     cta: { etichetta: dati.cta?.etichetta || 'Contattaci', oggetto: dati.slug },
