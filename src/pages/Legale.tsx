@@ -6,7 +6,7 @@ import { PageHero, Section } from '../components/ui'
 /**
  * Campo non ancora compilato dal pannello (Contenuti > Informazioni legali).
  * Evidenziato apposta: in un documento legale un dato mancante deve saltare
- * all'occhio di chi lo revisiona, non confondersi col testo.
+ * all’occhio di chi lo revisiona, non confondersi col testo.
  */
 function Dato({ valore, descrizione }: { valore: string; descrizione: string }) {
   if (valore) return <>{valore}</>
@@ -25,7 +25,7 @@ function Blocco({ titolo, children }: { titolo: string; children: ReactNode }) {
 function Avviso() {
   return (
     <p className="mb-10 rounded-xl border border-accento-1/30 bg-accento-1/[0.06] px-5 py-4 text-corpo text-white/80">
-      Bozza da completare con i dati dell'associazione e da verificare con un consulente prima
+      Bozza da completare con i dati dell’associazione e da verificare con un consulente prima
       della pubblicazione definitiva del sito.
     </p>
   )
@@ -54,12 +54,12 @@ export function Privacy() {
           <p>
             <strong className="font-semibold text-white">Dati che ci fornisci</strong>: quando
             compili il modulo di contatto raccogliamo nome, email, telefono (facoltativo),
-            l'argomento scelto e il testo del messaggio.
+            l’argomento scelto e il testo del messaggio.
           </p>
           <p>
             <strong className="font-semibold text-white">Dati di navigazione</strong>: i sistemi
             che fanno funzionare il sito registrano automaticamente alcune informazioni tecniche,
-            come l'indirizzo IP e il tipo di browser, necessarie a erogare le pagine e a garantirne
+            come l’indirizzo IP e il tipo di browser, necessarie a erogare le pagine e a garantirne
             la sicurezza.
           </p>
           <p>
@@ -67,10 +67,10 @@ export function Privacy() {
             le visite in forma aggregata e anonima, senza cookie. Conserviamo solo totali giornalieri
             (pagine viste, sito di provenienza, tipo di dispositivo, nazione e città stimate) e una
             stima dei visitatori unici calcolata con un codice che cambia ogni giorno e da cui non si
-            può risalire alla persona. L'indirizzo IP non viene salvato. I totali vengono cancellati
+            può risalire alla persona. L’indirizzo IP non viene salvato. I totali vengono cancellati
             dopo 13 mesi. Il conteggio non parte se il tuo browser invia il segnale Global Privacy
             Control o Do Not Track. Per fermare gli abusi sul modulo di contatto conserviamo per
-            un'ora un codice derivato dall'indirizzo di rete di chi invia, senza l'indirizzo stesso
+            un’ora un codice derivato dall’indirizzo di rete di chi invia, senza l’indirizzo stesso
             e senza collegarlo al messaggio.
           </p>
         </Blocco>
@@ -79,7 +79,7 @@ export function Privacy() {
           <p>
             Usiamo i dati del modulo solo per rispondere alla tua richiesta: il messaggio ci arriva
             via email e non viene conservato sul sito. La base giuridica è il
-            tuo consenso, espresso al momento dell'invio, e la necessità di dare seguito a una
+            tuo consenso, espresso al momento dell’invio, e la necessità di dare seguito a una
             richiesta che ci hai rivolto. I dati di navigazione servono al funzionamento e alla
             sicurezza del sito.
           </p>
@@ -95,7 +95,7 @@ export function Privacy() {
         <Blocco titolo="A chi possono essere comunicati">
           <p>
             I dati non vengono venduti né diffusi. Possono essere trattati dai fornitori dei servizi
-            tecnici che ci servono per far funzionare il sito, come l'hosting e l'invio delle email,
+            tecnici che ci servono per far funzionare il sito, come l’hosting e l’invio delle email,
             nominati responsabili del trattamento:{' '}
             <Dato valore={LEGALE.fornitori} descrizione="elenco dei fornitori" />.
           </p>
@@ -131,8 +131,8 @@ export function Cookie() {
         <Blocco titolo="Nessun cookie di profilazione">
           <p>
             Questo sito non usa cookie: né di profilazione, né di terze parti, né per le
-            statistiche. Per questo non ti chiediamo di accettarne all'ingresso. L'unico cookie
-            tecnico viene creato nell'area riservata allo staff, durante l'accesso, e serve solo a
+            statistiche. Per questo non ti chiediamo di accettarne all’ingresso. L’unico cookie
+            tecnico viene creato nell’area riservata allo staff, durante l’accesso, e serve solo a
             completarlo in sicurezza.
           </p>
           <p>

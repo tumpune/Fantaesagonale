@@ -28,7 +28,7 @@ html,
 body {
   background: var(--e-fondo) !important;
   color: var(--e-testo) !important;
-  font-family: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
+  font-family: 'Archivo Variable', system-ui, -apple-system, 'Segoe UI', sans-serif !important;
 }
 
 body * {
@@ -105,7 +105,7 @@ body * {
 }
 
 [class*='-CollectionTopHeading'] {
-  font-family: 'Bricolage Grotesque Variable', 'Inter Variable', system-ui, sans-serif !important;
+  font-family: 'Bricolage Grotesque Variable', 'Archivo Variable', system-ui, sans-serif !important;
   letter-spacing: -0.02em !important;
 }
 
@@ -507,7 +507,7 @@ a {
 
 [class*='-LibraryTitle'] {
   color: var(--e-testo) !important;
-  font-family: 'Bricolage Grotesque Variable', 'Inter Variable', sans-serif !important;
+  font-family: 'Bricolage Grotesque Variable', 'Archivo Variable', sans-serif !important;
 }
 
 /* pulsante di chiusura della finestra */

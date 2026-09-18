@@ -11,9 +11,23 @@
   "tema": "centrale",
   "stato": "attivo",
   "occhiello": "Eventi e intrattenimento",
-  "titolo": "Portiamo il gioco dove c'è una festa",
+  "titolo": "Portiamo il gioco dove c’è una festa",
   "intro": "Organizziamo eventi e tornei, soprattutto sportivi, e collaboriamo alle iniziative di altri. Durante eventi sportivi e non portiamo giochi, challenge dal vivo, interviste e format pensati per i social.",
   "perChi": "Organizzatori di eventi, associazioni e comunità, con un forte legame con il territorio ma aperti a iniziative più ampie.",
+  "dati": [
+    {
+      "etichetta": "Formato",
+      "valore": "Tornei e challenge"
+    },
+    {
+      "etichetta": "Dove",
+      "valore": "Grammichele (CT)"
+    },
+    {
+      "etichetta": "Per",
+      "valore": "Community e territorio"
+    }
+  ],
   "offerta": [
     {
       "titolo": "Eventi e tornei",
@@ -25,7 +39,7 @@
     },
     {
       "titolo": "Interviste e contenuti social",
-      "testo": "Il racconto dell'evento attraverso interviste e format pensati per i social."
+      "testo": "Il racconto dell’evento attraverso interviste e format pensati per i social."
     },
     {
       "titolo": "Collaborazioni",
@@ -39,7 +53,7 @@
     },
     {
       "domanda": "Che tipo di eventi seguite?",
-      "risposta": "Soprattutto eventi sportivi, ma anche eventi di altro genere in cui l'intrattenimento può fare la differenza."
+      "risposta": "Soprattutto eventi sportivi, ma anche eventi di altro genere in cui l’intrattenimento può fare la differenza."
     }
   ],
   "cta": {

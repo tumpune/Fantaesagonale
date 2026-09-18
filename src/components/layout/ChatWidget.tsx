@@ -28,7 +28,7 @@ export default function ChatWidget() {
   const numero = RECAPITI.telefono.replace(/[^\d]/g, '')
   const whatsapp = numero.length >= 10 ? `https://wa.me/${numero}` : null
 
-  const classi = `press group fixed bottom-3 right-3 z-[90] grid h-12 w-12 place-items-center rounded-full bg-gradient-to-r from-accento-1 to-accento-2 text-black shadow-lg shadow-accento-2/40 transition-all duration-500 hover:scale-110 hover:shadow-xl hover:shadow-accento-2/50 sm:bottom-6 sm:right-6 sm:h-14 sm:w-14 ${focusRing} ${
+  const classi = `press group fixed bottom-3 right-3 z-[90] grid h-12 w-12 place-items-center rounded-full bg-accento-1 text-black shadow-lg shadow-black/40 transition-all duration-500 hover:scale-105 sm:bottom-6 sm:right-6 sm:h-14 sm:w-14 ${focusRing} ${
     visibile ? 'translate-y-0 opacity-100' : 'pointer-events-none translate-y-4 opacity-0'
   }`
 

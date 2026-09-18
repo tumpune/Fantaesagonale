@@ -24,7 +24,7 @@ import {
 
 /**
  * Ordine della home, dal questionario (2.1, 2.2):
- * 1. capire subito cos'e' FantaEsagonale;
+ * 1. capire subito cos’e' FantaEsagonale;
  * 2. vedere cosa e' attivo in questo momento;
  * 3. trovare il proprio ramo;
  * 4. fidarsi: visione, principi, testimonianze;
@@ -32,7 +32,7 @@ import {
  */
 export default function Home() {
   // Lo slogan si modifica dal pannello: la chiusa sotto al logo resta "e
-  // sorridi" se c'e', altrimenti scende l'ultima parola.
+  // sorridi" se c’e', altrimenti scende l’ultima parola.
   const ultimoSpazio = SLOGAN.lastIndexOf(' ')
   const chiusa = / e sorridi$/.test(SLOGAN) ? ' e sorridi' : ultimoSpazio > 0 ? SLOGAN.slice(ultimoSpazio) : ''
   const primaParte = SLOGAN.slice(0, SLOGAN.length - chiusa.length)
@@ -66,14 +66,14 @@ export default function Home() {
 
       {/* Nastro dei rami: dice in una riga che FantaEsagonale non coincide con
           un solo settore, il primo messaggio chiesto dal questionario. */}
-      <div className="border-y border-accento-1/20 bg-gradient-to-r from-accento-1/[0.06] via-accento-2/[0.06] to-accento-1/[0.06] py-5">
+      <div className="border-y border-white/[0.07] bg-white/[0.02] py-5">
         <Marquee speed={36}>
           {RAMI.map((ramo) => (
             <span key={ramo.slug} className="flex items-center">
               <span className="px-7 font-display text-sottotitolo uppercase tracking-wide text-white/80">
                 {ramo.nome}
               </span>
-              <span className="h-2 w-2 rounded-full bg-gradient-to-r from-accento-1 to-accento-2" />
+              <span className="h-1.5 w-1.5 rounded-full bg-accento-1/70" />
             </span>
           ))}
         </Marquee>
@@ -82,28 +82,37 @@ export default function Home() {
       <Numeri />
 
       {iniziativeInHome > 0 && (
-        <Section>
+        <Section ritmo="stretto">
           <SectionHead
+            numero="01"
             eyebrow="In evidenza ora"
             title="Cosa sta succedendo"
             subtitle="Le iniziative attive in questo momento."
+            livello="servizio"
           />
           <InEvidenza />
         </Section>
       )}
 
-      <section id="progetti" className="scroll-mt-24 bg-brand-soft px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
-        <SectionHead
-          eyebrow="I nostri progetti"
-          title="Scegli da dove iniziare"
-          subtitle="Ogni esagono è un ramo di FantaEsagonale, con la sua pagina e le sue domande frequenti."
-        />
+      <section id="progetti" className="scroll-mt-24 border-y border-white/[0.06] bg-brand-soft px-5 py-24 sm:px-8 sm:py-28 lg:px-12 lg:py-32">
+        <div className="mx-auto max-w-6xl">
+          <SectionHead
+            numero="02"
+            eyebrow="I nostri progetti"
+            title="Scegli da dove iniziare"
+            subtitle="Ogni esagono è un ramo di FantaEsagonale, con la sua pagina e le sue domande frequenti."
+          />
+        </div>
         <Alveare />
       </section>
 
-      <Section>
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+      <Section ritmo="ampio">
+        <div className="grid items-center gap-12 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
           <Reveal variant="left">
+            <span className="mb-4 flex items-center gap-4">
+              <span className="text-meta cifre-allineate text-accento-1">03</span>
+              <span aria-hidden="true" className="h-px w-16 bg-accento-1/40" />
+            </span>
             <Eyebrow>Chi siamo</Eyebrow>
             <h2 className="mb-5 text-titolo text-white text-balance">
               Opportunità nuove, senza lasciare il proprio territorio
@@ -117,8 +126,8 @@ export default function Home() {
           <ul className="grid gap-4 sm:grid-cols-2">
             {PRINCIPI.map((principio, i) => (
               <Reveal key={`${principio.nome}-${i}`} as="li" variant="right" delay={i * 80}>
-                <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
-                  <span className="mb-3 block h-1 w-10 rounded-full bg-gradient-to-r from-accento-1 to-accento-2" />
+                <div className="h-full rounded-xl border border-white/[0.07] bg-brand-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition-colors duration-300 hover:bg-[#202020]">
+                  <span aria-hidden="true" className="mb-3 block h-[3px] w-10 bg-accento-1" />
                   <h3 className="mb-2 text-sottotitolo text-white">{principio.nome}</h3>
                   <p className="text-corpo text-white/60">{principio.testo}</p>
                 </div>
@@ -128,14 +137,14 @@ export default function Home() {
         </div>
       </Section>
 
-      <Section alt>
-        <SectionHead eyebrow="Testimonianze" title="Chi ha giocato con noi" />
+      <Section alt ritmo="stretto">
+        <SectionHead numero="04" eyebrow="Testimonianze" title="Chi ha giocato con noi" livello="servizio" />
         <Testimonianze voci={testimonianzeDi()} />
       </Section>
 
       {FAQ_GENERALI.length > 0 && (
-        <Section>
-          <SectionHead eyebrow="Domande frequenti" title="Le risposte più cercate" />
+        <Section ritmo="stretto">
+          <SectionHead numero="05" eyebrow="Domande frequenti" title="Le risposte più cercate" livello="servizio" />
           <FaqLista voci={FAQ_GENERALI.slice(0, 3)} />
           <Reveal className="mt-8 text-center">
             <Link to="/faq" className={btnSecondary}>

@@ -72,9 +72,36 @@
      ripetere font-display accanto a ogni text-titolo nel markup. */
   .text-display,
   .text-titolo,
+  .text-sezione,
   .text-sottotitolo,
   .text-cifra {
     font-family: theme('fontFamily.display');
+  }
+
+  /* Bricolage ha un asse di dimensione ottica: alle misure da titolo va aperto,
+     altrimenti resta disegnato come un testo ingrandito. */
+  .text-display {
+    font-variation-settings: 'opsz' 72;
+  }
+
+  .text-titolo {
+    font-variation-settings: 'opsz' 40;
+  }
+
+  /* Le cifre incolonnate non ballano quando cambiano: conta alla rovescia,
+     numeri dell'associazione, elenchi numerati. */
+  .text-cifra,
+  .cifre-allineate {
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
+  }
+
+  /* I paragrafi lunghi su schermo stretto hanno il margine destro molto
+     frastagliato: la sillabazione italiana lo ricompone. */
+  .text-corpo,
+  .text-guida {
+    hyphens: auto;
+    -webkit-hyphens: auto;
   }
 }
 
@@ -269,39 +296,6 @@
 }
 
 /* ==========================================================================
-   Schede inclinabili
-   ========================================================================== */
-
-.tilt {
-  perspective: 900px;
-}
-
-.tilt-inner {
-  position: relative;
-  border-radius: 1rem;
-  transform-style: preserve-3d;
-  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.tilt-active .tilt-inner {
-  transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
-}
-
-.tilt-glare {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  opacity: var(--glare-opacity, 0);
-  transition: opacity 0.35s ease;
-  background: radial-gradient(
-    340px circle at var(--glare-x, 50%) var(--glare-y, 50%),
-    rgb(var(--accento-1) / 0.16),
-    transparent 60%
-  );
-}
-
-/* ==========================================================================
    Titoli parola per parola
    ========================================================================== */
 
@@ -410,12 +404,96 @@
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
 }
 
-/* Le colonne pari scendono di mezza cella: e' lo sfalsamento che trasforma una
-   griglia qualsiasi in un alveare. Con 2 colonne su mobile e 4 su schermi
-   larghi le colonne pari coincidono con gli elementi pari in entrambi i casi,
-   quindi basta una regola sola. */
-.alveare > :nth-child(even) {
-  transform: translateY(50%);
+/* Il favo e' un contenitore in proporzione fissa: le celle sono posizionate in
+   percentuale, quindi l'intera struttura scala senza mai perdere l'incastro.
+   Le tre misure arrivano dal componente come variabili. */
+.favo {
+  position: relative;
+  aspect-ratio: var(--favo-rapporto-sm);
+}
+
+.favo-cella {
+  left: var(--x-sm);
+  top: var(--y-sm);
+  width: var(--w-sm);
+}
+
+@media (min-width: 640px) {
+  .favo {
+    aspect-ratio: var(--favo-rapporto-md);
+  }
+
+  .favo-cella {
+    left: var(--x-md);
+    top: var(--y-md);
+    width: var(--w-md);
+  }
+}
+
+@media (min-width: 1024px) {
+  .favo {
+    aspect-ratio: var(--favo-rapporto-lg);
+  }
+
+  .favo-cella {
+    left: var(--x-lg);
+    top: var(--y-lg);
+    width: var(--w-lg);
+  }
+}
+
+/* L'altezza di un esagono a punta in alto e' 2/√3 della larghezza: e' la
+   proporzione che fa combaciare i lati con le celle vicine. */
+.favo-legame {
+  aspect-ratio: 0.8660254;
+  transition:
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.45s ease,
+    opacity 0.45s ease;
+}
+
+.favo-legame:hover,
+.favo-legame:focus-visible {
+  transform: scale(1.04);
+  z-index: 2;
+}
+
+/* Passando su una cella le altre arretrano: il favo reagisce come una mappa,
+   non come una fila di schede indipendenti. */
+.favo:hover .favo-cella:not(:hover) .favo-legame {
+  opacity: 0.45;
+}
+
+/* clip-path taglia sia il contorno del fuoco sia le ombre: l'indicazione da
+   tastiera si disegna quindi con un terzo esagono dietro alla cella. */
+.favo-legame:focus-visible {
+  outline: none;
+}
+
+.favo-legame:focus-visible::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgb(var(--accento-1));
+  z-index: -1;
+}
+
+/* Entrata a cascata dal centro del favo verso l'esterno. */
+@keyframes favoEntra {
+  from {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.favo-cella {
+  animation: favoEntra 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--ritardo, 0ms);
 }
 
 /* ==========================================================================
@@ -527,12 +605,17 @@
     animation: none;
   }
 
-  .tilt-inner {
+  .favo-cella {
+    animation: none;
+  }
+
+  .favo-legame:hover,
+  .favo-legame:focus-visible {
     transform: none;
   }
 
-  .alveare > :nth-child(even) {
-    transform: translateY(50%);
+  .favo:hover .favo-cella:not(:hover) .favo-legame {
+    opacity: 1;
   }
 
   *,

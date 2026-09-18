@@ -13,6 +13,24 @@
   "titolo": "Il vostro matrimonio, da giocare insieme",
   "intro": "FantaMaritati è il format di intrattenimento per matrimoni basato su social, trend, bonus e malus: gli invitati non guardano la festa, ci partecipano.",
   "perChi": "Giovani coppie che stanno organizzando il matrimonio e cercano un intrattenimento originale e partecipativo.",
+  "dati": [
+    {
+      "etichetta": "Per",
+      "valore": "Matrimoni e feste"
+    },
+    {
+      "etichetta": "Durata",
+      "valore": "Tutto il ricevimento"
+    },
+    {
+      "etichetta": "Chi gioca",
+      "valore": "Gli invitati"
+    },
+    {
+      "etichetta": "Dove",
+      "valore": "Sicilia orientale"
+    }
+  ],
   "offerta": [
     {
       "titolo": "Social e trend",

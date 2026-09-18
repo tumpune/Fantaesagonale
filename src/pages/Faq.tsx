@@ -33,7 +33,7 @@ export default function Faq() {
           className={`px-5 py-16 sm:px-8 sm:py-20 lg:px-12 ${i % 2 === 1 ? 'bg-brand-soft' : ''}`}
         >
           <Reveal className="mx-auto mb-8 flex max-w-3xl items-center gap-4">
-            <span className="grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-gradient-to-br from-accento-1 to-accento-2 text-black">
+            <span className="h-11 w-11 shrink-0 grid place-items-center rounded-lg border border-accento-1/25 bg-accento-1/[0.08] text-accento-1">
               <ramo.Icon size={20} aria-hidden="true" />
             </span>
             <h2 className="text-titolo text-white">{ramo.nome}</h2>

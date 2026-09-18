@@ -10,8 +10,18 @@
   "stato": "in-progetto",
   "occhiello": "Turismo e territorio",
   "titolo": "Raccontare il territorio a chi arriva",
-  "intro": "Progetti di promozione turistica e territoriale per far scoprire Grammichele e i suoi dintorni, collegati anche alla futura sede fisica dell'associazione.",
-  "perChi": "Visitatori e turisti interessati alle esperienze locali, alla cultura del territorio e alle occasioni d'incontro.",
+  "intro": "Progetti di promozione turistica e territoriale per far scoprire Grammichele e i suoi dintorni, collegati anche alla futura sede fisica dell’associazione.",
+  "perChi": "Visitatori e turisti interessati alle esperienze locali, alla cultura del territorio e alle occasioni d’incontro.",
+  "dati": [
+    {
+      "etichetta": "Stato",
+      "valore": "In progetto"
+    },
+    {
+      "etichetta": "Dove",
+      "valore": "Grammichele e dintorni"
+    }
+  ],
   "offerta": [
     {
       "titolo": "Promozione turistica",

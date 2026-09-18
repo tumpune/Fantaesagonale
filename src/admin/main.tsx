@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { HashRouter } from 'react-router-dom'
-import '@fontsource-variable/inter'
+import '@fontsource-variable/archivo'
 import '@fontsource-variable/bricolage-grotesque'
 import './admin.css'
 import App from './App'

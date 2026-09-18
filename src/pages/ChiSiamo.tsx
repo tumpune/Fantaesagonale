@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom'
 import Reveal from '../components/motion/Reveal'
 import Alveare from '../components/Alveare'
 import { testimonianzeDi } from '../content/testimonianze'
+import { RAMI } from '../content/rami'
+import { RECAPITI } from '../content/navigazione'
 import { DISTINTIVO, MISSIONE, PRINCIPI, STORIA, VISIONE } from '../content/associazione'
 import {
   CtaBanner,
@@ -22,8 +24,18 @@ import {
 export default function ChiSiamo() {
   return (
     <>
-      <PageHero eyebrow="Chi siamo" title="La nostra" highlight="storia">
-        FantaEsagonale APS nasce a Grammichele nell'agosto 2023 da un fantacalcio a listone. Da luglio
+      <PageHero
+        eyebrow="Chi siamo"
+        title="La nostra"
+        highlight="storia"
+        dati={[
+          { etichetta: 'Fondata', valore: 'Agosto 2023' },
+          { etichetta: 'Forma', valore: 'Associazione di promozione sociale' },
+          { etichetta: 'Sede', valore: RECAPITI.indirizzo || 'Grammichele (CT)' },
+          { etichetta: 'Progetti', valore: `${RAMI.length}` },
+        ]}
+      >
+        FantaEsagonale APS nasce a Grammichele nell’agosto 2023 da un fantacalcio a listone. Da luglio
         2024 è diventata un ecosistema che unisce sport, intrattenimento, eventi, marketing e
         territorio.
       </PageHero>
@@ -42,8 +54,8 @@ export default function ChiSiamo() {
       </Section>
 
       <Section width="narrow">
-        <SectionHead eyebrow="Il percorso" title="Dal fantacalcio a un ecosistema" />
-        <ol className="relative grid gap-4 before:absolute before:bottom-4 before:left-[1.4rem] before:top-4 before:w-px before:bg-gradient-to-b before:from-accento-1 before:to-accento-2/20">
+        <SectionHead numero="01" eyebrow="Il percorso" title="Dal fantacalcio a un ecosistema" />
+        <ol className="relative grid gap-4 before:absolute before:bottom-4 before:left-[1.4rem] before:top-4 before:w-px before:bg-white/12">
           {STORIA.map((tappa, i) => (
             <Reveal key={`${tappa.quando}-${i}`} as="li" variant="left" delay={i * 100}>
               <div className="relative flex gap-5">
@@ -68,6 +80,7 @@ export default function ChiSiamo() {
 
       <Section>
         <SectionHead
+          numero="02"
           eyebrow="I nostri principi"
           title="Come lavoriamo"
           subtitle="I valori che guidano lo staff, con la community e con i partner."
@@ -75,8 +88,8 @@ export default function ChiSiamo() {
         <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {PRINCIPI.map((principio, i) => (
             <Reveal key={`${principio.nome}-${i}`} as="li" delay={i * 80}>
-              <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
-                <span className="mb-4 block h-1 w-10 rounded-full bg-gradient-to-r from-accento-1 to-accento-2" />
+              <div className="h-full rounded-xl border border-white/[0.07] bg-brand-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition-colors duration-300 hover:bg-[#202020]">
+                <span aria-hidden="true" className="mb-4 block h-[3px] w-10 bg-accento-1" />
                 <h3 className="mb-2 text-sottotitolo text-white">{principio.nome}</h3>
                 <p className="text-corpo text-white/60">{principio.testo}</p>
               </div>
@@ -87,6 +100,7 @@ export default function ChiSiamo() {
 
       <section className="bg-brand-soft px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
         <SectionHead
+          numero="03"
           eyebrow="I progetti"
           title="Le anime di FantaEsagonale"
           subtitle="Ogni ramo ha la sua pagina: scegli quello che ti interessa."
@@ -95,7 +109,7 @@ export default function ChiSiamo() {
       </section>
 
       <Section>
-        <SectionHead eyebrow="Testimonianze" title="Cosa dice chi ci conosce" />
+        <SectionHead numero="04" livello="servizio" eyebrow="Testimonianze" title="Cosa dice chi ci conosce" />
         <Testimonianze voci={testimonianzeDi()} />
       </Section>
 

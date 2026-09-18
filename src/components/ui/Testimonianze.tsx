@@ -24,7 +24,7 @@ export function Testimonianze({
     return (
       <Reveal>
         <div className="mx-auto max-w-2xl rounded-2xl border border-dashed border-white/15 bg-brand-card/60 px-8 py-10 text-center">
-          <Quote size={28} className="mx-auto mb-4 text-accento-1" aria-hidden="true" />
+          <Quote size={24} className="mx-auto mb-4 text-accento-1" aria-hidden="true" />
           <p className="mb-2 text-sottotitolo text-white">Hai partecipato a un nostro progetto?</p>
           <p className="mx-auto mb-7 max-w-md text-corpo text-white/60">
             Stiamo raccogliendo le esperienze di chi ha giocato, collaborato o festeggiato con noi.
@@ -48,9 +48,9 @@ export function Testimonianze({
           delay={i * 80}
           className="w-full md:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]"
         >
-          <figure className="h-full rounded-2xl border border-white/[0.06] bg-brand-card p-7">
-            <Quote size={22} className="mb-4 text-accento-1" aria-hidden="true" />
-            <blockquote className="mb-5 text-guida text-white/80">{v.testo}</blockquote>
+          <figure className="h-full rounded-xl border border-white/[0.07] bg-brand-card p-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)]">
+            <Quote size={20} className="mb-4 text-accento-1" aria-hidden="true" />
+            <blockquote className="mb-5 text-guida italic text-white/80">«{v.testo}»</blockquote>
             <figcaption>
               <span className="block text-etichetta text-white">{v.autore}</span>
               {v.ruolo && <span className="text-micro text-white/50">{v.ruolo}</span>}

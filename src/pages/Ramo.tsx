@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
-import { Check } from 'lucide-react'
 import Reveal from '../components/motion/Reveal'
 import { ETICHETTA_STATO, type Ramo as RamoTipo } from '../content/rami'
 import { testimonianzeDi } from '../content/testimonianze'
+import { numeroVoce } from '../components/ui/styles'
 import { SchemaDomande } from '../components/DatiStrutturati'
 import {
   CtaBanner,
@@ -33,6 +33,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
         eyebrow={ramo.occhiello}
         highlight={ramo.nome}
         claim={ramo.titolo}
+        dati={ramo.dati}
         extra={
           ramo.stato !== 'attivo' && (
             <span className="rounded-full border border-white/20 px-3 py-1 text-meta uppercase text-white/70">
@@ -59,6 +60,10 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
       <Section alt>
         <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr]">
           <Reveal variant="left">
+            <span className="mb-4 flex items-center gap-4">
+              <span className="text-meta cifre-allineate text-accento-1">01</span>
+              <span aria-hidden="true" className="h-px w-16 bg-accento-1/40" />
+            </span>
             <p className="mb-4 text-occhiello uppercase text-accento-1">Per chi è</p>
             <p className="text-sottotitolo text-white/90 text-pretty">{ramo.perChi}</p>
             {ramo.nota && (
@@ -71,10 +76,11 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
           <ul className="grid gap-4 sm:grid-cols-2">
             {ramo.offerta.map((voce, i) => (
               <Reveal key={`${voce.titolo}-${i}`} as="li" variant="right" delay={i * 80}>
-                <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
-                  <span className="card-icon mb-4 grid h-9 w-9 place-items-center rounded-lg bg-gradient-to-br from-accento-1 to-accento-2 text-black">
-                    <Check size={17} aria-hidden="true" />
-                  </span>
+                {/* Numero e filetto al posto della spunta: la stessa icona
+                    ripetuta in ogni scheda di ogni ramo non diceva nulla. */}
+                <div className="h-full rounded-xl border border-white/[0.07] bg-brand-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition-colors duration-300 hover:bg-[#202020]">
+                  <span className={numeroVoce}>{String(i + 1).padStart(2, '0')}</span>
+                  <span aria-hidden="true" className="mb-4 mt-2 block h-px w-8 bg-accento-1/30" />
                   <h2 className="mb-2 text-sottotitolo text-white">{voce.titolo}</h2>
                   <p className="text-corpo text-white/60">{voce.testo}</p>
                 </div>
@@ -87,6 +93,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
       {ramo.scale && (
         <Section>
           <SectionHead
+            numero="02"
             eyebrow="Formule"
             title="Una proposta per ogni portata"
             subtitle="Adattiamo campagne e servizi alla scala del tuo progetto."
@@ -94,7 +101,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {ramo.scale.map((scala, i) => (
               <Reveal key={`${scala.nome}-${i}`} as="li" delay={i * 80}>
-                <div className="card-hover h-full rounded-2xl border border-white/[0.06] bg-brand-card p-6 hover:border-accento-1/40">
+                <div className="h-full rounded-xl border border-white/[0.07] bg-brand-card p-6 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition-colors duration-300 hover:bg-[#202020]">
                   <span className="mb-4 block text-cifra text-accento-1">{String(i + 1).padStart(2, '0')}</span>
                   <h3 className="mb-2 text-sottotitolo text-white">{scala.nome}</h3>
                   <p className="text-corpo text-white/60">{scala.testo}</p>
@@ -107,6 +114,8 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
 
       <Section alt={Boolean(ramo.scale)}>
         <SectionHead
+          numero="03"
+          livello="servizio"
           eyebrow="Testimonianze"
           title={ramo.slug === 'fantadsico' ? 'Aziende che hanno scelto FantADSico' : 'Chi ha partecipato'}
         />
@@ -115,7 +124,7 @@ export default function Ramo({ ramo }: { ramo: RamoTipo }) {
 
       {ramo.faq.length > 0 && (
         <section id="faq" className="scroll-mt-24 px-5 py-20 sm:px-8 sm:py-24 lg:px-12">
-          <SectionHead eyebrow="Domande frequenti" title={`${ramo.nome}: le domande più comuni`} />
+          <SectionHead numero="04" livello="servizio" eyebrow="Domande frequenti" title={`${ramo.nome}: le domande più comuni`} />
           <FaqLista voci={ramo.faq} />
         </section>
       )}

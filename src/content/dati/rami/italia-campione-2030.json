@@ -12,6 +12,20 @@
   "titolo": "Italia Campione 2030",
   "intro": "Dopo la mancata qualificazione ai Mondiali — la sconfitta con la Bosnia del 31 marzo 2026 — FantaEsagonale ha lanciato una challenge lunga quattro anni: un video al giorno, ogni giorno, fino alla finale dei Mondiali. Un canale di informazione e supporto dedicato alla Nazionale azzurra.",
   "perChi": "Tifosi della Nazionale italiana, appassionati di calcio e community social.",
+  "dati": [
+    {
+      "etichetta": "Dal",
+      "valore": "31 marzo 2026"
+    },
+    {
+      "etichetta": "Al",
+      "valore": "21 luglio 2030"
+    },
+    {
+      "etichetta": "Ritmo",
+      "valore": "Un video al giorno"
+    }
+  ],
   "offerta": [
     {
       "titolo": "YouTube",
@@ -33,7 +47,7 @@
   "tappe": [
     {
       "quando": "31 marzo 2026",
-      "testo": "L'Italia non si qualifica ai Mondiali dopo la sconfitta con la Bosnia. Nasce l'idea di Italia Campione 2030."
+      "testo": "L’Italia non si qualifica ai Mondiali dopo la sconfitta con la Bosnia. Nasce l’idea di Italia Campione 2030."
     },
     {
       "quando": "Ogni giorno",

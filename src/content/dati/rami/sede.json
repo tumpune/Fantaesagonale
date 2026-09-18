@@ -12,10 +12,20 @@
   "titolo": "Un luogo dove ritrovarsi",
   "intro": "In prospettiva FantaEsagonale avrà una sede fisica: un luogo operativo, di incontro e di accoglienza, aperto alla community, ai partecipanti, ai partner e ai visitatori.",
   "perChi": "La community, i partecipanti alle attività, i partner, i visitatori e i turisti.",
+  "dati": [
+    {
+      "etichetta": "Stato",
+      "valore": "In progetto"
+    },
+    {
+      "etichetta": "Dove",
+      "valore": "Grammichele (CT)"
+    }
+  ],
   "offerta": [
     {
       "titolo": "Spazio operativo",
-      "testo": "La base da cui organizzare le attività dell'associazione."
+      "testo": "La base da cui organizzare le attività dell’associazione."
     },
     {
       "titolo": "Incontro",

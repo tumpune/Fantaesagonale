@@ -56,6 +56,8 @@ export type Ramo = {
   scale?: { nome: string; testo: string }[]
   /** Linea del tempo: per ora solo Italia Campione 2030. */
   tappe?: { quando: string; testo: string }[]
+  /** Righe della scheda dati nella testata della pagina. */
+  dati?: { etichetta: string; valore: string }[]
   /** Ha una pagina costruita a parte invece del modello comune. */
   paginaDedicata?: boolean
 }
@@ -121,6 +123,7 @@ function daDati({ ordine: _ordine, icona, tema, stato, ...dati }: RamoDati): Ram
     nota: dati.nota || undefined,
     scale: dati.scale?.length ? dati.scale : undefined,
     tappe: dati.tappe?.length ? dati.tappe : undefined,
+    dati: dati.dati?.length ? dati.dati : undefined,
     // L'oggetto del modulo contatti coincide con lo slug: lo si deriva invece
     // di chiederlo, cosi' dal pannello non si puo' scollegare.
     cta: { etichetta: dati.cta?.etichetta || 'Contattaci', oggetto: dati.slug },

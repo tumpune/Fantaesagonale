@@ -29,22 +29,47 @@ export function Corpo({ children, className = '' }: { children: ReactNode; class
   return <p className={`text-corpo text-white/60 text-pretty ${className}`}>{children}</p>
 }
 
+/**
+ * Intestazione di sezione.
+ *
+ * Allineata a sinistra e preceduta dal numero della sezione con un filetto:
+ * e' il gesto che distingue una pagina impaginata da una fila di blocchi tutti
+ * uguali e centrati. Il centrato resta possibile, ma come eccezione.
+ *
+ * `livello` regola quanto pesa il titolo: "portante" per le sezioni che
+ * reggono la pagina, "servizio" per quelle di contorno, che prima avevano
+ * esattamente la stessa dimensione.
+ */
 export function SectionHead({
   eyebrow,
   title,
   subtitle,
+  numero,
+  livello = 'portante',
+  centrato = false,
 }: {
   eyebrow?: string
   title: ReactNode
   subtitle?: ReactNode
+  numero?: string
+  livello?: 'portante' | 'servizio'
+  centrato?: boolean
 }) {
   return (
-    <Reveal className="mx-auto mb-12 max-w-2xl text-center">
+    <Reveal className={`mb-10 max-w-3xl ${centrato ? 'mx-auto text-center' : ''}`}>
+      {numero && !centrato && (
+        <span className="mb-4 flex items-center gap-4">
+          <span className="text-meta cifre-allineate text-accento-1">{numero}</span>
+          <span aria-hidden="true" className="h-px w-16 bg-accento-1/40" />
+        </span>
+      )}
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
-      <h2 className="mb-3 text-titolo text-white text-balance">
+      <h2
+        className={`mb-3 text-white text-balance ${livello === 'portante' ? 'text-titolo' : 'text-sezione'}`}
+      >
         {typeof title === 'string' ? <SplitText text={title} step={55} /> : title}
       </h2>
-      {subtitle && <Corpo className="mx-auto">{subtitle}</Corpo>}
+      {subtitle && <Corpo className={centrato ? 'mx-auto' : ''}>{subtitle}</Corpo>}
     </Reveal>
   )
 }
@@ -64,6 +89,7 @@ export function PageHero({
   children,
   actions,
   extra,
+  dati,
 }: {
   eyebrow: string
   title?: string
@@ -73,6 +99,8 @@ export function PageHero({
   children?: ReactNode
   actions?: ReactNode
   extra?: ReactNode
+  /** Scheda di dati a fianco del titolo: senza, il terzo destro resta vuoto. */
+  dati?: { etichetta: string; valore: string }[]
 }) {
   const ref = useRef<HTMLElement>(null)
   const reduced = useReducedMotion()
@@ -83,7 +111,11 @@ export function PageHero({
 
   return (
     <section ref={ref} className="fondo-testata px-5 pb-16 pt-32 sm:px-8 sm:pb-20 sm:pt-40 lg:px-12">
-      <m.div style={reduced ? undefined : { y, opacity }} className="mx-auto w-full max-w-6xl">
+      <m.div
+        style={reduced ? undefined : { y, opacity }}
+        className={`mx-auto w-full max-w-6xl ${dati?.length ? 'lg:grid lg:grid-cols-[1.1fr_0.75fr] lg:items-end lg:gap-16' : ''}`}
+      >
+        <div>
         <Reveal variant="fade" className="mb-4 flex flex-wrap items-center gap-3">
           <Eyebrow className="">{eyebrow}</Eyebrow>
           {extra}
@@ -117,6 +149,25 @@ export function PageHero({
         {actions && (
           <Reveal delay={360} className="mt-8 flex flex-wrap gap-3">
             {actions}
+          </Reveal>
+        )}
+        </div>
+
+        {/* Colonna dei dati: filetti orizzontali, niente riquadro. Riempie il
+            terzo destro della testata, che altrimenti resta nero e basta. */}
+        {dati && dati.length > 0 && (
+          <Reveal delay={300} className="mt-12 lg:mt-0">
+            <dl className="border-t border-white/12">
+              {dati.map((riga, i) => (
+                <div
+                  key={`${riga.etichetta}-${i}`}
+                  className="flex items-baseline justify-between gap-6 border-b border-white/12 py-3"
+                >
+                  <dt className="text-meta uppercase text-white/50">{riga.etichetta}</dt>
+                  <dd className="cifre-allineate text-etichetta text-white text-right">{riga.valore}</dd>
+                </div>
+              ))}
+            </dl>
           </Reveal>
         )}
       </m.div>

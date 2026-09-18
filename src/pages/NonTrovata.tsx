@@ -11,8 +11,8 @@ export default function NonTrovata() {
   return (
     <section className="fondo-testata flex min-h-[80svh] items-center justify-center px-5 pb-16 pt-28 text-center sm:px-8 sm:pt-36">
       <Reveal variant="scale" className="max-w-lg">
-        <div className="card-icon mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-accento-1 to-accento-2 text-black">
-          <Compass size={30} aria-hidden="true" />
+        <div className="mx-auto mb-6 h-14 w-14 grid place-items-center rounded-lg border border-accento-1/25 bg-accento-1/[0.08] text-accento-1">
+          <Compass size={24} aria-hidden="true" />
         </div>
         <p className="mb-3 text-occhiello uppercase text-accento-1">
           Errore 404
@@ -22,7 +22,7 @@ export default function NonTrovata() {
           <span className={`block ${gradientText}`}>non esiste</span>
         </h1>
         <p className="mb-8 text-guida text-white/60 text-pretty">
-          L'indirizzo che hai aperto non corrisponde a nessuna pagina del sito. Può darsi che il link
+          L’indirizzo che hai aperto non corrisponde a nessuna pagina del sito. Può darsi che il link
           fosse sbagliato o che la pagina sia stata spostata.
         </p>
         <div className="flex flex-wrap justify-center gap-3">

@@ -138,7 +138,7 @@ export default function Nav() {
             >
               Progetti
               <ChevronDown
-                size={15}
+                size={16}
                 aria-hidden="true"
                 className={`transition-transform duration-300 ${progetti ? 'rotate-180' : ''}`}
               />
@@ -159,8 +159,8 @@ export default function Nav() {
                           pathname === `/${ramo.slug}` ? 'bg-white/[0.06]' : ''
                         }`}
                       >
-                        <span className="grid h-10 w-10 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-accento-1 to-accento-2 text-black transition-transform duration-300 group-hover:scale-105">
-                          <ramo.Icon size={18} aria-hidden="true" />
+                        <span className="h-10 w-10 shrink-0 grid place-items-center rounded-lg border border-accento-1/25 bg-accento-1/[0.08] text-accento-1 transition-colors duration-300 group-hover:bg-accento-1/[0.16]">
+                          <ramo.Icon size={20} aria-hidden="true" />
                         </span>
                         <span className="min-w-0">
                           <span className="flex items-center gap-2 text-etichetta text-white">
@@ -252,7 +252,7 @@ export default function Nav() {
                     pathname === `/${ramo.slug}` ? 'bg-white/10' : ''
                   }`}
                 >
-                  <span className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-gradient-to-br from-accento-1 to-accento-2 text-black">
+                  <span className="h-8 w-8 shrink-0 grid place-items-center rounded-lg border border-accento-1/25 bg-accento-1/[0.08] text-accento-1">
                     <ramo.Icon size={16} aria-hidden="true" />
                   </span>
                   <span className="text-etichetta text-white/85">{ramo.nome}</span>

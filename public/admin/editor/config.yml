@@ -222,6 +222,16 @@ collections:
       - { name: titolo, label: Frase in testata, widget: string }
       - { name: intro, label: Introduzione, widget: text }
       - { name: perChi, label: Per chi è, widget: text }
+      - name: dati
+        label: Scheda dati nella testata
+        label_singular: riga
+        widget: list
+        required: false
+        summary: '{{fields.etichetta}}: {{fields.valore}}'
+        hint: Tre o quattro righe brevi che compaiono a fianco del titolo della pagina.
+        fields:
+          - { name: etichetta, label: Voce, widget: string, hint: 'Es. "Stagione", "Dove", "Per chi".' }
+          - { name: valore, label: Valore, widget: string }
       - name: offerta
         label: Cosa offriamo
         label_singular: voce

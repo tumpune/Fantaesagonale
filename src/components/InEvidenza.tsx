@@ -28,12 +28,12 @@ export default function InEvidenza() {
             <Link
               to={iniziativa.percorso}
               data-tema={ramo?.tema ?? 'centrale'}
-              className={`card-hover group flex h-full flex-col rounded-2xl border border-accento-1/20 bg-gradient-to-br from-accento-1/[0.07] to-accento-2/[0.07] p-7 hover:border-accento-1/50 ${focusRing}`}
+              className={`group relative flex h-full flex-col overflow-hidden rounded-xl border border-white/[0.08] bg-brand-card p-7 shadow-[inset_0_1px_0_rgba(255,255,255,0.045)] transition-colors duration-300 hover:bg-[#202020] ${focusRing}`}
             >
               <span className="mb-5 flex items-center gap-3">
                 {Icon && (
-                  <span className="card-icon grid h-10 w-10 place-items-center rounded-xl bg-gradient-to-br from-accento-1 to-accento-2 text-black">
-                    <Icon size={18} aria-hidden="true" />
+                  <span className="h-10 w-10 grid place-items-center rounded-lg border border-accento-1/25 bg-accento-1/[0.08] text-accento-1">
+                    <Icon size={20} aria-hidden="true" />
                   </span>
                 )}
                 <span className="text-occhiello uppercase text-accento-1">{ramo?.nome}</span>

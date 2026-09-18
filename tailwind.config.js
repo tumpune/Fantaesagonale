@@ -30,8 +30,10 @@ export default {
         // questionario (6.4) chiede di evitare un registro troppo classico o
         // elegante per il brand centrale: il corsivo con grazie usato prima
         // andava esattamente in quella direzione.
-        sans: ['"Inter Variable"', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
-        display: ['"Bricolage Grotesque Variable"', '"Inter Variable"', 'system-ui', 'sans-serif'],
+        // Archivo: grottesco da quotidiano, con un carattere riconoscibile che
+        // Inter — il carattere predefinito di mezzo web — non ha.
+        sans: ['"Archivo Variable"', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
+        display: ['"Bricolage Grotesque Variable"', '"Archivo Variable"', 'system-ui', 'sans-serif'],
       },
 
       /**
@@ -50,6 +52,12 @@ export default {
         sottotitolo: [
           'clamp(1.0625rem, 1rem + 0.3vw, 1.25rem)',
           { lineHeight: '1.3', letterSpacing: '-0.01em', fontWeight: '700' },
+        ],
+        // Livello intermedio fra il titolo di sezione e il sottotitolo: prima
+        // ogni h2 del sito aveva esattamente la stessa dimensione.
+        sezione: [
+          'clamp(1.35rem, 1.15rem + 0.9vw, 1.85rem)',
+          { lineHeight: '1.15', letterSpacing: '-0.02em', fontWeight: '700' },
         ],
         titolo: [
           'clamp(1.6rem, 1.2rem + 1.7vw, 2.75rem)',

@@ -21,7 +21,7 @@ const ERRORI_INVIO: Record<string, string> = {
 
 export default function Contatti() {
   const [params] = useSearchParams()
-  // Chi arriva dalla pagina di un ramo trova l'argomento gia' scelto: la
+  // Chi arriva dalla pagina di un ramo trova l’argomento gia' scelto: la
   // richiesta parte indirizzata al progetto giusto (questionario 5.1).
   const richiesto = params.get('oggetto') ?? 'generale'
   const oggettoIniziale = OGGETTI_CONTATTO.some((o) => o.valore === richiesto) ? richiesto : 'generale'
@@ -69,7 +69,7 @@ export default function Contatti() {
   return (
     <>
       <PageHero eyebrow="Contatti" title="Parliamo" highlight="insieme">
-        Hai una domanda, un evento da organizzare o un progetto da proporci? Scegli l'argomento e
+        Hai una domanda, un evento da organizzare o un progetto da proporci? Scegli l’argomento e
         scrivici: la tua richiesta arriverà alla persona giusta.
       </PageHero>
 
@@ -211,11 +211,11 @@ export default function Contatti() {
                   <span
                     className={`grid h-10 w-10 shrink-0 place-items-center rounded-xl ${
                       disponibile
-                        ? 'bg-gradient-to-br from-accento-1 to-accento-2 text-black'
+                        ? 'border border-accento-1/25 bg-accento-1/[0.08] text-accento-1'
                         : 'border border-white/10 text-white/55'
                     }`}
                   >
-                    <Icon size={18} aria-hidden="true" />
+                    <Icon size={20} aria-hidden="true" />
                   </span>
                   <span className="min-w-0">
                     <span className="block text-etichetta text-white">{titolo}</span>
@@ -236,7 +236,7 @@ export default function Contatti() {
                     <a
                       href={href}
                       {...(href.startsWith('https:') ? { target: '_blank', rel: 'noreferrer' } : {})}
-                      className={`card-hover ${scheda} hover:border-accento-1/40 ${focusRing}`}
+                      className={`${scheda} transition-colors duration-300 hover:bg-white/[0.045] ${focusRing}`}
                     >
                       {contenuto}
                     </a>

@@ -10,7 +10,7 @@ import { SchemaDomande } from '../components/DatiStrutturati'
  * Italia Campione 2030 ha una pagina propria — il conto alla rovescia e la
  * linea del tempo non esistono altrove — ma i testi arrivano dallo stesso
  * file degli altri progetti: cosi' anche questa pagina si aggiorna dal
- * pannello, invece di restare l'unica scritta nel codice.
+ * pannello, invece di restare l’unica scritta nel codice.
  */
 
 /** Icona del canale riconosciuta dal nome, con un ripiego neutro. */
@@ -32,7 +32,7 @@ export default function ItaliaCampione2030() {
   return (
     <>
       <SchemaDomande voci={ramo.faq} />
-      <PageHero eyebrow={ramo.occhiello} title={titolo} highlight={resto.join(' ')}>
+      <PageHero eyebrow={ramo.occhiello} title={titolo} highlight={resto.join(' ')} dati={ramo.dati}>
         {ramo.intro}
       </PageHero>
 
