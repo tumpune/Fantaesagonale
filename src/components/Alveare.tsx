@@ -81,7 +81,7 @@ export default function Alveare() {
 
             <span className="favo-contenuto flex flex-col items-center justify-center text-center">
               <ramo.Icon
-                size={22}
+                size={24}
                 aria-hidden="true"
                 className="mb-2.5 shrink-0 text-accento-1 transition-transform duration-500 group-hover:-translate-y-0.5"
               />

@@ -1,4 +1,5 @@
 import { Component, type ErrorInfo, type ReactNode } from 'react'
+import { btnPrimary, btnSecondary } from './ui/styles'
 
 /**
  * Rete di sicurezza attorno alle pagine.
@@ -38,14 +39,14 @@ export default class SchermoErrore extends Component<{ children: ReactNode }, St
           <div className="flex flex-wrap justify-center gap-3">
             <a
               href="/"
-              className="press inline-block rounded-full bg-gradient-to-r from-accento-1 to-accento-2 px-7 py-3.5 text-etichetta text-black"
+              className={btnPrimary}
             >
               Torna alla home
             </a>
             <button
               type="button"
               onClick={() => window.location.reload()}
-              className="press inline-block rounded-full border border-white/20 px-7 py-3.5 text-etichetta text-white hover:border-white/40"
+              className={btnSecondary}
             >
               Ricarica la pagina
             </button>
