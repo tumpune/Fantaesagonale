@@ -1,6 +1,18 @@
 import { NUMERI } from '../content/associazione'
+import { useCountUp } from '../hooks/useCountUp'
 import { useInView } from '../hooks/useInView'
 import { gradientText } from './ui/styles'
+
+/**
+ * Le cifre contano da zero quando la fascia entra in vista. Valori come "3ª"
+ * o "2023" non si prestano: il primo perche' non e' un numero, il secondo
+ * perche' vederlo scorrere da zero al 2023 sembrerebbe un errore.
+ */
+function Cifra({ valore, parti }: { valore: string; parti: boolean }) {
+  const contabile = /^\d{1,3}$/.test(valore)
+  const numero = useCountUp(contabile ? Number(valore) : 0, contabile && parti)
+  return <>{contabile ? numero : valore}</>
+}
 
 /**
  * Fascia dei numeri dell'associazione, subito sotto la testata.
@@ -28,9 +40,9 @@ export default function Numeri() {
             }}
           >
             <dt
-              className={`mb-1 font-display text-[clamp(1.9rem,1.3rem+2vw,2.9rem)] font-extrabold leading-none tracking-tight ${gradientText}`}
+              className={`cifre-allineate mb-1 font-display text-[clamp(1.9rem,1.3rem+2vw,2.9rem)] font-extrabold leading-none tracking-tight ${gradientText}`}
             >
-              {numero.valore}
+              <Cifra valore={numero.valore} parti={visibile} />
             </dt>
             <dd className="text-micro text-white/55 text-pretty">{numero.etichetta}</dd>
 

@@ -26,12 +26,11 @@ export default {
       },
 
       fontFamily: {
-        // Un grottesco con carattere per i titoli e Inter per il testo. Il
-        // questionario (6.4) chiede di evitare un registro troppo classico o
-        // elegante per il brand centrale: il corsivo con grazie usato prima
-        // andava esattamente in quella direzione.
-        // Archivo: grottesco da quotidiano, con un carattere riconoscibile che
-        // Inter — il carattere predefinito di mezzo web — non ha.
+        // Due caratteri soli, uno per i titoli e uno per il testo. Il
+        // questionario (6.4) chiede di evitare un registro classico o elegante:
+        // il corsivo con grazie usato all'inizio andava proprio in quella
+        // direzione. Archivo e' un grottesco da quotidiano, con un disegno
+        // riconoscibile che i caratteri predefiniti del web non hanno.
         sans: ['"Archivo Variable"', 'system-ui', '-apple-system', '"Segoe UI"', 'sans-serif'],
         display: ['"Bricolage Grotesque Variable"', '"Archivo Variable"', 'system-ui', 'sans-serif'],
       },

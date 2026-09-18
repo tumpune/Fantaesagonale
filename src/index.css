@@ -400,22 +400,29 @@
    strumento con cui ogni visitatore trova il proprio ramo (questionario 2.1).
    ========================================================================== */
 
-.esagono {
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
 /* Il favo e' un contenitore in proporzione fissa: le celle sono posizionate in
-   percentuale, quindi l'intera struttura scala senza mai perdere l'incastro.
-   Le tre misure arrivano dal componente come variabili. */
+   percentuale, quindi la struttura scala senza mai perdere l'incastro. Le tre
+   disposizioni arrivano dal componente come variabili, una terna per soglia:
+   al ridimensionamento scelgono le media query, non il JavaScript.
+
+   Geometria, tutto in "passo" (distanza fra i centri di due celle vicine):
+     rapporto della cella      larghezza/altezza = 0,8660254  (= √3/2)
+     passo verticale fra file  0,8660254 x passo, cioe' il 75% dell'altezza
+     sfalsamento fra due file  mezzo passo
+   ========================================================================== */
+
 .favo {
   position: relative;
   aspect-ratio: var(--favo-rapporto-sm);
 }
 
-.favo-cella {
+.favo > li {
+  position: absolute;
   left: var(--x-sm);
   top: var(--y-sm);
   width: var(--w-sm);
+  aspect-ratio: 0.8660254;
+  --ritardo-attivo: var(--ritardo-sm);
 }
 
 @media (min-width: 640px) {
@@ -423,10 +430,11 @@
     aspect-ratio: var(--favo-rapporto-md);
   }
 
-  .favo-cella {
+  .favo > li {
     left: var(--x-md);
     top: var(--y-md);
     width: var(--w-md);
+    --ritardo-attivo: var(--ritardo-md);
   }
 }
 
@@ -435,55 +443,94 @@
     aspect-ratio: var(--favo-rapporto-lg);
   }
 
-  .favo-cella {
+  .favo > li {
     left: var(--x-lg);
     top: var(--y-lg);
     width: var(--w-lg);
+    --ritardo-attivo: var(--ritardo-lg);
   }
 }
 
-/* L'altezza di un esagono a punta in alto e' 2/√3 della larghezza: e' la
-   proporzione che fa combaciare i lati con le celle vicine. */
 .favo-legame {
-  aspect-ratio: 0.8660254;
-  transition:
-    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.45s ease,
-    opacity 0.45s ease;
+  position: absolute;
+  inset: 0;
+  display: block;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(var(--scala, 1));
 }
 
-.favo-legame:hover,
-.favo-legame:focus-visible {
-  transform: scale(1.04);
+.esagono {
+  position: absolute;
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+}
+
+.esagono-bordo {
+  inset: 0;
+}
+
+/* Rientranza non uniforme: rientrando di 1,5px su tutti i lati, i quattro lati
+   obliqui risulterebbero spessi 2px, perche' la loro normale e' inclinata. Il
+   fattore 0,5774 sull'asse verticale rende il contorno uguale ovunque. */
+.esagono-fondo {
+  inset: calc(var(--filo-favo, 1.5px) * 0.5774) var(--filo-favo, 1.5px);
+}
+
+/* Zona di sicurezza del testo: un esagono a punta in alto contiene un
+   rettangolo centrato largo il 76% e alto il 60%. Il contenuto non e' dentro
+   il ritaglio, quindi quello che sborda si vedrebbe fuori dalla cella. */
+.favo-contenuto {
+  position: absolute;
+  inset: 20% 12%;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.favo > li:hover > .favo-legame,
+.favo > li:focus-within > .favo-legame {
+  --scala: 1.05;
   z-index: 2;
 }
 
-/* Passando su una cella le altre arretrano: il favo reagisce come una mappa,
-   non come una fila di schede indipendenti. */
-.favo:hover .favo-cella:not(:hover) .favo-legame {
-  opacity: 0.45;
+.favo > li:hover .favo-contenuto,
+.favo > li:focus-within .favo-contenuto {
+  transform: translateY(-4px);
+}
+
+/* Le celle adiacenti arretrano appena: il favo si apre attorno alla scelta. */
+.favo > li[data-vicina] > .favo-legame {
+  --scala: 0.972;
 }
 
 /* clip-path taglia sia il contorno del fuoco sia le ombre: l'indicazione da
-   tastiera si disegna quindi con un terzo esagono dietro alla cella. */
+   tastiera si ottiene ispessendo il profilo esagonale e aggiungendo l'alone
+   con drop-shadow sul genitore, che non e' ritagliato e segue la forma. */
 .favo-legame:focus-visible {
   outline: none;
 }
 
-.favo-legame:focus-visible::after {
-  content: '';
-  position: absolute;
-  inset: -6px;
-  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+.favo > li:has(.favo-legame:focus-visible) {
+  --filo-favo: 4px;
+  z-index: 3;
+  filter: drop-shadow(0 0 10px rgb(var(--accento-1) / 0.8));
+}
+
+.favo > li:has(.favo-legame:focus-visible) .esagono-bordo {
   background: rgb(var(--accento-1));
-  z-index: -1;
+}
+
+/* In alto contrasto i colori di sistema sostituiscono tutto e l'alone sparisce:
+   li' serve un contorno vero, anche se rettangolare. */
+@media (forced-colors: active) {
+  .favo-legame:focus-visible {
+    outline: 3px solid Highlight;
+    outline-offset: 3px;
+  }
 }
 
 /* Entrata a cascata dal centro del favo verso l'esterno. */
-@keyframes favoEntra {
+@keyframes entrataFavo {
   from {
     opacity: 0;
-    transform: scale(0.82);
+    transform: translateY(16px) scale(0.84);
   }
   to {
     opacity: 1;
@@ -491,9 +538,9 @@
   }
 }
 
-.favo-cella {
-  animation: favoEntra 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--ritardo, 0ms);
+.favo.favo-entra > li {
+  animation: entrataFavo 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--ritardo-attivo);
 }
 
 /* ==========================================================================
@@ -605,17 +652,21 @@
     animation: none;
   }
 
-  .favo-cella {
+  .favo.favo-entra > li {
     animation: none;
-  }
-
-  .favo-legame:hover,
-  .favo-legame:focus-visible {
+    opacity: 1;
     transform: none;
   }
 
-  .favo:hover .favo-cella:not(:hover) .favo-legame {
-    opacity: 1;
+  .favo > li:hover > .favo-legame,
+  .favo > li:focus-within > .favo-legame,
+  .favo > li[data-vicina] > .favo-legame {
+    --scala: 1;
+  }
+
+  .favo > li:hover .favo-contenuto,
+  .favo > li:focus-within .favo-contenuto {
+    transform: none;
   }
 
   *,
