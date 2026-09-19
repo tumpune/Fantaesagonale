@@ -395,142 +395,248 @@
 }
 
 /* ==========================================================================
-   Mappa esagonale dei progetti
-   L'esagono e' la forma del logo e la pianta di Grammichele: qui diventa lo
-   strumento con cui ogni visitatore trova il proprio ramo (questionario 2.1).
+   Il nido d'api dei progetti
+
+   Un reticolo unico e continuo, non esagoni affiancati: due celle vicine
+   condividono lo stesso lato, disegnato una volta sola dentro un solo <svg>.
+   E' quello che evita il filo doppio e, soprattutto, le fessure sottili di
+   antialiasing fra una cella e l'altra, che sul fondo quasi nero sono il
+   difetto piu' visibile di queste griglie.
+
+   Il contenuto sta sopra, in HTML vero, dentro un collegamento ritagliato a
+   esagono: cosi' l'area cliccabile e' la cella e non il rettangolo che la
+   contiene.
    ========================================================================== */
 
-/* Il favo e' un contenitore in proporzione fissa: le celle sono posizionate in
-   percentuale, quindi la struttura scala senza mai perdere l'incastro. Le tre
-   disposizioni arrivano dal componente come variabili, una terna per soglia:
-   al ridimensionamento scelgono le media query, non il JavaScript.
-
-   Geometria, tutto in "passo" (distanza fra i centri di due celle vicine):
-     rapporto della cella      larghezza/altezza = 0,8660254  (= √3/2)
-     passo verticale fra file  0,8660254 x passo, cioe' il 75% dell'altezza
-     sfalsamento fra due file  mezzo passo
-   ========================================================================== */
-
-.favo {
+.nido {
   position: relative;
-  aspect-ratio: var(--favo-rapporto-sm);
+  aspect-ratio: var(--nido-rapporto);
 }
 
-.favo > li {
-  position: absolute;
-  left: var(--x-sm);
-  top: var(--y-sm);
-  width: var(--w-sm);
-  aspect-ratio: 0.8660254;
-  --ritardo-attivo: var(--ritardo-sm);
-}
-
-@media (min-width: 640px) {
-  .favo {
-    aspect-ratio: var(--favo-rapporto-md);
-  }
-
-  .favo > li {
-    left: var(--x-md);
-    top: var(--y-md);
-    width: var(--w-md);
-    --ritardo-attivo: var(--ritardo-md);
-  }
-}
-
-@media (min-width: 1024px) {
-  .favo {
-    aspect-ratio: var(--favo-rapporto-lg);
-  }
-
-  .favo > li {
-    left: var(--x-lg);
-    top: var(--y-lg);
-    width: var(--w-lg);
-    --ritardo-attivo: var(--ritardo-lg);
-  }
-}
-
-.favo-legame {
+.nido-rete {
   position: absolute;
   inset: 0;
-  display: block;
-  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-  transform: scale(var(--scala, 1));
+  width: 100%;
+  height: 100%;
+  /* Il riquadro del contenitore ha esattamente le proporzioni del viewBox,
+     quindi "none" non deforma nulla e garantisce che reticolo e contenuto
+     restino allineati anche quando gli arrotondamenti non tornano al pixel. */
+  pointer-events: none;
 }
 
-.esagono {
+/* Lo spessore del filo non deve scalare col disegno: in unita' utente un
+   reticolo grande avrebbe il filo grosso e uno piccolo il filo invisibile. */
+.nido-rete path,
+.nido-rete line {
+  fill: none;
+  vector-effect: non-scaling-stroke;
+  stroke-linecap: round;
+}
+
+/* Le celle vuote che estendono il nido oltre i rami: presenti ma in secondo
+   piano, sfumate verso i bordi dalla maschera radiale. */
+.rete-contorno {
+  stroke: rgb(var(--accento-1) / 0.34);
+  stroke-width: 1px;
+}
+
+.nido-fondo {
+  fill: #202020;
+  transition: fill 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.nido-fondo[data-stato='acceso'] {
+  fill: #2a2a2a;
+}
+
+/* I lati che toccano un ramo: il contorno delle celle vere. */
+.rete-ramo {
+  stroke: rgb(var(--accento-1) / 0.5);
+  stroke-width: 1.4px;
+  transition:
+    stroke 0.4s ease,
+    stroke-width 0.4s ease;
+}
+
+/* Il ramo puntato accende tutto il proprio contorno. I lati che condivide con
+   un altro ramo sono gli stessi segmenti dell'altro contorno: accendendoli si
+   vede il collegamento fra i due, che e' il senso del nido. */
+.rete-ramo[data-stato='acceso'] {
+  stroke: rgb(var(--accento-1));
+  stroke-width: 2px;
+}
+
+.rete-ramo[data-stato='acceso'][data-condiviso] {
+  stroke-width: 2.5px;
+}
+
+/* L'eco: i contorni dei rami adiacenti si scaldano appena, cosi' si capisce
+   fin dove arriva il collegamento senza accendere mezzo reticolo. */
+.rete-ramo[data-stato='eco'] {
+  stroke: rgb(var(--accento-1) / 0.6);
+}
+
+/* Il livello del contenuto. Gli otto collegamenti sono in ordine di lettura,
+   fila per fila: l'ordine di tabulazione segue quello che si vede. */
+.nido-livello {
   position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nido-cella {
+  position: absolute;
+}
+
+.nido-scheda {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  /* Il rientro arriva dal rettangolo utile calcolato in nido.ts: un esagono a
+     punta in alto si stringe verso i vertici, quindi il contenuto non puo'
+     usare tutto il riquadro. */
+  padding: var(--rientro-y) var(--rientro-x);
   clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-}
-
-.esagono-bordo {
-  inset: 0;
-}
-
-/* Rientranza non uniforme: rientrando di 1,5px su tutti i lati, i quattro lati
-   obliqui risulterebbero spessi 2px, perche' la loro normale e' inclinata. Il
-   fattore 0,5774 sull'asse verticale rende il contorno uguale ovunque. */
-.esagono-fondo {
-  inset: calc(var(--filo-favo, 1.5px) * 0.5774) var(--filo-favo, 1.5px);
-}
-
-/* Zona di sicurezza del testo: un esagono a punta in alto contiene un
-   rettangolo centrato largo il 76% e alto il 60%. Il contenuto non e' dentro
-   il ritaglio, quindi quello che sborda si vedrebbe fuori dalla cella. */
-.favo-contenuto {
-  position: absolute;
-  inset: 20% 12%;
   transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.favo > li:hover > .favo-legame,
-.favo > li:focus-within > .favo-legame {
-  --scala: 1.05;
-  z-index: 2;
+.nido-cella:hover .nido-scheda,
+.nido-cella:focus-within .nido-scheda {
+  transform: translateY(-3px);
 }
 
-.favo > li:hover .favo-contenuto,
-.favo > li:focus-within .favo-contenuto {
-  transform: translateY(-4px);
+.nido-icona {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: rgb(var(--accento-1));
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Le celle adiacenti arretrano appena: il favo si apre attorno alla scelta. */
-.favo > li[data-vicina] > .favo-legame {
-  --scala: 0.972;
+.nido-cella:hover .nido-icona,
+.nido-cella:focus-within .nido-icona {
+  transform: scale(1.12);
 }
 
-/* clip-path taglia sia il contorno del fuoco sia le ombre: l'indicazione da
-   tastiera si ottiene ispessendo il profilo esagonale e aggiungendo l'alone
-   con drop-shadow sul genitore, che non e' ritagliato e segue la forma. */
-.favo-legame:focus-visible {
+.nido-nome {
+  margin-top: 0.6rem;
+  font-size: clamp(0.85rem, 0.72rem + 0.5vw, 1rem);
+  font-weight: 700;
+  line-height: 1.2;
+  color: #fff;
+  /* Due righe al massimo: un nome lungo con i caratteri ingranditi uscirebbe
+     dai lati obliqui, dove la cella si stringe. */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+}
+
+/* Ha l'aspetto di un pulsante ma e' la fine del collegamento: un <button>
+   dentro un <a> sarebbe markup non valido e romperebbe la tastiera. */
+.nido-pulsante {
+  margin-top: 0.6rem;
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 999px;
+  border: 1px solid rgb(var(--accento-1) / 0.45);
+  padding: 0.3rem 0.75rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgb(var(--accento-1));
+  transition:
+    background-color 0.35s ease,
+    color 0.35s ease,
+    border-color 0.35s ease;
+}
+
+.nido-cella:hover .nido-pulsante,
+.nido-cella:focus-within .nido-pulsante {
+  background: rgb(var(--accento-1));
+  border-color: rgb(var(--accento-1));
+  color: #000;
+}
+
+/* I rami non ancora aperti dicono a che punto sono invece di promettere. */
+@media (max-width: 639px) {
+  .nido-icona {
+    width: 19px;
+    height: 19px;
+  }
+
+  .nido-nome {
+    margin-top: 0.4rem;
+  }
+
+  .nido-pulsante {
+    margin-top: 0.5rem;
+    padding: 0.24rem 0.6rem;
+    font-size: 0.75rem;
+  }
+}
+
+.nido-pulsante[data-attesa] {
+  border-color: rgb(255 255 255 / 0.2);
+  color: rgb(255 255 255 / 0.55);
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+}
+
+.nido-cella:hover .nido-pulsante[data-attesa],
+.nido-cella:focus-within .nido-pulsante[data-attesa] {
+  background: transparent;
+  border-color: rgb(255 255 255 / 0.4);
+  color: #fff;
+}
+
+/* Il fuoco da tastiera non puo' essere un anello rettangolare: clip-path
+   taglia outline e box-shadow. L'alone arriva da drop-shadow sulla cella, che
+   non e' ritagliata e segue la sagoma; il contorno esagonale intanto si
+   accende da solo, perche' il fuoco imposta lo stesso stato del passaggio. */
+.nido-scheda:focus-visible {
   outline: none;
 }
 
-.favo > li:has(.favo-legame:focus-visible) {
-  --filo-favo: 4px;
-  z-index: 3;
-  filter: drop-shadow(0 0 10px rgb(var(--accento-1) / 0.8));
-}
-
-.favo > li:has(.favo-legame:focus-visible) .esagono-bordo {
-  background: rgb(var(--accento-1));
+.nido-cella:has(.nido-scheda:focus-visible) {
+  filter: drop-shadow(0 0 10px rgb(var(--accento-1) / 0.75));
 }
 
 /* In alto contrasto i colori di sistema sostituiscono tutto e l'alone sparisce:
    li' serve un contorno vero, anche se rettangolare. */
 @media (forced-colors: active) {
-  .favo-legame:focus-visible {
+  .nido-scheda:focus-visible {
     outline: 3px solid Highlight;
-    outline-offset: 3px;
+    outline-offset: 2px;
   }
 }
 
-/* Entrata a cascata dal centro del favo verso l'esterno. */
-@keyframes entrataFavo {
+/* Entrata: il reticolo si presenta per primo, poi i rami salgono in ordine di
+   lettura. Niente onde che si propagano di cella in cella: sono effetti che
+   costano e che si notano come effetti. */
+@keyframes entrataRete {
   from {
     opacity: 0;
-    transform: translateY(16px) scale(0.84);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes entrataCella {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.92);
   }
   to {
     opacity: 1;
@@ -538,9 +644,13 @@
   }
 }
 
-.favo.favo-entra > li {
-  animation: entrataFavo 0.62s cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: var(--ritardo-attivo);
+.nido-rete {
+  animation: entrataRete 0.9s ease both;
+}
+
+.nido-cella {
+  animation: entrataCella 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: var(--ritardo);
 }
 
 /* ==========================================================================
@@ -652,20 +762,22 @@
     animation: none;
   }
 
-  .favo.favo-entra > li {
+  /* Restano i cambi di colore: il reticolo continua a rispondere, ma senza
+     muovere nulla. Azzerare ogni riscontro sarebbe peggio che animare. */
+  .nido-cella {
     animation: none;
     opacity: 1;
     transform: none;
   }
 
-  .favo > li:hover > .favo-legame,
-  .favo > li:focus-within > .favo-legame,
-  .favo > li[data-vicina] > .favo-legame {
-    --scala: 1;
+  .nido-rete {
+    animation: none;
   }
 
-  .favo > li:hover .favo-contenuto,
-  .favo > li:focus-within .favo-contenuto {
+  .nido-cella:hover .nido-scheda,
+  .nido-cella:focus-within .nido-scheda,
+  .nido-cella:hover .nido-icona,
+  .nido-cella:focus-within .nido-icona {
     transform: none;
   }
 

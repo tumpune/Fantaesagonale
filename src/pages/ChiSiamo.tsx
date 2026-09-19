@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import Reveal from '../components/motion/Reveal'
-import Alveare from '../components/Alveare'
+import Nido from '../components/Nido'
 import { testimonianzeDi } from '../content/testimonianze'
 import { RAMI } from '../content/rami'
 import { RECAPITI } from '../content/navigazione'
@@ -105,7 +105,7 @@ export default function ChiSiamo() {
           title="Le anime di FantaEsagonale"
           subtitle="Ogni ramo ha la sua pagina: scegli quello che ti interessa."
         />
-        <Alveare />
+        <Nido />
       </section>
 
       <Section>

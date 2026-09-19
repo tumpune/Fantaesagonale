@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import LogoHero from '../components/hero/LogoHero'
-import Alveare from '../components/Alveare'
+import Nido from '../components/Nido'
 import Numeri from '../components/Numeri'
 import { testimonianzeDi } from '../content/testimonianze'
 import InEvidenza from '../components/InEvidenza'
@@ -103,7 +103,7 @@ export default function Home() {
             subtitle="Ogni esagono è un ramo di FantaEsagonale, con la sua pagina e le sue domande frequenti."
           />
         </div>
-        <Alveare />
+        <Nido />
       </section>
 
       <Section ritmo="ampio">
