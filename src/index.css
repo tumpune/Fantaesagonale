@@ -790,3 +790,63 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Il nido in miniatura della tendina dei progetti
+
+   La barra ripete la forma del sito invece di contraddirla: al posto del
+   pannello largo con due colonne di voci, il nido compatto resta sotto al
+   pulsante che l'ha aperto e non copre mezza pagina.
+   -------------------------------------------------------------------------- */
+
+.nido-compatto .nido-icona {
+  width: 18px;
+  height: 18px;
+}
+
+.nido-compatto .nido-nome {
+  margin-top: 0.35rem;
+  font-size: 0.75rem;
+  line-height: 1.25;
+  -webkit-line-clamp: 3;
+}
+
+/* Il ramo della pagina in cui ci si trova resta acceso anche senza puntarlo. */
+.nido-compatto .nido-scheda[data-corrente] .nido-nome {
+  color: rgb(var(--accento-1));
+}
+
+/* Nella cella non c'e' spazio per scrivere "in arrivo": il puntino lo dice
+   a colpo d'occhio, la parola per esteso sta nel nome accessibile. */
+.nido-attesa {
+  margin-top: 0.3rem;
+  height: 4px;
+  width: 4px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: rgb(255 255 255 / 0.35);
+}
+
+/* La tendina compare dal pulsante, non da chissa' dove: l'origine in alto
+   lega il movimento al punto in cui si e' premuto. */
+@keyframes apreNido {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -6px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+}
+
+.menu-nido {
+  transform-origin: top center;
+  animation: apreNido 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-nido {
+    animation: none;
+  }
+}

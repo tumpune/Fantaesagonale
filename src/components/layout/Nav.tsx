@@ -4,7 +4,8 @@ import { ChevronDown } from 'lucide-react'
 import { asset } from '../../lib/constants'
 import { bloccaScorrimento } from '../../lib/scorrimento'
 import { NAV_PRINCIPALE } from '../../content/navigazione'
-import { RAMI, ETICHETTA_STATO } from '../../content/rami'
+import { RAMI } from '../../content/rami'
+import MenuProgetti from './MenuProgetti'
 import { btnPrimary, focusRing } from '../ui/styles'
 
 export default function Nav() {
@@ -144,41 +145,7 @@ export default function Nav() {
               />
             </button>
 
-            {progetti && (
-              <div
-                id="menu-progetti"
-                className="menu-panel absolute left-1/2 top-[calc(100%+0.9rem)] w-[36rem] -translate-x-1/2 rounded-2xl border border-white/10 bg-brand-soft/95 p-3 shadow-2xl shadow-black/60 backdrop-blur-xl"
-              >
-                <ul className="grid grid-cols-2 gap-1">
-                  {RAMI.map((ramo) => (
-                    <li key={ramo.slug} data-tema={ramo.tema}>
-                      <Link
-                        to={`/${ramo.slug}`}
-                        aria-current={pathname === `/${ramo.slug}` ? 'page' : undefined}
-                        className={`group flex items-center gap-3 rounded-xl p-3 transition-colors hover:bg-white/[0.06] ${focusRing} ${
-                          pathname === `/${ramo.slug}` ? 'bg-white/[0.06]' : ''
-                        }`}
-                      >
-                        <span className="h-10 w-10 shrink-0 grid place-items-center rounded-lg border border-accento-1/25 bg-accento-1/[0.08] text-accento-1 transition-colors duration-300 group-hover:bg-accento-1/[0.16]">
-                          <ramo.Icon size={20} aria-hidden="true" />
-                        </span>
-                        <span className="min-w-0">
-                          <span className="flex items-center gap-2 text-etichetta text-white">
-                            {ramo.nome}
-                            {ramo.stato !== 'attivo' && (
-                              <span className="text-meta uppercase text-white/60">
-                                {ETICHETTA_STATO[ramo.stato]}
-                              </span>
-                            )}
-                          </span>
-                          <span className="block truncate text-micro text-white/55">{ramo.breve}</span>
-                        </span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+            {progetti && <MenuProgetti id="menu-progetti" attuale={pathname} />}
           </div>
 
           {NAV_PRINCIPALE.filter((v) => v.to !== '/chi-siamo').map((voce) => (
